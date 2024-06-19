@@ -2,9 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome CDN for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
+
+<header>
+    <div class="nav-left">
+        <a href="#" class="logo">YourLogo</a>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+            <i class="fa fa-search search-icon"></i>
+        </div>
+    </div>
+    <div class="nav-center">
+        <a href="home.html" class="nav-icon" id="home">
+            <i class="fa fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="people.html" class="nav-icon" id="people">
+            <i class="fa fa-users"></i>
+            <span>People</span>
+        </a>
+        <a href="notifications.html" class="nav-icon" id="notifications">
+            <i class="fa fa-bell"></i>
+            <span>Notifications</span>
+        </a>
+        <a href="menu.html" class="nav-icon" id="menu">
+            <i class="fa fa-bars"></i>
+            <span>Menu</span>
+        </a>
+    </div>
+    <div class="user-profile">
+        <img src="profile.jpg" alt="Profile Picture">
+        <span class="username">John Doe</span>
+    </div>
+</header>
+
+<script>
+    // Get the current URL path
+    var path = window.location.pathname;
+
+    // Get the filename (last part of the path)
+    var page = path.split("/").pop();
+
+    // Remove extension from page (if any)
+    page = page.split(".")[0];
+
+    // Highlight the corresponding navigation item
+    var navItem = document.getElementById(page);
+    if (navItem) {
+        navItem.classList.add("active");
+    }
+</script>
 
 </body>
 </html>
