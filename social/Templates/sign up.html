@@ -2,9 +2,236 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Your Social Network</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 350px;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #dbdbdb;
+            border-radius: 5px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .container img {
+            max-width: 50%;
+            margin-bottom: 20px;
+        }
+
+        .signup-form h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #dbdbdb;
+            border-radius: 3px;
+            background: #fafafa;
+            outline: none;
+            transition: border-color 0.3s;
+            font-size: 10px;
+            margin-right: 20px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #aaa;
+        }
+
+        .form-group input::placeholder,
+        .form-group select::placeholder {
+            color: #999;
+        }
+
+
+
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #dbdbdb;
+        }
+
+        .divider::before {
+            margin-right: .25em;
+        }
+
+        .divider::after {
+            margin-left: .25em;
+        }
+
+        .divider span {
+            color: #999;
+            font-size: 12px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #0095f6;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #007bb5;
+        }
+
+        .signin-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .signin-link a {
+            color: #0095f6;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .signin-link a:hover {
+            text-decoration: underline;
+        }
+
+        .password-strength {
+            margin-top: 10px;
+            color: #888;
+            text-align:left;
+            font-size: 12px;
+        }
+
+        .password-strength.valid {
+            color: green;
+            text-align:left;
+            font-size: 12px;
+        }
+
+        .password-strength.invalid {
+            color: red;
+            text-align:left;
+            font-size: 12px;
+        }
+
+        .terms {
+            font-size: 12px;
+            color: #999;
+            margin-top: 10px;
+        }
+
+        .terms a {
+            color: #00376b;
+            text-decoration: none;
+        }
+
+        .terms a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        function validatePassword() {
+            var password = document.getElementById("password");
+            var strengthBadge = document.getElementById("strengthBadge");
+            var strongRegex = new RegExp(
+                "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+            );
+            var mediumRegex = new RegExp(
+                "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})"
+            );
+            var enoughRegex = new RegExp("(?=.{4,}).*");
+
+            if (password.value.length == 0) {
+                strengthBadge.style.display = "none";
+            } else if (false == enoughRegex.test(password.value)) {
+                strengthBadge.className = "password-strength invalid";
+                strengthBadge.innerText = "More characters";
+            } else if (strongRegex.test(password.value)) {
+                strengthBadge.className = "password-strength valid";
+                strengthBadge.innerText = "Strong!";
+            } else if (mediumRegex.test(password.value)) {
+                strengthBadge.className = "password-strength valid";
+                strengthBadge.innerText = "Medium!";
+            } else {
+                strengthBadge.className = "password-strength invalid";
+                strengthBadge.innerText = "Weak!";
+            }
+        }
+    </script>
 </head>
 <body>
-
+    <div class="container">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjWsJ1sM9FSMWtqBbzw5fKXs6T2l7t_eV2DQ&s" alt="Your Social Network">
+        <div class="signup-form">
+            <form action="#" method="post">
+                <div class="form-group">
+                    <input type="text" id="username" name="username" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="contact" name="contact" placeholder="Mobile Number or Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="date" id="dob" name="dob" placeholder="Date of Birth" required>
+                </div>
+                <div class="form-group">
+                    <select id="gender" name="gender" required>
+                        <option value="">Select your gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" name="password" placeholder="Password" oninput="validatePassword()" required>
+                    <div id="strengthBadge" class="password-strength"></div>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm Password" required>
+                </div>
+                <div class="g-recaptcha" data-sitekey="your_site_key"></div>
+                <!-- Replace "your_site_key" with your actual reCAPTCHA site key -->
+                <button type="submit">Sign Up</button>
+            </form>
+            <div class="terms">
+                <p>People who use our service may have uploaded your contact information to Pixly. <a href="#">Learn More</a></p>
+                <p>By signing up, you agree to our <a href="#">Terms</a>, <a href="#">Privacy Policy</a> and <a href="#">Cookies Policy</a>.</p>
+            </div>
+            <div class="signin-link">
+                <p>Already have an account? <a href="signin.html">Sign In</a></p>
+            </div>
+        </div>
+    </div>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>
