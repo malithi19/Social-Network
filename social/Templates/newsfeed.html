@@ -3,61 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feeds</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- Font Awesome CDN for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>News Feed - Your Social Network</title>
+    <style>
+        
+
+        .main-content {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .post-form {
+            margin-bottom: 20px;
+        }
+
+        .post-form textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            outline: none;
+            resize: none;
+            margin-bottom: 10px;
+        }
+
+        .post-form input[type="file"] {
+            margin-bottom: 10px;
+        }
+
+        .post-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #1877f2;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .post-form button:hover {
+            background-color: #166fe5;
+        }
+
+        .post {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .post .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .post .post-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .post .post-header .username {
+            font-weight: bold;
+        }
+
+        .post .post-content {
+            margin-bottom: 10px;
+        }
+
+        .post .post-actions {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .post .post-actions button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            color: #1877f2;
+        }
+
+        .post .post-actions button:hover {
+            text-decoration: underline;
+        }
+
+        .post .post-image {
+            margin-bottom: 10px;
+        }
+
+        .post .post-image img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+        }
+    </style>
 </head>
 <body>
-
-<header>
-    <div class="nav-left">
-        <a href="#" class="logo">Pixly</a>
-        <div class="search-bar">
-            <input type="text" placeholder="Search...">
-            <i class="fa fa-search search-icon"></i>
+    <div class="header">
+        <div class="logo">Your Social Network</div>
+        <input type="text" placeholder="Search">
+        <div class="user-menu">
+            <img src="user.jpg" alt="User Image">
+            <span>Your Name</span>
         </div>
     </div>
-    <div class="nav-center">
-        <a href="newsfeed.html" class="nav-icon" id="home">
-            <i class="fa fa-home"></i>
-            <span>Home</span>
-        </a>
-        <a href="people.html" class="nav-icon" id="people">
-            <i class="fa fa-users"></i>
-            <span>People</span>
-        </a>
-        <a href="notifications.html" class="nav-icon" id="notifications">
-            <i class="fa fa-bell"></i>
-            <span>Notifications</span>
-        </a>
-        <a href="menu.html" class="nav-icon" id="menu">
-            <i class="fa fa-bars"></i>
-            <span>Menu</span>
-        </a>
+    <div class="main-content">
+        <div class="post-form">
+            <textarea id="new-post" rows="4" placeholder="What's on your mind?"></textarea>
+            <input type="file" id="post-image" accept="image/*">
+            <button onclick="postStatus()">Post</button>
+            <div id="preview-image" class="post-image" style="display: none;">
+                <img id="preview-img" src="#" alt="Preview Image">
+            </div>
+        </div>
+        <div id="news-feed">
+            <!-- Example post -->
+            <div class="post">
+                <div class="post-header">
+                    <img src="user1.jpg" alt="User Image">
+                    <span class="username">John Doe</span>
+                </div>
+                <div class="post-content">
+                    <p>This is an example post content. Welcome to the social network!</p>
+                </div>
+                <div class="post-actions">
+                    <button>Like</button>
+                    <button>Comment</button>
+                    <button>Share</button>
+                </div>
+            </div>
+            <!-- More posts will be appended here dynamically -->
+        </div>
     </div>
-    <div class="user-profile">
-        <img src="profile.jpg" alt="Profile Picture">
-        <span class="username">John Doe</span>
-    </div>
-</header>
 
-<script>
-    // Get the current URL path
-    var path = window.location.pathname;
+    <script>
+        function postStatus() {
+            const textArea = document.getElementById('new-post');
+            const content = textArea.value.trim();
+            if (content === '') {
+                alert('Please write something to post!');
+                return;
+            }
 
-    // Get the filename (last part of the path)
-    var page = path.split("/").pop();
+            const imageInput = document.getElementById('post-image');
+            const imageFile = imageInput.files[0];
+            let imageUrl = '';
+            if (imageFile) {
+                imageUrl = URL.createObjectURL(imageFile);
+            }
 
-    // Remove extension from page (if any)
-    page = page.split(".")[0];
+            const newsFeed = document.getElementById('news-feed');
+            const newPost = document.createElement('div');
+            newPost.className = 'post';
 
-    // Highlight the corresponding navigation item
-    var navItem = document.getElementById(page);
-    if (navItem) {
-        navItem.classList.add("active");
-    }
-</script>
+            const currentDate = new Date().toLocaleString();
 
+            newPost.innerHTML = `
+                <div class="post-header">
+                    <img src="user.jpg" alt="User Image">
+                    <span class="username">Your Name</span>
+                </div>
+                <div class="post-content">
+                    <p>${content}</p>
+                    ${imageUrl ? `<div class="post-image"><img src="${imageUrl}" alt="Posted Image"></div>` : ''}
+                    <p><small>Posted on ${currentDate}</small></p>
+                </div>
+                <div class="post-actions">
+                    <button>Like</button>
+                    <button>Comment</button>
+                    <button>Share</button>
+                </div>
+            `;
+
+            newsFeed.prepend(newPost);
+            textArea.value = '';
+            imageInput.value = '';
+            document.getElementById('preview-image').style.display = 'none';
+        }
+
+        // Preview image before posting
+        const previewImage = () => {
+            const preview = document.getElementById('preview-img');
+            const file = document.getElementById('post-image').files[0];
+            const reader = new FileReader();
+
+            reader.onloadend = () => {
+                preview.src = reader.result;
+                document.getElementById('preview-image').style.display = 'block';
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = '';
+                document.getElementById('preview-image').style.display = 'none';
+            }
+        }
+
+        document.getElementById('post-image').addEventListener('change', previewImage);
+    </script>
 </body>
 </html>
