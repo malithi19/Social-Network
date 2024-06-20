@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - Your Social Network</title>
+    <title>Sign Up - Pixly</title>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -29,30 +29,43 @@
 
         .container img {
             max-width: 50%;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
-        .signup-form h2 {
+        .signup-text {
             font-size: 20px;
+            color: #000;
+            font-weight: bold;
             margin-bottom: 20px;
-            color: #333;
         }
 
         .form-group {
             margin-bottom: 10px;
+            text-align: left; 
+            font-size: 12px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            text-align: left;
+            width: 100%;
+            max-width: 300px;
+            font-size: 14px;
         }
 
         .form-group input,
         .form-group select {
             width: calc(100% - 20px);
-            padding: 10px;
+            padding: 8px;
             border: 1px solid #dbdbdb;
             border-radius: 3px;
             background: #fafafa;
             outline: none;
             transition: border-color 0.3s;
-            font-size: 10px;
-            margin-right: 20px;
+            font-size: 12px;
         }
 
         .form-group input:focus,
@@ -65,33 +78,9 @@
             color: #999;
         }
 
-
-
-
-        .divider {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .divider::before, .divider::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid #dbdbdb;
-        }
-
-        .divider::before {
-            margin-right: .25em;
-        }
-
-        .divider::after {
-            margin-left: .25em;
-        }
-
-        .divider span {
-            color: #999;
-            font-size: 12px;
+        .form-group input#dob,
+        .form-group select#gender {
+            width: calc(100% - 200px);
         }
 
         button {
@@ -129,19 +118,19 @@
         .password-strength {
             margin-top: 10px;
             color: #888;
-            text-align:left;
+            text-align: left;
             font-size: 12px;
         }
 
         .password-strength.valid {
             color: green;
-            text-align:left;
+            text-align: left;
             font-size: 12px;
         }
 
         .password-strength.invalid {
             color: red;
-            text-align:left;
+            text-align: left;
             font-size: 12px;
         }
 
@@ -193,18 +182,23 @@
 <body>
     <div class="container">
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjWsJ1sM9FSMWtqBbzw5fKXs6T2l7t_eV2DQ&s" alt="Your Social Network">
+        <div class="signup-text">Sign Up</div>
         <div class="signup-form">
             <form action="#" method="post">
                 <div class="form-group">
-                    <input type="text" id="username" name="username" placeholder="Username" required>
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
                 </div>
                 <div class="form-group">
-                    <input type="text" id="contact" name="contact" placeholder="Mobile Number or Email" required>
+                    <label for="contact">Mobile Number or Email</label>
+                    <input type="text" id="contact" name="contact" placeholder="Enter your mobile number or email" required>
                 </div>
                 <div class="form-group">
-                    <input type="date" id="dob" name="dob" placeholder="Date of Birth" required>
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob" name="dob" placeholder="Enter your date of birth" required>
                 </div>
                 <div class="form-group">
+                    <label for="gender">Gender</label>
                     <select id="gender" name="gender" required>
                         <option value="">Select your gender</option>
                         <option value="male">Male</option>
@@ -213,13 +207,14 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <input type="password" id="password" name="password" placeholder="Password" oninput="validatePassword()" required>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" oninput="validatePassword()" required>
                     <div id="strengthBadge" class="password-strength"></div>
                 </div>
                 <div class="form-group">
-                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm Password" required>
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
                 </div>
-        
                 <button type="submit">Sign Up</button>
             </form>
             <div class="terms">
@@ -231,6 +226,5 @@
             </div>
         </div>
     </div>
-    
 </body>
 </html>
