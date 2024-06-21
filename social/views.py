@@ -32,13 +32,13 @@ def settings(req, pid):
     return render(req, "settings.html", {'pid': pid})
 
 def sign_up(req):
-    return render(req, "sign_up.html")
+    return render(req, "sign up.html")
 
 def sign_in(req):
     return render(req, "sign_in.html")
 
 def forgot_password(req):
-    return render(req, "forgot_password.html")
+    return render(req, "forgotten_password.html")
 
 # DRF viewsets
 class UserProfileViewSet(viewsets.ModelViewSet):
