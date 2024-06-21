@@ -5,50 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - Your Social Network</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f0f2f5;
-        }
-
-        .header {
-            background-color: #1877f2;
-            color: white;
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .header .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .header input[type="text"] {
-            width: 300px;
-            padding: 5px;
-            border-radius: 20px;
-            border: none;
-            outline: none;
-        }
-
-        .header .user-menu {
-            display: flex;
-            align-items: center;
-        }
-
-        .header .user-menu img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-
-        .header .user-menu span {
-            font-size: 16px;
         }
 
         .container {
@@ -318,14 +281,40 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">Your Social Network</div>
-        <input type="text" placeholder="Search">
-        <div class="user-menu">
-            <img src="user.jpg" alt="User Image">
-            <span>Your Name</span>
+<header>
+        <div class="nav-left">
+            <a href="#" class="logo">Pixly</a>
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+                <i class="fa fa-search search-icon"></i>
+            </div>
         </div>
-    </div>
+        <div class="nav-center">
+            <a href="newsfeed.html" class="nav-icon" id="home">
+                <i class="fa fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="people.html" class="nav-icon" id="people">
+                <i class="fa fa-users"></i>
+                <span>People</span>
+            </a>
+                <a href="notifications.html" class="nav-icon" id="notifications">
+                <i class="fa fa-bell"></i>
+                <span>Notifications</span>
+            </a>
+            <a href="menu.html" class="nav-icon" id="menu">
+                <i class="fa fa-bars"></i>
+                <span>Menu</span>
+            </a>
+        </div>
+        <div class="user-profile">
+            <img src="profile.jpg" alt="Profile Picture">
+            <span class="username">John Doe</span>
+        </div>
+</header>
+    <br>
+    <br>
+    <br>
     <div class="container">
         <div class="sidebar">
             <a href="newsfeed.html">Home</a>
@@ -451,6 +440,16 @@
         </div>
     </div>
     <script>
+    var path = window.location.pathname;
+  
+    var page = path.split("/").pop();
+
+    page = page.split(".")[0];
+
+    var navItem = document.getElementById(page);
+    if (navItem) {
+        navItem.classList.add("active");
+    }
     function changeCoverPhoto(event) {
         var reader = new FileReader();
         reader.onload = function() {
