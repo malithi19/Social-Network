@@ -73,6 +73,20 @@ def settings(request, pid):
 def sign_up(request):
     return render(request, 'sign up.html')
 
+"""def sign_up(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('profile')  # Redirect to profile page after successful signup
+    else:
+        form = UserCreationForm()
+    return render(request, 'sign up.html', {'form': form})"""
+
 def sign_in(request):
     return render(request, 'sign_in.html')
 
