@@ -41,7 +41,7 @@
 
         .form-group {
             margin-bottom: 10px;
-            text-align: left; 
+            text-align: left;
             font-size: 12px;
         }
 
@@ -184,18 +184,28 @@
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjWsJ1sM9FSMWtqBbzw5fKXs6T2l7t_eV2DQ&s" alt="Your Social Network">
         <div class="signup-text">Sign Up</div>
         <div class="signup-form">
-            <form action="#" method="post">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" placeholder="Enter your username" required>
                 </div>
                 <div class="form-group">
-                    <label for="contact">Mobile Number or Email</label>
-                    <input type="text" id="contact" name="contact" placeholder="Enter your mobile number or email" required>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" oninput="validatePassword()" required>
+                    <div id="strengthBadge" class="password-strength"></div>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm your password" required>
                 </div>
                 <div class="form-group">
                     <label for="dob">Date of Birth</label>
-                    <input type="date" id="dob" name="dob" placeholder="Enter your date of birth" required>
+                    <input type="date" id="dob" name="birth_date" placeholder="Enter your date of birth" required>
                 </div>
                 <div class="form-group">
                     <label for="gender">Gender</label>
@@ -205,15 +215,6 @@
                         <option value="female">Female</option>
                         <option value="other">Other</option>
                     </select>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter your password" oninput="validatePassword()" required>
-                    <div id="strengthBadge" class="password-strength"></div>
-                </div>
-                <div class="form-group">
-                    <label for="confirm-password">Confirm Password</label>
-                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
                 </div>
                 <button type="submit">Sign Up</button>
             </form>

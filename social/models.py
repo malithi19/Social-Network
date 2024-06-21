@@ -2,19 +2,49 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.conf import settings
-
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
+from datetime import date
 
 class UserProfile(models.Model):
+    GENDER_CHOICES = [
+        ('male', 'Male'),
+        ('female', 'Female'),
+        ('other', 'Other'),
+    ]
+    
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     profile_picture = models.ImageField(upload_to='profiles/', null=True, blank=True)
     cover_picture = models.ImageField(upload_to='covers/', null=True, blank=True)
     bio = models.TextField(blank=True)
     location = models.CharField(max_length=255, blank=True)
-    website = models.URLField(blank=True)
+    website = models.URLField(blank=True, validators=[URLValidator()])
     birth_date = models.DateField(null=True, blank=True)
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, blank=True)
 
     def __str__(self):
         return self.user.username
+
+    def clean(self):
+        super().clean()
+        if self.birth_date and self.birth_date > date.today():
+            raise ValidationError({'birth_date': "Birth date cannot be in the future."})
+
+    def age(self):
+        if self.birth_date:
+            today = date.today()
+            return today.year - self.birth_date.year - ((today.month, today.day) < (self.birth_date.month, self.birth_date.day))
+        return None
+
+# Signals to automatically create or update UserProfile
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+@receiver(post_save, sender=User)
+def create_or_update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+    instance.profile.save()
 
 
 class Photo(models.Model):
