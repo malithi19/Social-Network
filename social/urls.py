@@ -4,6 +4,7 @@ from . import views
 
 # Regular views
 urlpatterns = [
+    path('', views.sign_in, name='sign_in'),
     path('', views.profile, name='profile'),
     path('', views.edit_description, name='edit_description'),
     path('', views.edit_profile, name='edit_profile'),
@@ -14,7 +15,7 @@ urlpatterns = [
     path('', views.reset_password, name='reset_password'),
     path('', views.settings, name='settings'),
     path('', views.sign_up, name='sign_up'),
-    path('', views.sign_in, name='sign_in'),
+    path('forgot-password/', views.forgot_password, name='forgot_password'),
 ]
 
 # DRF viewsets
