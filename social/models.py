@@ -5,6 +5,12 @@ from django.conf import settings
 
 
 class UserProfile(models.Model):
+    GENDER_CHOICES = [
+        ('male', 'Male'),
+        ('female', 'Female'),
+        ('other', 'Other'),
+    ]
+
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     profile_picture = models.ImageField(upload_to='profiles/', null=True, blank=True)
     cover_picture = models.ImageField(upload_to='covers/', null=True, blank=True)
@@ -12,10 +18,24 @@ class UserProfile(models.Model):
     location = models.CharField(max_length=255, blank=True)
     website = models.URLField(blank=True)
     birth_date = models.DateField(null=True, blank=True)
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, blank=True)
+    workplaces = models.ManyToManyField('Workplace', related_name='user_profiles', blank=True)
+    educations = models.ManyToManyField('Education', related_name='user_profiles', blank=True)
 
     def __str__(self):
         return self.user.username
 
+class Workplace(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.name
+
+class Education(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.name
 
 class Photo(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='photos')

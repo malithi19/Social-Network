@@ -4,43 +4,83 @@ from .models import UserProfile, Photo, Comment, Friendship, Post, Like, Tag, Fe
 from .serializers import UserProfileSerializer, PhotoSerializer, CommentSerializer, FriendshipSerializer, PostSerializer, LikeSerializer, TagSerializer, FeedSerializer
 
 # Regular view functions
-def profile(req):
-    return render(req, "profile.html")
 
-def edit_description(req, pid):
-    return render(req, "edit_description.html",{'pid': pid})
+def profile(request):
+    user_profile = UserProfile.objects.get(user=request.user)  # Assuming user is authenticated
+    context = {
+        'user_profile': user_profile,
+    }
+    return render(request, 'profile.html', context)
 
-def edit_profile(req, pid):
-    return render(req, "edit-profile.html",{'pid': pid})
+def edit_description(request, pid):
+    # Retrieve specific data based on pid if needed
+    # Example: description = Description.objects.get(id=pid)
+    context = {
+        'pid': pid,
+    }
+    return render(request, 'edit_description.html', context)
 
-def friends(req, pid):
-    return render(req, "friends.html", {'pid': pid})
+def edit_profile(request, pid):
+    # Retrieve specific data based on pid if needed
+    # Example: profile = Profile.objects.get(id=pid)
+    context = {
+        'pid': pid,
+    }
+    return render(request, 'edit_profile.html', context)
 
-def logout(req):
-    return render(req, "logout.html")
+def friends(request, pid):
+    # Retrieve specific data based on pid if needed
+    # Example: friends = Friend.objects.filter(profile_id=pid)
+    context = {
+        'pid': pid,
+    }
+    return render(request, 'friends.html', context)
 
-def messages(req, pid):
-    return render(req, "messages.html", {'pid': pid})
+def logout(request):
+    return render(request, 'logout.html')
 
-def newsfeed(req):
-    return render(req, "newsfeed.html")
+def messages(request, pid):
+    # Retrieve specific data based on pid if needed
+    # Example: messages = Message.objects.filter(profile_id=pid)
+    context = {
+        'pid': pid,
+    }
+    return render(request, 'messages.html', context)
 
-def reset_password(req, pid):
-    return render(req, "reset_password.html", {'pid': pid})
+def newsfeed(request):
+    # Example: posts = Post.objects.all()[:10]  # Assuming you want to show latest 10 posts
+    context = {
+        # Add necessary context data here
+    }
+    return render(request, 'newsfeed.html', context)
 
-def settings(req, pid):
-    return render(req, "settings.html", {'pid': pid})
+def reset_password(request, pid):
+    # Retrieve specific data based on pid if needed
+    # Example: user = User.objects.get(id=pid)
+    context = {
+        'pid': pid,
+    }
+    return render(request, 'reset_password.html', context)
 
-def sign_up(req):
-    return render(req, "sign up.html")
+def settings(request, pid):
+    # Retrieve specific data based on pid if needed
+    # Example: settings = Settings.objects.get(profile_id=pid)
+    context = {
+        'pid': pid,
+    }
+    return render(request, 'settings.html', context)
 
-def sign_in(req):
-    return render(req, "sign_in.html")
+def sign_up(request):
+    return render(request, 'sign up.html')
 
-def forgot_password(req):
-    return render(req, "forgotten_password.html")
+def sign_in(request):
+    return render(request, 'sign_in.html')
+
+def forgot_password(request):
+    return render(request, 'forgotten_password.html')
 
 # DRF viewsets
+
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
