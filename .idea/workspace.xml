@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8144e473-643b-4e00-85b5-3b5d22bc4e63" name="Changes" comment="create forgetten_password.html">
-      <change afterPath="$PROJECT_DIR$/social/Templates/forgetten_password.html" afterDir="false" />
+    <list default="true" id="8144e473-643b-4e00-85b5-3b5d22bc4e63" name="Changes" comment="update forgetten_password &amp; reset_password">
+      <change afterPath="$PROJECT_DIR$/social/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/social/migrations/0003_userprofile_email_address_userprofile_phone_number.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/Templates/forgot_password" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/Templates/forgotten_password.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/forgotten_password.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/Templates/reset_password.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/reset_password.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/social/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/social/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/social/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/socialmedia/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/socialmedia/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/socialmedia/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/socialmedia/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,10 +26,24 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="branch-05" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="main" />
@@ -30,18 +55,21 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2huCa9EMVzbyyjV2gpP85jdz1UU" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -72,7 +100,35 @@
       <option name="project" value="LOCAL" />
       <updated>1718787857024</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="update forgetten_password &amp; reset_password">
+      <created>1718914161345</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1718914161345</updated>
+    </task>
+    <task id="LOCAL-00005" summary="update forgetten_password &amp; reset_password">
+      <created>1718962622912</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1718962622912</updated>
+    </task>
+    <task id="LOCAL-00006" summary="update forgetten_password &amp; reset_password">
+      <created>1718962862830</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1718962862830</updated>
+    </task>
+    <task id="LOCAL-00007" summary="update forgetten_password &amp; reset_password">
+      <created>1718963862790</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1718963862790</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -91,7 +147,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="branch_2" />
+                        <option value="main" />
                       </list>
                     </value>
                   </entry>
@@ -104,9 +160,11 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="initial commit" />
     <MESSAGE value="add forgetten_password.html" />
     <MESSAGE value="create forgetten_password.html" />
-    <option name="LAST_COMMIT_MESSAGE" value="create forgetten_password.html" />
+    <MESSAGE value="update forgetten_password &amp; reset_password" />
+    <option name="LAST_COMMIT_MESSAGE" value="update forgetten_password &amp; reset_password" />
   </component>
 </project>

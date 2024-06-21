@@ -4,18 +4,20 @@ from . import views
 
 # Regular views
 urlpatterns = [
-    path('', views.profile, name='profile'),
-    path('', views.edit_description, name='edit_description'),
-    path('', views.edit_profile, name='edit_profile'),
-    path('', views.friends, name='friends'),
-    path('', views.logout, name='logout'),
-    path('', views.messages, name='messages'),
-    path('', views.newsfeed, name='newsfeed'),
-    path('', views.reset_password, name='reset_password'),
-    path('', views.settings, name='settings'),
-    path('', views.sign_up, name='sign_up'),
     path('', views.sign_in, name='sign_in'),
-]
+    path('sign-up/', views.sign_up, name='sign_up'),
+    path('forgot_password/', views.forgot_password, name='forgot_password'),
+    path('reset-password/<str:uidb64>/<str:token>/', views.reset_password, name='reset_password'),
+    path('sign-in/', views.sign_in, name='sign_in'),
+    path('profile/',views.profile, name='profile'),
+    path('edit-description/<int:pid>/', views.edit_description, name='edit_description'),
+    path('edit-profile/<int:pid>/', views.edit_profile, name='edit_profile'),
+    path('friends/<int:pid>/', views.friends, name='friends'),
+    path('logout/', views.logout, name='logout'),
+    path('messages/<int:pid>/', views.messages, name='messages'),
+    path('newsfeed/', views.newsfeed, name='newsfeed'),
+    path('settings/<int:pid>/', views.settings, name='settings'),
+   ]
 
 # DRF viewsets
 router = DefaultRouter()
