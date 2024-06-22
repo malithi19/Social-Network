@@ -1,21 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8144e473-643b-4e00-85b5-3b5d22bc4e63" name="Changes" comment="update forgetten_password &amp; reset_password">
-      <change afterPath="$PROJECT_DIR$/social/forms.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/social/migrations/0003_userprofile_email_address_userprofile_phone_number.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="8144e473-643b-4e00-85b5-3b5d22bc4e63" name="Changes" comment="Update forgotten_password &amp; reset_password">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social/Templates/forgot_password" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social/Templates/forgotten_password.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/forgotten_password.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social/Templates/reset_password.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/reset_password.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/social/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/social/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/social/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/social/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialmedia/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/socialmedia/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialmedia/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/socialmedia/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +117,14 @@
       <option name="project" value="LOCAL" />
       <updated>1718963862790</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Update forgotten_password &amp; reset_password">
+      <created>1718999801061</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1718999801061</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -147,7 +143,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="main" />
+                        <option value="origin/branch-9" />
                       </list>
                     </value>
                   </entry>
@@ -165,6 +161,7 @@
     <MESSAGE value="add forgetten_password.html" />
     <MESSAGE value="create forgetten_password.html" />
     <MESSAGE value="update forgetten_password &amp; reset_password" />
-    <option name="LAST_COMMIT_MESSAGE" value="update forgetten_password &amp; reset_password" />
+    <MESSAGE value="Update forgotten_password &amp; reset_password" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update forgotten_password &amp; reset_password" />
   </component>
 </project>
