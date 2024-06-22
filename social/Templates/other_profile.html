@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Other Profile - Pixly</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+        }
+
+        .header {
+            background-color: #1877f2;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header input[type="text"] {
+            width: 300px;
+            padding: 5px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+        }
+
+        .header .user-menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .header .user-menu img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .header .user-menu span {
+            font-size: 16px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .main-content {
+            width: 800px;
+            margin: 0 10px;
+        }
+
+        .profile-header {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-cover {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .profile-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-info {
+            padding: 20px;
+            background-color: #fff;
+            margin-left: 270px;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: -20px;
+        }
+
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border: 4px solid white;
+            margin-left: 20px;
+            margin-top: -100px;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .profile-details {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: black;
+            margin-bottom: 5px;
+            margin-left: 20px;
+        }
+
+        .profile-bio {
+            font-size: 14px;
+            color: #666;
+            margin-left: -10px;
+            margin-bottom: 10px;
+        }
+
+        .profile-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .add-friend-btn {
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            display: flex;
+            align-items: center;
+            margin-left: -10px;
+        }
+
+        .add-friend-btn:hover {
+            background-color: #166fe5;
+        }
+
+        .message-btn {
+            background-color: #D3D3D3;
+            color: black;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .message-btn:hover {
+            background-color: #808080;
+        }
+
+        .btn-icon {
+            margin-right: 8px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+            margin-bottom: -15px;
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        .tabs a {
+            margin: 0 15px;
+            padding: 10px;
+            text-decoration: none;
+            color: #808080;
+            font-weight: bold;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tabs a.active {
+            border-bottom: 3px solid #1877f2;
+        }
+
+
+
+        .profile-description {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .profile-description p {
+            margin-bottom: 10px;
+        }
+
+        .profile-content .profile-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .profile-content .profile-section h2 {
+            margin: 0 0 10px;
+        }
+
+        .friends-list {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .friends-list img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .friends-list span {
+            font-size: 14px;
+            display: block;
+            text-align: center;
+        }
+
+        .friend {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">Your Social Network</div>
+        <input type="text" placeholder="Search">
+        <div class="user-menu">
+            <img src="user-avatar.jpg" alt="User Avatar">
+            <span>Your Name</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="profile-header">
+                <div class="profile-cover">
+                    <img src="https://th.bing.com/th/id/OIP.os5c1cwSC6ZfyNeLJqqKMwHaEK?w=360&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7.jpg" alt="Cover Photo">
+                </div>
+                <div class="profile-info">
+                    <div class="profile-avatar">
+                        <img src="https://th.bing.com/th?id=OIP.U0jepfI2xnjVrBZIfQ-DaQHaFe&w=290&h=215&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2.jpg" alt="Profile Photo">
+                    </div>
+                    <div class="profile-details">
+                        <div class="profile-name">Shein Dodge</div>
+                        <div class="profile-bio">Lover of life and all things beautiful🍷✨.</div>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="add-friend-btn" onclick="toggleFriendStatus(this)">
+                            <i class="fas fa-user-plus btn-icon"></i><span>Add Friend</span>
+                        </button>
+                        <button class="message-btn">
+                            <i class="fas fa-envelope btn-icon"></i>Message
+                        </button>
+                    </div>
+                </div>
+                <div class="tabs">
+                    <a href="#about-section" id="about-tab">About</a>
+                    <a href="#friends-section">Friends</a>
+                    <a href="#posts-section">Posts</a>
+                    <a href="#photos-section">Photos</a>
+                </div>
+            </div>
+
+            <div class="profile-description" id="about-section">
+                <h2>About</h2>
+                <p>Hi, I'm Shein! I enjoy outdoor adventures, reading, and spending time with my friends and family!❤️</p>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-section friends" id="friends-section">
+                    <h2>Friends</h2>
+                    <div class="friends-list">
+                        <div class="friend">
+                            <img src="https://th.bing.com/th/id/OIP.qIsshkEIUCHs4sfZtb8aWgHaDt?w=331&h=175&c=7&r=0&o=5&dpr=1.3&pid=1.7.jpg" alt="Friend 1">
+                            <span>Sandy Fernando</span>
+                        </div>
+                        <div class="friend">
+                            <img src="https://th.bing.com/th/id/OIP.eg0pJyASrZhbyJhM_nWyDQHaLH?w=115&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7.jpg" alt="Friend 2">
+                            <span>Joshep Kelvin</span>
+                        </div>
+                        <div class="friend">
+                            <img src="https://th.bing.com/th/id/OIP.5eD30bWMsrFp0TRXJ5TNIQAAAA?w=202&h=303&c=7&r=0&o=5&dpr=1.3&pid=1.7.jpg" alt="Friend 3">
+                            <span>Zara Gomez</span>
+                        </div>
+                        <!-- Add more friends as needed -->
+                    </div>
+                </div>
+
+                <div class="profile-section" id="photos-section">
+                    <h2>Photos</h2>
+                    <!-- Add photos section here -->
+                </div>
+
+                <div class="profile-section posts" id="posts-section">
+                    <h2>Posts</h2>
+                    <p>No posts yet.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleFriendStatus(button) {
+            if (button.innerText === "Add Friend") {
+                button.innerHTML = '<i class="fas fa-user-plus btn-icon"></i><span>Cancel Request</span>';
+                button.style.backgroundColor = "#1877f2";
+            } else {
+                button.innerHTML = '<i class="fas fa-user-plus btn-icon"></i><span>Add Friend</span>';
+                button.style.backgroundColor = "#1877f2";
+            }
+        }
+    </script>
+</body>
+</html>
