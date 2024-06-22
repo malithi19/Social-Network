@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News Feed - Your Social Network</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
     <style>
-        
+
 
         .main-content {
-            max-width: 800px;
+            max-width: 95%;
             margin: 20px auto;
             background-color: #fff;
             border-radius: 8px;
@@ -21,7 +23,7 @@
         }
 
         .post-form textarea {
-            width: 100%;
+            width: 98%;
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
@@ -35,7 +37,7 @@
         }
 
         .post-form button {
-            width: 100%;
+            width: 99.5%;
             padding: 10px;
             background-color: #1877f2;
             color: #fff;
@@ -55,6 +57,7 @@
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
+            width :96.5%;
         }
 
         .post .post-header {
@@ -106,14 +109,43 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">Your Social Network</div>
-        <input type="text" placeholder="Search">
-        <div class="user-menu">
-            <img src="user.jpg" alt="User Image">
-            <span>Your Name</span>
+
+    <header>
+        <div class="nav-left">
+            <a href="#" class="logo">Pixly</a>
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+                <i class="fa fa-search search-icon"></i>
+            </div>
         </div>
-    </div>
+        <div class="nav-center">
+            <a href="newsfeed.html" class="nav-icon" id="home">
+                <i class="fa fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="people.html" class="nav-icon" id="people">
+                <i class="fa fa-users"></i>
+                <span>People</span>
+            </a>
+                <a href="notifications.html" class="nav-icon" id="notifications">
+                <i class="fa fa-bell"></i>
+                <span>Notifications</span>
+            </a>
+            <a href="menu.html" class="nav-icon" id="menu">
+                <i class="fa fa-bars"></i>
+                <span>Menu</span>
+            </a>
+        </div>
+        <div class="user-profile">
+            <img src="profile.jpg" alt="Profile Picture">
+            <span class="username">John Doe</span>
+        </div>
+    </header>
+
+    <br>
+    <br>
+    <br>
+
     <div class="main-content">
         <div class="post-form">
             <textarea id="new-post" rows="4" placeholder="What's on your mind?"></textarea>
@@ -144,6 +176,21 @@
     </div>
 
     <script>
+         // Get the current URL path
+        var path = window.location.pathname;
+
+        // Get the filename (last part of the path)
+        var page = path.split("/").pop();
+
+        // Remove extension from page (if any)
+        page = page.split(".")[0];
+
+        // Highlight the corresponding navigation item
+        var navItem = document.getElementById(page);
+        if (navItem) {
+            navItem.classList.add("active");
+        }
+
         function postStatus() {
             const textArea = document.getElementById('new-post');
             const content = textArea.value.trim();
