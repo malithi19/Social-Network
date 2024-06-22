@@ -241,7 +241,8 @@
                     </select>
                 </label>
             </div>
-            <button class="button">Save Changes</button>
+            <div id="saveMessage" style="display:none; color: green;">Changes saved successfully!</div>
+            <button class="button" id="saveChangesButton">Save Changes</button>
         </div>
     </div>
 
@@ -253,8 +254,8 @@
     <div id="logoutModal" class="modal">
         <div class="modal-content">
             <p>Are you sure you want to logout?</p>
-            <button id="confirmLogout"  class="button">Yes</button>
-            <button id="cancelLogout"  class="button">No</button>
+            <button id="confirmLogout" class="button">Yes</button>
+            <button id="cancelLogout" class="button">No</button>
         </div>
     </div>
 
@@ -283,13 +284,14 @@
             document.getElementById('logoutModal').style.display = 'block';
         });
 
-        document.getElementById('cancelLogout').addEventListener('click', function() {
-            document.getElementById('logoutModal').style.display = 'none';
+        document.getElementById('confirmLogout').addEventListener('click', function() {
+            // Perform the logout action and then redirect to sign-in page
+            // Assuming you have a logout URL defined in your URLs and views
+            window.location.href = "{% url 'sign_in' %}";
         });
 
-        document.getElementById('confirmLogout').addEventListener('click', function() {
-            // Perform the logout action here
-            alert('Logged out successfully!');
+        document.getElementById('cancelLogout').addEventListener('click', function() {
+            // Close the modal
             document.getElementById('logoutModal').style.display = 'none';
         });
 
@@ -324,6 +326,23 @@
                     }
                     break;
             }
+        });
+
+        // Moved outside the theme change event listener
+        document.getElementById('saveChangesButton').addEventListener('click', function() {
+            // Show the save message
+            const saveMessage = document.getElementById('saveMessage');
+            saveMessage.style.display = 'block';
+
+            // Simulate a delay for the message to be visible
+            setTimeout(function() {
+                // Redirect to the newsfeed page after showing the message
+                window.location.href = "{% url 'newsfeed' %}";
+            }, 2000);  // 2 seconds delay
+
+            setTimeout(function() {
+                saveMessage.style.display = 'none';
+            }, 5000);  // 5 seconds delay
         });
     </script>
 </body>
