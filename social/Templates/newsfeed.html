@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <style>
-
+        body {
+            font-family: Arial, sans-serif;
+        }
 
         .main-content {
             max-width: 95%;
@@ -32,8 +34,25 @@
             margin-bottom: 10px;
         }
 
-        .post-form input[type="file"] {
+         .post-form .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 10px;
+        }
+
+         .post-form .options label {
+             padding: 7px 100px;
+             background-color: #1877f2;
+             color: #fff;
+             border-radius: 5px;
+             cursor: pointer;
+             margin-right: 10px;
+             font-size: 12px;
+        }
+        
+        .post-form .options input[type="file"] {
+            display: none;
         }
 
         .post-form button {
@@ -97,6 +116,21 @@
             text-decoration: underline;
         }
 
+        .post .post-actions button .fa {
+            margin-right: 5px;
+        }
+
+        .post-form .options .tag-friends {
+            padding: 7px 100px;
+            background-color: #1877f2;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
         .post .post-image {
             margin-bottom: 10px;
         }
@@ -106,10 +140,33 @@
             border-radius: 8px;
             box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
         }
+
+        .feeling-phrase {
+            cursor: pointer;
+            color: #1877f2;
+            margin-right: 10px;
+        }
+
+        .tag-friends {
+            cursor: pointer;
+            color: #1877f2;
+        }
+
+         table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .center-cell {
+            text-align: center;
+        }
+        .feelings{
+            margin-left:50px;
+        }
+
     </style>
 </head>
 <body>
-
     <header>
         <div class="nav-left">
             <a href="#" class="logo">Pixly</a>
@@ -141,11 +198,9 @@
             <span class="username">John Doe</span>
         </div>
     </header>
-
     <br>
     <br>
     <br>
-
     <div class="main-content">
         <div class="post-form">
             <textarea id="new-post" rows="4" placeholder="What's on your mind?"></textarea>
@@ -174,7 +229,6 @@
             <!-- More posts will be appended here dynamically -->
         </div>
     </div>
-
     <script>
          // Get the current URL path
         var path = window.location.pathname;
