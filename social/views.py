@@ -1,100 +1,56 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
 from rest_framework import viewsets
 from .models import UserProfile, Photo, Comment, Friendship, Post, Like, Tag, Feed
 from .serializers import UserProfileSerializer, PhotoSerializer, CommentSerializer, FriendshipSerializer, PostSerializer, LikeSerializer, TagSerializer, FeedSerializer
+from .forms import SignUpForm
 
 # Regular view functions
-
 def profile(request):
-    user_profile = UserProfile.objects.get(user=request.user)  # Assuming user is authenticated
-    context = {
-        'user_profile': user_profile,
-    }
-    return render(request, 'profile.html', context)
+    return render(request, "profile.html")
 
 def edit_description(request, pid):
-    # Retrieve specific data based on pid if needed
-    # Example: description = Description.objects.get(id=pid)
-    context = {
-        'pid': pid,
-    }
-    return render(request, 'edit_description.html', context)
+    return render(request, "edit_description.html", {'pid': pid})
 
 def edit_profile(request, pid):
-    # Retrieve specific data based on pid if needed
-    # Example: profile = Profile.objects.get(id=pid)
-    context = {
-        'pid': pid,
-    }
-    return render(request, 'edit_profile.html', context)
+    return render(request, "edit-profile.html", {'pid': pid})
 
 def friends(request, pid):
-    # Retrieve specific data based on pid if needed
-    # Example: friends = Friend.objects.filter(profile_id=pid)
-    context = {
-        'pid': pid,
-    }
-    return render(request, 'friends.html', context)
+    return render(request, "friends.html", {'pid': pid})
 
 def logout(request):
-    return render(request, 'logout.html')
+    return render(request, "logout.html")
 
 def messages(request, pid):
-    # Retrieve specific data based on pid if needed
-    # Example: messages = Message.objects.filter(profile_id=pid)
-    context = {
-        'pid': pid,
-    }
-    return render(request, 'messages.html', context)
+    return render(request, "messages.html", {'pid': pid})
 
 def newsfeed(request):
-    # Example: posts = Post.objects.all()[:10]  # Assuming you want to show latest 10 posts
-    context = {
-        # Add necessary context data here
-    }
-    return render(request, 'newsfeed.html', context)
+    return render(request, "newsfeed.html")
 
 def reset_password(request, pid):
-    # Retrieve specific data based on pid if needed
-    # Example: user = User.objects.get(id=pid)
-    context = {
-        'pid': pid,
-    }
-    return render(request, 'reset_password.html', context)
+    return render(request, "reset_password.html", {'pid': pid})
 
 def settings(request, pid):
-    # Retrieve specific data based on pid if needed
-    # Example: settings = Settings.objects.get(profile_id=pid)
-    context = {
-        'pid': pid,
-    }
-    return render(request, 'settings.html', context)
+    return render(request, "settings.html", {'pid': pid})
 
 def sign_up(request):
-    return render(request, 'sign up.html')
-
-"""def sign_up(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('profile')  # Redirect to profile page after successful signup
+            return redirect('profile')  # Redirect to the profile page after sign up
     else:
-        form = UserCreationForm()
-    return render(request, 'sign up.html', {'form': form})"""
+        form = SignUpForm()
+    return render(request, 'sign up.html', {'form': form})
 
 def sign_in(request):
-    return render(request, 'sign_in.html')
+    return render(request, "sign_in.html")
 
 def forgot_password(request):
-    return render(request, 'forgotten_password.html')
+    return render(request, "forgotten_password.html")
 
 # DRF viewsets
-
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
