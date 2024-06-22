@@ -1,0 +1,227 @@
+Index: social/models.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from django.db import models\r\nfrom django.contrib.auth.models import User\r\nfrom django.utils import timezone\r\nfrom django.conf import settings\r\nfrom django.core.validators import URLValidator\r\nfrom django.core.exceptions import ValidationError\r\nfrom datetime import date\r\n\r\nclass UserProfile(models.Model):\r\n    GENDER_CHOICES = [\r\n        ('male', 'Male'),\r\n        ('female', 'Female'),\r\n        ('other', 'Other'),\r\n    ]\r\n    \r\n    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')\r\n    profile_picture = models.ImageField(upload_to='profiles/', null=True, blank=True)\r\n    cover_picture = models.ImageField(upload_to='covers/', null=True, blank=True)\r\n    bio = models.TextField(blank=True)\r\n    location = models.CharField(max_length=255, blank=True)\r\n    website = models.URLField(blank=True, validators=[URLValidator()])\r\n    birth_date = models.DateField(null=True, blank=True)\r\n    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, blank=True)\r\n\r\n    def __str__(self):\r\n        return self.user.username\r\n\r\n    def clean(self):\r\n        super().clean()\r\n        if self.birth_date and self.birth_date > date.today():\r\n            raise ValidationError({'birth_date': \"Birth date cannot be in the future.\"})\r\n\r\n    def age(self):\r\n        if self.birth_date:\r\n            today = date.today()\r\n            return today.year - self.birth_date.year - ((today.month, today.day) < (self.birth_date.month, self.birth_date.day))\r\n        return None\r\n\r\n# Signals to automatically create or update UserProfile\r\nfrom django.db.models.signals import post_save\r\nfrom django.dispatch import receiver\r\n\r\n@receiver(post_save, sender=User)\r\ndef create_or_update_user_profile(sender, instance, created, **kwargs):\r\n    if created:\r\n        UserProfile.objects.create(user=instance)\r\n    instance.profile.save()\r\n\r\n\r\nclass Photo(models.Model):\r\n    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='photos')\r\n    image = models.ImageField(upload_to='photos/')\r\n    caption = models.TextField(blank=True, null=True)\r\n    tags = models.ManyToManyField(User, related_name='tagged_photos', blank=True)\r\n    location = models.CharField(max_length=255, blank=True, null=True)\r\n    uploaded_at = models.DateTimeField(default=timezone.now)\r\n\r\n    def __str__(self):\r\n        return f'Photo {self.id} by {self.owner.username}'\r\n\r\n\r\nclass Comment(models.Model):\r\n    id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')\r\n    content = models.TextField()\r\n    created_at = models.DateTimeField(default=timezone.now)\r\n    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)\r\n    post = models.ForeignKey('Post', on_delete=models.CASCADE, related_name='comments')\r\n\r\n    def __str__(self):\r\n        return f'Comment by {self.author.username} on Post {self.post.id}'\r\n\r\n\r\nclass Friendship(models.Model):\r\n    from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friendships_created')\r\n    to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friendships_received')\r\n    created_at = models.DateTimeField(auto_now_add=True)\r\n\r\n    def __str__(self):\r\n        return f'{self.from_user.username} -> {self.to_user.username}'\r\n\r\n\r\nclass Post(models.Model):\r\n    id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')\r\n    content = models.TextField(blank=True, null=True)\r\n    image = models.ImageField(upload_to='post_images', blank=True, null=True)\r\n    created_at = models.DateTimeField(default=timezone.now)\r\n    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='posts')\r\n    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked_posts_set', blank=True)\r\n\r\n    def __str__(self):\r\n        return f'Post {self.id} by {self.author.username}'\r\n\r\n\r\nclass Like(models.Model):\r\n    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')\r\n    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_likes')\r\n    timestamp = models.DateTimeField(auto_now_add=True)\r\n\r\n    def __str__(self):\r\n        return f'{self.user.username} likes Post {self.post.id}'\r\n\r\n\r\nclass Tag(models.Model):\r\n    id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')\r\n    created_at = models.DateTimeField(default=timezone.now)\r\n    post = models.ForeignKey('Post', on_delete=models.CASCADE, blank=True, null=True)\r\n    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)\r\n\r\n    def __str__(self):\r\n        return f'Tag by {self.user.username} on Post {self.post.id if self.post else \"N/A\"}'\r\n\r\n\r\nclass Feed(models.Model):\r\n    CONTENT_TYPES = (\r\n        ('post', 'Post'),\r\n        ('photo', 'Photo'),\r\n        ('comment', 'Comment'),\r\n    )\r\n    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='feeds')\r\n    content_type = models.CharField(max_length=20, choices=CONTENT_TYPES)\r\n    object_id = models.PositiveIntegerField()\r\n    timestamp = models.DateTimeField(auto_now_add=True)\r\n\r\n    def __str__(self):\r\n        return f'Feed item {self.id} for {self.user.username}'\r\n\r\n\r\nclass Mention(models.Model):\r\n    id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')\r\n    created_at = models.DateTimeField(default=timezone.now)\r\n    comment = models.ForeignKey('Comment', on_delete=models.CASCADE, blank=True, null=True)\r\n    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)\r\n    post = models.ForeignKey('Post', on_delete=models.CASCADE, blank=True, null=True)\r\n\r\n    def __str__(self):\r\n        return f'Mention by {self.user.username} on Post {self.post.id if self.post else \"N/A\"} or Comment {self.comment.id if self.comment else \"N/A\"}'\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/social/models.py b/social/models.py
+--- a/social/models.py	(revision 6ebac99e2aff5d72b89f58416bb55989bf84c2d6)
++++ b/social/models.py	(date 1719053443894)
+@@ -2,9 +2,7 @@
+ from django.contrib.auth.models import User
+ from django.utils import timezone
+ from django.conf import settings
+-from django.core.validators import URLValidator
+-from django.core.exceptions import ValidationError
+-from datetime import date
++
+ 
+ class UserProfile(models.Model):
+     GENDER_CHOICES = [
+@@ -12,40 +10,32 @@
+         ('female', 'Female'),
+         ('other', 'Other'),
+     ]
+-    
++
+     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+     profile_picture = models.ImageField(upload_to='profiles/', null=True, blank=True)
+     cover_picture = models.ImageField(upload_to='covers/', null=True, blank=True)
+     bio = models.TextField(blank=True)
+     location = models.CharField(max_length=255, blank=True)
+-    website = models.URLField(blank=True, validators=[URLValidator()])
++    website = models.URLField(blank=True)
+     birth_date = models.DateField(null=True, blank=True)
+     gender = models.CharField(max_length=6, choices=GENDER_CHOICES, blank=True)
++    workplaces = models.ManyToManyField('Workplace', related_name='user_profiles', blank=True)
++    educations = models.ManyToManyField('Education', related_name='user_profiles', blank=True)
+ 
+     def __str__(self):
+         return self.user.username
+ 
+-    def clean(self):
+-        super().clean()
+-        if self.birth_date and self.birth_date > date.today():
+-            raise ValidationError({'birth_date': "Birth date cannot be in the future."})
++class Workplace(models.Model):
++    name = models.CharField(max_length=255, unique=True)
+ 
+-    def age(self):
+-        if self.birth_date:
+-            today = date.today()
+-            return today.year - self.birth_date.year - ((today.month, today.day) < (self.birth_date.month, self.birth_date.day))
+-        return None
++    def __str__(self):
++        return self.name
+ 
+-# Signals to automatically create or update UserProfile
+-from django.db.models.signals import post_save
+-from django.dispatch import receiver
++class Education(models.Model):
++    name = models.CharField(max_length=255, unique=True)
+ 
+-@receiver(post_save, sender=User)
+-def create_or_update_user_profile(sender, instance, created, **kwargs):
+-    if created:
+-        UserProfile.objects.create(user=instance)
+-    instance.profile.save()
+-
++    def __str__(self):
++        return self.name
+ 
+ class Photo(models.Model):
+     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='photos')
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"8144e473-643b-4e00-85b5-3b5d22bc4e63\" name=\"Changes\" comment=\"Update models.py\">\r\n      <change afterPath=\"$PROJECT_DIR$/.gitignore\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/debug.log\" beforeDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"HTML File\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"branch-6\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2huCa9EMVzbyyjV2gpP85jdz1UU\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,\r\n    &quot;Git.Branch.Popup.ShowAllRemotes&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;\r\n  }\r\n}</component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"8144e473-643b-4e00-85b5-3b5d22bc4e63\" name=\"Changes\" comment=\"\" />\r\n      <created>1718434636026</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1718434636026</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"initial commit\">\r\n      <created>1718720323602</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1718720323602</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"add forgetten_password.html\">\r\n      <created>1718785077429</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1718785077430</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"create forgetten_password.html\">\r\n      <created>1718787857024</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1718787857024</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"4\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State>\r\n              <option name=\"CUSTOM_BOOLEAN_PROPERTIES\">\r\n                <map>\r\n                  <entry key=\"Show.Git.Branches\" value=\"true\" />\r\n                </map>\r\n              </option>\r\n              <option name=\"FILTERS\">\r\n                <map>\r\n                  <entry key=\"branch\">\r\n                    <value>\r\n                      <list>\r\n                        <option value=\"branch-5\" />\r\n                      </list>\r\n                    </value>\r\n                  </entry>\r\n                </map>\r\n              </option>\r\n            </State>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"initial commit\" />\r\n    <MESSAGE value=\"add forgetten_password.html\" />\r\n    <MESSAGE value=\"create forgetten_password.html\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"create forgetten_password.html\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 6ebac99e2aff5d72b89f58416bb55989bf84c2d6)
++++ b/.idea/workspace.xml	(date 1719053114691)
+@@ -1,10 +1,9 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="ChangeListManager">
+-    <list default="true" id="8144e473-643b-4e00-85b5-3b5d22bc4e63" name="Changes" comment="Update models.py">
+-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
++    <list default="true" id="8144e473-643b-4e00-85b5-3b5d22bc4e63" name="Changes" comment="Update">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/social/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/social/models.py" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -15,13 +14,27 @@
+     <option name="RECENT_TEMPLATES">
+       <list>
+         <option value="HTML File" />
++        <option value="Python Script" />
+       </list>
+     </option>
+   </component>
+   <component name="Git.Settings">
++    <favorite-branches>
++      <branch-storage>
++        <map>
++          <entry type="LOCAL">
++            <value>
++              <list>
++                <branch-info repo="$PROJECT_DIR$" source="branch-05" />
++              </list>
++            </value>
++          </entry>
++        </map>
++      </branch-storage>
++    </favorite-branches>
+     <option name="RECENT_BRANCH_BY_REPOSITORY">
+       <map>
+-        <entry key="$PROJECT_DIR$" value="branch-6" />
++        <entry key="$PROJECT_DIR$" value="branch-5" />
+       </map>
+     </option>
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+@@ -30,15 +43,17 @@
+     <option name="stateVersion" value="1" />
+   </component>
+   <component name="ProjectId" id="2huCa9EMVzbyyjV2gpP85jdz1UU" />
+-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
++  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
++    <ConfirmationsSetting value="2" id="Add" />
++  </component>
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+   <component name="PropertiesComponent">{
+   &quot;keyToString&quot;: {
++    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+     &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+-    &quot;Git.Branch.Popup.ShowAllRemotes&quot;: &quot;true&quot;,
+     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
+   }
+@@ -73,7 +88,63 @@
+       <option name="project" value="LOCAL" />
+       <updated>1718787857024</updated>
+     </task>
+-    <option name="localTasksCounter" value="4" />
++    <task id="LOCAL-00004" summary="update forgetten_password &amp; reset_password">
++      <created>1718914161345</created>
++      <option name="number" value="00004" />
++      <option name="presentableId" value="LOCAL-00004" />
++      <option name="project" value="LOCAL" />
++      <updated>1718914161345</updated>
++    </task>
++    <task id="LOCAL-00005" summary="update forgetten_password &amp; reset_password">
++      <created>1718962622912</created>
++      <option name="number" value="00005" />
++      <option name="presentableId" value="LOCAL-00005" />
++      <option name="project" value="LOCAL" />
++      <updated>1718962622912</updated>
++    </task>
++    <task id="LOCAL-00006" summary="update forgetten_password &amp; reset_password">
++      <created>1718962862830</created>
++      <option name="number" value="00006" />
++      <option name="presentableId" value="LOCAL-00006" />
++      <option name="project" value="LOCAL" />
++      <updated>1718962862830</updated>
++    </task>
++    <task id="LOCAL-00007" summary="update forgetten_password &amp; reset_password">
++      <created>1718963862790</created>
++      <option name="number" value="00007" />
++      <option name="presentableId" value="LOCAL-00007" />
++      <option name="project" value="LOCAL" />
++      <updated>1718963862790</updated>
++    </task>
++    <task id="LOCAL-00008" summary="Update forgotten_password &amp; reset_password">
++      <created>1718999801061</created>
++      <option name="number" value="00008" />
++      <option name="presentableId" value="LOCAL-00008" />
++      <option name="project" value="LOCAL" />
++      <updated>1718999801061</updated>
++    </task>
++    <task id="LOCAL-00009" summary="Update">
++      <created>1719034459715</created>
++      <option name="number" value="00009" />
++      <option name="presentableId" value="LOCAL-00009" />
++      <option name="project" value="LOCAL" />
++      <updated>1719034459715</updated>
++    </task>
++    <task id="LOCAL-00010" summary="Update">
++      <created>1719034555890</created>
++      <option name="number" value="00010" />
++      <option name="presentableId" value="LOCAL-00010" />
++      <option name="project" value="LOCAL" />
++      <updated>1719034555890</updated>
++    </task>
++    <task id="LOCAL-00011" summary="Update">
++      <created>1719035355219</created>
++      <option name="number" value="00011" />
++      <option name="presentableId" value="LOCAL-00011" />
++      <option name="project" value="LOCAL" />
++      <updated>1719035355219</updated>
++    </task>
++    <option name="localTasksCounter" value="12" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+@@ -105,9 +176,13 @@
+     </option>
+   </component>
+   <component name="VcsManagerConfiguration">
++    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+     <MESSAGE value="initial commit" />
+     <MESSAGE value="add forgetten_password.html" />
+     <MESSAGE value="create forgetten_password.html" />
+-    <option name="LAST_COMMIT_MESSAGE" value="create forgetten_password.html" />
++    <MESSAGE value="update forgetten_password &amp; reset_password" />
++    <MESSAGE value="Update forgotten_password &amp; reset_password" />
++    <MESSAGE value="Update" />
++    <option name="LAST_COMMIT_MESSAGE" value="Update" />
+   </component>
+ </project>
+\ No newline at end of file
