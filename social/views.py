@@ -7,8 +7,8 @@ from .serializers import UserProfileSerializer, PhotoSerializer, CommentSerializ
 def profile(req):
     return render(req, "profile.html")
 
-def edit_description(req, pid):
-    return render(req, "edit_description.html",{'pid': pid})
+def menu(req, pid):
+    return render(req, "menu.html", {'pid': pid})
 
 def edit_profile(req, pid):
     return render(req, "edit-profile.html",{'pid': pid})
