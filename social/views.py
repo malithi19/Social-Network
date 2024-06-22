@@ -40,6 +40,9 @@ def sign_in(req):
 def forgot_password(req):
     return render(req, "forgotten_password.html")
 
+def other_profile(req):
+    return render(req, "other_profile.html")
+
 # DRF viewsets
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
