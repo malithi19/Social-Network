@@ -13,14 +13,14 @@ def menu(req, pid):
 def edit_profile(req, pid):
     return render(req, "edit-profile.html",{'pid': pid})
 
-def friends(req, pid):
-    return render(req, "friends.html", {'pid': pid})
+def friends(req):
+    return render(req, "friends.html")
 
 def logout(req):
     return render(req, "logout.html")
 
-def messages(req, pid):
-    return render(req, "messages.html", {'pid': pid})
+def messages(req):
+    return render(req, "messages.html")
 
 def newsfeed(req):
     return render(req, "newsfeed.html")
