@@ -241,7 +241,8 @@
                     </select>
                 </label>
             </div>
-            <button class="button">Save Changes</button>
+            <div id="saveMessage" style="display:none; color: green;">Changes saved successfully!</div>
+            <button class="button" id="saveChangesButton">Save Changes</button>
         </div>
     </div>
 
@@ -325,6 +326,23 @@
                     }
                     break;
             }
+        });
+
+        // Moved outside the theme change event listener
+        document.getElementById('saveChangesButton').addEventListener('click', function() {
+            // Show the save message
+            const saveMessage = document.getElementById('saveMessage');
+            saveMessage.style.display = 'block';
+
+            // Simulate a delay for the message to be visible
+            setTimeout(function() {
+                // Redirect to the newsfeed page after showing the message
+                window.location.href = "{% url 'newsfeed' %}";
+            }, 2000);  // 2 seconds delay
+
+            setTimeout(function() {
+                saveMessage.style.display = 'none';
+            }, 5000);  // 5 seconds delay
         });
     </script>
 </body>
