@@ -10,8 +10,8 @@ class SignUpForm(forms.ModelForm):
     email = forms.EmailField(max_length=254, required=True)
     password = forms.CharField(widget=forms.PasswordInput, required=True)
     confirm_password = forms.CharField(widget=forms.PasswordInput, required=True)
-    birth_date = forms.DateField(required=True)
-    gender = forms.ChoiceField(choices=[('male', 'Male'), ('female', 'Female'), ('other', 'Other')], required=True)
+    birth_date = forms.DateField(label='Date of Birth', required=True, widget=forms.DateInput(attrs={'type': 'date'}))
+    gender = forms.ChoiceField(choices=UserProfile.GENDER_CHOICES, required=True)
 
     class Meta:
         model = UserProfile
@@ -28,14 +28,25 @@ class SignUpForm(forms.ModelForm):
         return cleaned_data
 
     def save(self, commit=True):
+        # Create the User instance first
         user = User.objects.create_user(
             username=self.cleaned_data['username'],
             email=self.cleaned_data['email'],
             password=self.cleaned_data['password']
         )
+
+        # Create the UserProfile instance and associate it with the User
+        user_profile = UserProfile(
+            user=user,
+            birth_date=self.cleaned_data['birth_date'],
+            gender=self.cleaned_data['gender']
+        )
+
         if commit:
-            user.save()
-            return user
+            user.save()  # Save the User instance to the database
+            user_profile.save()  # Save the UserProfile instance to the database
+
+        return user  # Return the created User instance
 
 
 class SignInForm(AuthenticationForm):
