@@ -354,19 +354,23 @@
 
 <script>
    // Get the current URL path
-var path = window.location.pathname;
-var page = path.split("/").pop().split(".")[0];
-var navItem = document.getElementById(page);
-if (navItem) {
-    navItem.classList.add("active");
-}
+    var path = window.location.pathname;
+    // Get the filename (last part of the path)
+    var page = path.split("/").pop().split(".")[0];
+    // Remove extension from page (if any)
+    page = page.split(".")[0];
+    // Highlight the corresponding navigation item
+    var navItem = document.getElementById(page);
+    if (navItem) {
+        navItem.classList.add("active");
+    }
 
-function postStatus() {
-    const textArea = document.getElementById('new-post');
-    const content = textArea.value.trim();
-    if (content === '') {
-        alert('Please write something to post!');
-        return;
+    function postStatus() {
+        const textArea = document.getElementById('new-post');
+        const content = textArea.value.trim();
+        if (content === '') {
+            alert('Please write something to post!');
+            return;
     }
 
     const imageInput = document.getElementById('post-image');
