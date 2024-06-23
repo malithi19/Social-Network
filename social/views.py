@@ -42,8 +42,8 @@ def settings(req, pid):
     return render(req, "settings.html", {'pid': pid})
 
 
-def sign_up(req):
-    return render(req, "sign up.html")
+"""def sign_up(req):
+    return render(req, "sign up.html")"""
 
 
 def sign_up(request):
@@ -62,23 +62,27 @@ def sign_up(request):
     return render(request, 'sign up.html', {'form': form})
 
 
-def sign_in(req):
-    return render(req, "sign_in.html")
+"""def sign_in(req):
+    return render(req, "sign_in.html")"""
 
 
 def sign_in(request):
     if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
+        form = AuthenticationForm(request, request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('newsfeed')  # Redirect to newsfeed after successful sign-in
+                return redirect('newsfeed')  # Redirect to newsfeed upon successful login
+        # Handle invalid login case
+        else:
+            return render(request, 'sign_in.html', {'form': form, 'error_message': 'Invalid credentials'})
     else:
         form = AuthenticationForm()
-    return render(request, 'sign_in.html', {'form': form})
+        return render(request, 'sign_in.html', {'form': form})
+
 
 
 def forgot_password(req):
