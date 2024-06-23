@@ -34,6 +34,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+LOGIN_REDIRECT_URL = 'newsfeed'
+LOGOUT_REDIRECT_URL = 'sign_in'
+
 ROOT_URLCONF = 'socialmedia.urls'
 
 TEMPLATES = [

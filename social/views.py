@@ -66,23 +66,26 @@ def sign_up(request):
     return render(req, "sign_in.html")"""
 
 
+
 def sign_in(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request, request.POST)
+        form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            user = authenticate(username=username, password=password)
+            print(f'Username: {username}, Password: {password}')  # Debug print statement
+            user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('newsfeed')  # Redirect to newsfeed upon successful login
-        # Handle invalid login case
+                return redirect('newsfeed')
+            else:
+                print('Authentication failed')  # Debug print statement
         else:
-            return render(request, 'sign_in.html', {'form': form, 'error_message': 'Invalid credentials'})
+            print('Form is not valid')  # Debug print statement
+        return render(request, 'sign_in.html', {'form': form, 'error_message': 'Invalid credentials'})
     else:
         form = AuthenticationForm()
         return render(request, 'sign_in.html', {'form': form})
-
 
 
 def forgot_password(req):
