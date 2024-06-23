@@ -33,15 +33,9 @@ class SignUpForm(forms.ModelForm):
             email=self.cleaned_data['email'],
             password=self.cleaned_data['password']
         )
-        user_profile = UserProfile(
-            user=user,
-            birth_date=self.cleaned_data['birth_date'],
-            gender=self.cleaned_data['gender']
-        )
         if commit:
             user.save()
-            user_profile.save()
-        return user
+            return user
 
 
 class SignInForm(AuthenticationForm):
