@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Other Profile - Pixly</title>
+    {% load static %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,75 +15,40 @@
             background-color: #f0f2f5;
         }
 
-        .header {
-            background-color: #1877f2;
-            color: white;
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .header .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .header input[type="text"] {
-            width: 300px;
-            padding: 5px;
-            border-radius: 20px;
-            border: none;
-            outline: none;
-        }
-
-        .header .user-menu {
-            display: flex;
-            align-items: center;
-        }
-
-        .header .user-menu img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-
-        .header .user-menu span {
-            font-size: 16px;
-        }
-
         .container {
             display: flex;
-            justify-content: center;
             margin-top: 20px;
         }
 
         .main-content {
-            width: 800px;
-            margin: 0 10px;
+            flex:1;
+            margin-left: 20px;
+            margin-right:20px;
         }
 
         .profile-header {
             background-color: #fff;
+            padding: 20px;
             border-radius: 8px;
-            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-            margin-bottom: 50px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
             position: relative;
-            overflow: hidden;
         }
 
         .profile-cover {
             width: 100%;
-            height: 300px;
-            overflow: hidden;
             position: relative;
         }
 
         .profile-cover img {
-            width: 100%;
-            height: 100%;
+            width: 1400px;
+            height: 300px;
             object-fit: cover;
+            border-radius: 8px 8px 0 0;
+
         }
 
         .profile-info {
@@ -92,6 +59,7 @@
             justify-content: space-between;
             position: relative;
             margin-bottom: -20px;
+            margin-left: -8px;
         }
 
         .profile-avatar {
@@ -120,7 +88,7 @@
             font-weight: bold;
             color: black;
             margin-bottom: 5px;
-            margin-left: 20px;
+            margin-left: 25px;
         }
 
         .profile-bio {
@@ -248,15 +216,41 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">Your Social Network</div>
-        <input type="text" placeholder="Search">
-        <div class="user-menu">
-            <img src="user-avatar.jpg" alt="User Avatar">
-            <span>Your Name</span>
-        </div>
-    </div>
 
+<header>
+        <div class="nav-left">
+            <a href="#" class="logo">Pixly</a>
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+                <i class="fa fa-search search-icon"></i>
+            </div>
+        </div>
+        <div class="nav-center">
+            <a href="{% url 'newsfeed' %}" class="nav-icon" id="home">
+                <i class="fa fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="{% url 'friends' %}" class="nav-icon" id="people">
+                <i class="fa fa-users"></i>
+                <span>People</span>
+            </a>
+            <a href="{% url 'messages' %}" class="nav-icon" id="notifications">
+                <i class="fa fa-bell"></i>
+                <span>Notifications</span>
+            </a>
+            <a href="{% url 'menu' pid=user.id %}" class="nav-icon" id="menu-link">
+                <i class="fa fa-bars"></i>
+                <span>Menu</span>
+            </a>
+        </div>
+
+        <div class="user-profile">
+            <img src="profile.jpg" alt="Profile Picture">
+            <span class="username">{{ user.username }}</span>
+        </div>
+</header>
+    <br>
+    <br>
     <div class="container">
         <div class="main-content">
             <div class="profile-header">
