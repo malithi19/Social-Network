@@ -10,8 +10,12 @@ from .serializers import UserProfileSerializer, PhotoSerializer, CommentSerializ
 
 
 # Regular view functions
-def profile(req):
-    return render(req, "profile.html")
+def profile(request):
+    # Assuming you have authenticated user available in request.user
+    context = {
+        'username': request.user.username  
+    }
+    return render(request, 'profile.html', context)
 
 
 def menu(req, pid):

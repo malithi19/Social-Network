@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>News Feed - Your Social Network</title>
+    <title>News Feed - Pixly</title>
     <{% load static %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="{% static 'styles.css' %}">
@@ -266,17 +266,17 @@
                 <span>Menu</span>
             </a>
         </div>
-    <div class="user-profile">
-        <img src="profile.jpg" alt="Profile Picture">
-        <span class="username">John Doe</span>
-    </div>
+        <div class="user-profile">
+            <img src="profile.jpg" alt="Profile Picture">
+            <span class="username">{{ user.username }}</span>
+        </div>
 </header>
 <br>
 <br>
 <br>
 <div class="main-content">
      <div class="post-form">
-        <textarea id="new-post" rows="4" placeholder="What's on your mind?"></textarea>
+        <textarea id="new-post" rows="4" placeholder="What's on your mind {{ user.username }}?"></textarea>
         <br>
         <br>
         <div class="options">
@@ -319,11 +319,11 @@
     <div class="post">
         <div class="post-header">
             <img src="user1.jpg" alt="User Image">
-            <span class="username">John Doe</span>
+            <span class="username">{{ user.username }}</span>
         </div>
 	<br>
         <div class="post-content">
-            <p>This is an example post content. Welcome to the social network!</p>
+            <p>Hi,I am {{ user.username }}.Today i joined with Pixly.Let's snap life and share joy</p>
         </div>
 	<br>
         <div class="post-actions">
@@ -386,7 +386,7 @@ function postStatus() {
     newPost.innerHTML = `
         <div class="post-header">
             <img src="user.jpg" alt="User Image">
-            <span class="username">Your Name</span>
+            <span class="username">{{ user.username }}</span>
         </div>
         <div class="post-content">
             <p>${content}</p>
