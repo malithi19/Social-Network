@@ -11,12 +11,16 @@ from .serializers import UserProfileSerializer, PhotoSerializer, CommentSerializ
 
 # Regular view functions
 def profile(request):
-    # Assuming you have authenticated user available in request.user
+    try:
+        # Retrieve UserProfile instance for the current user
+        user_profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        user_profile = None  # Handle case where UserProfile does not exist for the user
+    
     context = {
-        'username': request.user.username  
+        'user_profile': user_profile
     }
     return render(request, 'profile.html', context)
-
 
 def menu(req, pid):
     return render(req, "menu.html", {'pid': pid})

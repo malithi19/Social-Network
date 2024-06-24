@@ -320,7 +320,9 @@
                     <input type="file" id="profilePictureInput" accept="image/*" onchange="changeProfilePicture(event)">
                 </div>
                 <div class="profile-name">{{ user.username }}</div>
-                <div class="profile-bio">Your bio goes here...</div>
+                <div class="profile-bio">
+                    {{ user_profile.bio }}
+                </div>
                 <div class="profile-actions">
                     <button onclick="showPopup()">Edit Profile</button>
                 </div>
@@ -355,7 +357,7 @@
             </div>
             <div class="form-group">
                 <label for="popupBio">Bio</label>
-                <input type="text" id="popupBio" name="bio">
+                <input type="text" id="popupBio" name="bio" value="{{ user_profile.bio }}">
             </div>
             <div class="form-group">
                 <label for="popupProfilePicture">Profile Picture</label>
