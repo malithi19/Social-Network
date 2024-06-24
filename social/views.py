@@ -37,6 +37,8 @@ def messages(req):
 def newsfeed(req):
     return render(req, "newsfeed.html")
 
+def post(req,pid):
+    return render(req, "newsfeed.html")
 
 def reset_password(req, pid):
     return render(req, "reset_password.html", {'pid': pid})
@@ -98,6 +100,7 @@ def forgot_password(req):
 
 def other_profile(req):
     return render(req, "other_profile.html")
+
 
 
 # DRF viewsets
