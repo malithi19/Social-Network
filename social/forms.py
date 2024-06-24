@@ -3,7 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 
 from .models import UserProfile
-
+from .models import Post
 
 class SignUpForm(forms.ModelForm):
     username = forms.CharField(max_length=150, required=True)
@@ -42,3 +42,8 @@ class SignInForm(AuthenticationForm):
     # Customizing or adding any extra fields if needed
     username = forms.CharField(max_length=150, required=True, widget=forms.TextInput(attrs={'placeholder': 'Username'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['content', 'image']

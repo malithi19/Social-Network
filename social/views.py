@@ -8,6 +8,10 @@ from .models import UserProfile, Photo, Comment, Friendship, Post, Like, Tag, Fe
 from .serializers import UserProfileSerializer, PhotoSerializer, CommentSerializer, FriendshipSerializer, \
     PostSerializer, LikeSerializer, TagSerializer, FeedSerializer
 
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from .forms import PostForm
 
 # Regular view functions
 def profile(request):
@@ -35,7 +39,8 @@ def messages(req):
     return render(req, "messages.html")
 
 def newsfeed(req):
-    return render(req, "newsfeed.html")
+    posts = Post.objects.all().order_by('-created_at')
+    return render(req, 'newsfeed.html', {'posts': posts})
 
 def post(req,pid):
     return render(req, "newsfeed.html")
@@ -101,7 +106,30 @@ def forgot_password(req):
 def other_profile(req):
     return render(req, "other_profile.html")
 
+@csrf_exempt
+def create_post(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            form.save_m2m()  # Save tags and other ManyToMany fields
 
+            post_data = {
+                'content': post.content,
+                'image': post.image.url if post.image else None,
+                'created_at': post.created_at.isoformat(),
+                'author': {
+                    'username': post.author.username,
+                    'profile_picture': post.author.profile_picture.url
+                }
+            }
+
+            return JsonResponse({'success': True, 'post': post_data})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    return JsonResponse({'success': False, 'message': 'Invalid request method.'})
 
 # DRF viewsets
 class UserProfileViewSet(viewsets.ModelViewSet):
