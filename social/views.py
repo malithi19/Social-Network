@@ -2,7 +2,8 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from rest_framework import viewsets
-
+from .forms import UserProfileForm
+from django.contrib.auth.decorators import login_required
 from .forms import SignUpForm
 from .models import UserProfile, Photo, Comment, Friendship, Post, Like, Tag, Feed
 from .serializers import UserProfileSerializer, PhotoSerializer, CommentSerializer, FriendshipSerializer, \
@@ -10,14 +11,18 @@ from .serializers import UserProfileSerializer, PhotoSerializer, CommentSerializ
 
 
 # Regular view functions
+@login_required
 def profile(request):
-    # Assuming you have authenticated user available in request.user
-    context = {
-        'username': request.user.username  
-    }
-    return render(request, 'profile.html', context)
+    user_profile, created = UserProfile.objects.get_or_create(user=request.user)
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = UserProfileForm(instance=user_profile)
 
-
+    return render(request, 'profile.html', {'form': form})
 def menu(req, pid):
     return render(req, "menu.html", {'pid': pid})
 

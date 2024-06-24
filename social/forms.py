@@ -42,3 +42,9 @@ class SignInForm(AuthenticationForm):
     # Customizing or adding any extra fields if needed
     username = forms.CharField(max_length=150, required=True, widget=forms.TextInput(attrs={'placeholder': 'Username'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['profile_picture','cover_picture','bio']
+

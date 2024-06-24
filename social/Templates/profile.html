@@ -306,21 +306,21 @@
         <div class="main-content">
             <div class="profile-header">
                 <div class="profile-cover">
-                    <img id="coverPhoto" src="https://burst.shopifycdn.com/content/facebook_cover_photo_desktop_mobile_template.jpg" alt="Cover Photo">
+                    <img id="coverPhoto" src="{% if user.userprofile.cover_photo %}{{ user.userprofile.cover_photo.url }}{% else %}https://burst.shopifycdn.com/content/facebook_cover_photo_desktop_mobile_template.jpg{% endif %}" alt="Cover Photo">
                     <div class="camera-icon" onclick="document.getElementById('coverPhotoInput').click()">
                         <i class="fas fa-camera"></i>
                     </div>
                     <input type="file" id="coverPhotoInput" accept="image/*" onchange="changeCoverPhoto(event)">
                 </div>
                 <div class="profile-avatar">
-                    <img id="profilePicture" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT16eO5W8VPjVFrkvG8n_2FQKjByMcbLtBF4A&s" alt="Profile Picture">
+                    <img id="profilePicture" src="{% if user.userprofile.profile_picture %}{{ user.userprofile.profile_picture.url }}{% else %}https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT16eO5W8VPjVFrkvG8n_2FQKjByMcbLtBF4A&s{% endif %}" alt="Profile Picture">
                     <div class="camera-icon" onclick="document.getElementById('profilePictureInput').click()">
                         <i class="fas fa-camera"></i>
                     </div>
                     <input type="file" id="profilePictureInput" accept="image/*" onchange="changeProfilePicture(event)">
                 </div>
                 <div class="profile-name">{{ user.username }}</div>
-                <div class="profile-bio">Your bio goes here...</div>
+                <div class="profile-bio">{{ user.userprofile.bio }}</div>
                 <div class="profile-actions">
                     <button onclick="showPopup()">Edit Profile</button>
                 </div>
@@ -375,6 +375,7 @@
             <br>
             <br>
             <button type="button" onclick="saveProfile()">Save Changes</button>
+            
         </div>
     </div>
 
