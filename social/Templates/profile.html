@@ -306,14 +306,15 @@
         <div class="main-content">
             <div class="profile-header">
                 <div class="profile-cover">
-                    <img id="coverPhoto" src="https://burst.shopifycdn.com/content/facebook_cover_photo_desktop_mobile_template.jpg" alt="Cover Photo">
+                    <img id="coverPhoto" src="user_profile.cover_picture" alt="Cover Photo">
                     <div class="camera-icon" onclick="document.getElementById('coverPhotoInput').click()">
                         <i class="fas fa-camera"></i>
                     </div>
                     <input type="file" id="coverPhotoInput" accept="image/*" onchange="changeCoverPhoto(event)">
                 </div>
                 <div class="profile-avatar">
-                    <img id="profilePicture" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT16eO5W8VPjVFrkvG8n_2FQKjByMcbLtBF4A&s" alt="Profile Picture">
+                    <img id="profilePicture" src="{{ user_profile.profile_picture }}" alt=profile picture" >
+                    
                     <div class="camera-icon" onclick="document.getElementById('profilePictureInput').click()">
                         <i class="fas fa-camera"></i>
                     </div>
