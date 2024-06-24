@@ -3,6 +3,8 @@ from rest_framework.routers import DefaultRouter
 from . import views
 
 # Regular views
+from .views import create_post
+
 urlpatterns = [
     path('', views.sign_in, name='sign_in'),
     path('profile/', views.profile, name='profile'),
@@ -12,6 +14,7 @@ urlpatterns = [
     path('', views.logout, name='logout'),
     path('messages/', views.messages, name='messages'),
     path('newsfeed/', views.newsfeed, name='newsfeed'),
+    path('create_post/', create_post, name='create_post'),
     path('', views.reset_password, name='reset_password'),
     path('', views.settings, name='settings'),
     path('sign-up/', views.sign_up, name='sign_up'),
