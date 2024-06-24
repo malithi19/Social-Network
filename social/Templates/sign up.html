@@ -180,8 +180,9 @@
     </script>
 </head>
 <body>
+{% load static%}
     <div class="container">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjWsJ1sM9FSMWtqBbzw5fKXs6T2l7t_eV2DQ&s" alt="Your Social Network">
+        <img src="{% static 'images/logo.png'%}" alt="pixly"/>
         <div class="signup-text">Sign Up</div>
         <div class="signup-form">
             <form enctype="multipart/form-data" method="post">

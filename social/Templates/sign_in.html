@@ -143,9 +143,10 @@
     </style>
 </head>
 <body>
+{% load static%}
     <div class="container">
         <div class="left-side">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjWsJ1sM9FSMWtqBbzw5fKXs6T2l7t_eV2DQ&s" alt="Your Social Network">
+            <img src="{% static 'images/logo.png'%}" alt="Pixly"/>
         </div>
         <div class="right-side">
             <div class="signin-form">
