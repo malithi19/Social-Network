@@ -275,10 +275,9 @@
 <br>
 <br>
 <div class="main-content">
-     <div class="post-form">
+    <div class="post-form">
         <textarea id="new-post" rows="4" placeholder="What's on your mind {{ user.username }}?"></textarea>
-        <br>
-        <br>
+        <br><br>
         <div class="options">
             <div>
                 <table>
@@ -302,38 +301,47 @@
                     <span class="feeling-phrase" onclick="addFeeling('🤔 feeling thoughtful')">🤔 feeling thoughtful</span>
                     <span class="feeling-phrase" onclick="addFeeling('😜 feeling playful')">😜 feeling playful</span>
                     <span class="feeling-phrase" onclick="addFeeling('🥳 feeling excited')">🥳 feeling excited</span>
-		    <span class="feeling-phrase" onclick="addFeeling('🤗 feeling blessed')">🤗 feeling blessed</span>
+                    <span class="feeling-phrase" onclick="addFeeling('🤗 feeling blessed')">🤗 feeling blessed</span>
+                </div>
             </div>
         </div>
+        <br>
+        <button onclick="postStatus()">Post</button>
+        <br>
+        <div id="preview-image" class="post-image" style="display: none;">
+            <img id="preview-img" src="#" alt="Preview Image">
+        </div>
     </div>
-    <br>
-    <button onclick="postStatus()">Post</button>
-    <br>
-    <div id="preview-image" class="post-image" style="display: none;">
-        <img id="preview-img" src="#" alt="Preview Image">
-    </div>
-</div>
 
-<div id="news-feed">
-    <!-- Example post -->
-    <div class="post">
-        <div class="post-header">
-            <img src="user1.jpg" alt="User Image">
-            <span class="username">{{ user.username }}</span>
+    <div id="news-feed">
+        {% for post in posts %}
+        <!-- Example post -->
+        <div class="post">
+            <div class="post-header">
+                <img src="{% if post.author.profile_picture %}{{ post.author.profile_picture.url }}{% else %}default_user_image.jpg{% endif %}" alt="User Image">
+                <span class="username">{{ post.author.username }}</span>
+            </div>
+            <br>
+            <div class="post-content">
+                <p>{{ post.content }}</p>
+                {% if post.image %}
+                <div class="post-image">
+                    <img src="{{ post.image.url }}" alt="Post Image">
+            </div>
+            {% endif %}
+            <p><small>Posted on {{ post.created_at }}</small></p>
         </div>
-	<br>
-        <div class="post-content">
-            <p>Hi,I am {{ user.username }}.Today i joined with Pixly.Let's snap life and share joy</p>
+            <br>
+            <div class="post-actions">
+                <button onclick="toggleLike(this)"><i class="fa fa-thumbs-up"></i> Like <span class="like-count">0</span></button>
+                <button onclick="showCommentsPopup(this)"><i class="fa fa-comment"></i> Comment</button>
+                <button onclick="showSharePopup()"><i class="fa fa-share"></i> Share</button>
+            </div>
+            <div class="comments">
+                <!-- Comments will be appended here dynamically -->
+            </div>
         </div>
-	<br>
-        <div class="post-actions">
-            <button onclick="toggleLike(this)"><i class="fa fa-thumbs-up"></i> Like <span class="like-count">0</span></button>
-            <button onclick="showCommentsPopup(this )"><i class="fa fa-comment"></i> Comment</button>
-            <button onclick="showSharePopup()"><i class="fa fa-share"></i> Share</button>
-        </div>
-        <div class="comments">
-            <!-- Comments will be appended here dynamically -->
-        </div>
+        {% endfor %}
     </div>
 </div>
 
@@ -351,16 +359,8 @@
     </div>
 </div>
 
-
-
 <script>
-   // Get the current URL path
-var path = window.location.pathname;
-var page = path.split("/").pop().split(".")[0];
-var navItem = document.getElementById(page);
-if (navItem) {
-    navItem.classList.add("active");
-}
+document.getElementById('post-image').addEventListener('change', previewImage);
 
 function postStatus() {
     const textArea = document.getElementById('new-post');
@@ -372,36 +372,29 @@ function postStatus() {
 
     const imageInput = document.getElementById('post-image');
     const imageFile = imageInput.files[0];
-    let imageUrl = '';
+
+    const formData = new FormData();
+    formData.append('content', content);
     if (imageFile) {
-        imageUrl = URL.createObjectURL(imageFile);
+        formData.append('image', imageFile);
     }
 
-    const newsFeed = document.getElementById('news-feed');
-    const newPost = document.createElement('div');
-    newPost.className = 'post';
+    fetch('/create_post/', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            addPostToFeed(data.post);
+        } else {
+            alert('Error posting your status!');
+        }
+    });
 
-    const currentDate = new Date().toLocaleString();
-
-    newPost.innerHTML = `
-        <div class="post-header">
-            <img src="user.jpg" alt="User Image">
-            <span class="username">{{ user.username }}</span>
-        </div>
-        <div class="post-content">
-            <p>${content}</p>
-            ${imageUrl ? `<div class="post-image"><img src="${imageUrl}" alt="Posted Image"></div>` : ''}
-            <p><small>Posted on ${currentDate}</small></p>
-        </div>
-        <div class="post-actions">
-            <button onclick="toggleLike(this)"><i class="fa fa-thumbs-up"></i> Like <span class="like-count">0</span></button>
-            <button onclick="showCommentsPopup(this)"><i class="fa fa-comment"></i> Comment</button>
-            <button onclick="showSharePopup()"><i class="fa fa-share"></i> Share</button>
-        </div>
-        <div class="comments"></div>
-    `;
-
-    newsFeed.prepend(newPost);
     textArea.value = '';
     imageInput.value = '';
     document.getElementById('preview-image').style.display = 'none';
@@ -444,19 +437,15 @@ function tagFriends() {
     }
 }
 
-document.getElementById('post-image').addEventListener('change', previewImage);
-
 function showCommentsPopup() {
     document.getElementById('commentsPopup').style.display = 'flex';
 }
 
 function hideCommentsPopup(event) {
-    // Ensure the click is outside the popup content
     if (event.target.classList.contains('popup-overlay')) {
         document.getElementById('commentsPopup').style.display = 'none';
     }
 }
-
 
 function postComment() {
     const nameInput = document.getElementById('comment-form').querySelector('input[type="text"]');
@@ -479,15 +468,51 @@ function postComment() {
     const commentsSection = document.querySelector('.popup-content .comments');
     commentsSection.appendChild(commentDiv);
 
-    // Clear input fields after posting comment
     nameInput.value = '';
     commentInput.value = '';
 }
 
+function addPostToFeed(post) {
+    const newsFeed = document.getElementById('news-feed');
+    const newPost = document.createElement('div');
+    newPost.className = 'post';
 
+    newPost.innerHTML = `
+        <div class="post-header">
+            <img src="${post.author.profile_picture}" alt="User Image">
+            <span class="username">${post.author.username}</span>
+        </div>
+        <div class="post-content">
+            <p>${post.content}</p>
+            ${post.image ? `<div class="post-image"><img src="${post.image}" alt="Posted Image"></div>` : ''}
+            <p><small>Posted on ${new Date(post.created_at).toLocaleString()}</small></p>
+        </div>
+        <div class="post-actions">
+            <button onclick="toggleLike(this)"><i class="fa fa-thumbs-up"></i> Like <span class="like-count">0</span></button>
+            <button onclick="showCommentsPopup(this)"><i class="fa fa-comment"></i> Comment</button>
+            <button onclick="showSharePopup()"><i class="fa fa-share"></i> Share</button>
+        </div>
+        <div class="comments"></div>
+    `;
+
+    newsFeed.prepend(newPost);
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
 </script>
-
 </body>
 </html>
-
