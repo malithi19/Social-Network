@@ -2,16 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8144e473-643b-4e00-85b5-3b5d22bc4e63" name="Changes" comment="create forgetten_password.html">
-      <change afterPath="$PROJECT_DIR$/social/static/css/styles.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/social/static/images/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/social/Templates/styles.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/social/images/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/social/static/styles.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/logo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social/Templates/forgot_password" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/social/Templates/sign up.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/sign up.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/social/Templates/sign_in.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/sign_in.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social/Templates/styles.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social/static/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/static/css/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/static/images/logo.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/socialmedia/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/socialmedia/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,14 +45,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -103,7 +102,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="branch_2" />
+                        <option value="branch-14" />
                       </list>
                     </value>
                   </entry>
