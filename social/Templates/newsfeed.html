@@ -323,7 +323,7 @@
         </div>
 	<br>
         <div class="post-content">
-            <p>Hi,I am {{ user.username }}.Today i joined with Pixly.</p>
+            <p>Hi,I am {{ user.username }}.Today i joined with Pixly.Let's snap life and share joy</p>
         </div>
 	<br>
         <div class="post-actions">
@@ -386,7 +386,7 @@ function postStatus() {
     newPost.innerHTML = `
         <div class="post-header">
             <img src="user.jpg" alt="User Image">
-            <span class="username">Your Name</span>
+            <span class="username">{{ user.username }}</span>
         </div>
         <div class="post-content">
             <p>${content}</p>
