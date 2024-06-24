@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,39 +8,308 @@
     {% load static %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .friend-requests {
+            margin: 20px;
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .friend-request {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+        }
+        .friend-request:last-child {
+            border-bottom: none;
+        }
+        .friend-info {
+            display: flex;
+            align-items: center;
+            margin: 2px 0 0 0
+        }
+        .friend-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .friend-info div {
+            display: flex;
+            flex-direction: column;
+        }
+        .friend-actions {
+            display: flex;
+
+            align-items: flex-start;
+        }
+        .friend-actions button {
+            margin: 0 5px;;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            width: 100px;
+        }
+        .confirm-button, .send-wave {
+            background-color: #1877f2;
+            color: white;
+        }
+        .delete-button {
+            background-color: #e4e6eb;
+        }
+        .send-wave {
+            background-color: #ffeb3b;
+            color: black;
+            margin: 0 5px;;
+            padding: 5px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .confirm-button:hover, .delete-button:hover, .send-wave:hover {
+            opacity: 0.8;
+        }
+        .send-wave i {
+            margin-right: 5px;
+        }
+        .wave-message {
+            color: #333;
+            font-size: 14px;
+            margin-top: 5px;
+            font-weight: bold;
+
+        }
+    </style>
 </head>
 <body>
     <header>
-            <div class="nav-left">
-                <a href="#" class="logo">Pixly</a>
-                <div class="search-bar">
-                    <input type="text" placeholder="Search...">
-                    <i class="fa fa-search search-icon"></i>
+        <div class="nav-left">
+            <a href="#" class="logo">Pixly</a>
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+                <i class="fa fa-search search-icon"></i>
+            </div>
+        </div>
+        <div class="nav-center">
+            <a href="{% url 'newsfeed' %}" class="nav-icon" id="home">
+                <i class="fa fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="{% url 'friends' %}" class="nav-icon" id="people">
+                <i class="fa fa-users"></i>
+                <span>People</span>
+            </a>
+            <a href="{% url 'messages' %}" class="nav-icon" id="notifications">
+                <i class="fa fa-bell"></i>
+                <span>Notifications</span>
+            </a>
+            <a href="{% url 'menu' pid=user.id %}" class="nav-icon" id="menu-link">
+                <i class="fa fa-bars"></i>
+                <span>Menu</span>
+            </a>
+        </div>
+        <div class="user-profile">
+            <img src="profile.jpg" alt="Profile Picture">
+            <span class="username">{{ user.username }}</span>
+        </div>
+    </header>
+    <div class="friend-requests">
+        <h2>Friend requests</h2>
+        <div class="friend-request" data-friend-id="1">
+            <div class="friend-info">
+                <img src="default-profile.jpg" alt="Profile Picture">
+                <div>
+                    <strong>Harith Sihan Manjitha Wijeeweera</strong>
+                    <p>3 mutual friends</p>
                 </div>
             </div>
-            <div class="nav-center">
-                <a href="{% url 'newsfeed' %}" class="nav-icon" id="home">
-                    <i class="fa fa-home"></i>
-                    <span>Home</span>
-                </a>
-                <a href="{% url 'friends' %}" class="nav-icon" id="people">
-                    <i class="fa fa-users"></i>
-                    <span>People</span>
-                </a>
-                <a href="{% url 'messages' %}" class="nav-icon" id="notifications">
-                    <i class="fa fa-bell"></i>
-                    <span>Notifications</span>
-                </a>
-                <a href="{% url 'menu' pid=user.id %}" class="nav-icon" id="menu-link">
-                    <i class="fa fa-bars"></i>
-                    <span>Menu</span>
-                </a>
+            <div class="friend-actions">
+                <button class="confirm-button">Confirm</button>
+                <button class="delete-button">Delete</button>
             </div>
-            
-            <div class="user-profile">
-                <img src="profile.jpg" alt="Profile Picture">
-                <span class="username">{{ user.username }}</span>
+        </div>
+        <div class="friend-request" data-friend-id="2">
+            <div class="friend-info">
+                <img src="default-profile.jpg" alt="Profile Picture">
+                <div>
+                    <strong>Tharushi Amanda</strong>
+                    <p>16 mutual friends</p>
+                </div>
             </div>
-    </header>
+            <div class="friend-actions">
+                <button class="confirm-button">Confirm</button>
+                <button class="delete-button">Delete</button>
+            </div>
+        </div>
+        <div class="friend-request" data-friend-id="3">
+            <div class="friend-info">
+                <img src="default-profile.jpg" alt="Profile Picture">
+                <div>
+                    <strong>Charith A. Wickramathunga</strong>
+                    <p>38 mutual friends</p>
+                </div>
+            </div>
+            <div class="friend-actions">
+                <button class="confirm-button">Confirm</button>
+                <button class="delete-button">Delete</button>
+            </div>
+        </div>
+        <div class="friend-request" data-friend-id="4">
+            <div class="friend-info">
+                <img src="default-profile.jpg" alt="Profile Picture">
+                <div>
+                    <strong>Abdur Rahman Cader</strong>
+                    <p>93 mutual friends</p>
+                </div>
+            </div>
+            <div class="friend-actions">
+                <button class="confirm-button">Confirm</button>
+                <button class="delete-button">Delete</button>
+            </div>
+        </div>
+        <div class="friend-request" data-friend-id="5">
+            <div class="friend-info">
+                <img src="default-profile.jpg" alt="Profile Picture">
+                <div>
+                    <strong>Nishu Perera</strong>
+                    <p>30 mutual friends</p>
+                </div>
+            </div>
+            <div class="friend-actions">
+                <button class="confirm-button">Confirm</button>
+                <button class="delete-button">Delete</button>
+            </div>
+        </div>
+        <div class="friend-request" data-friend-id="6">
+            <div class="friend-info">
+                <img src="default-profile.jpg" alt="Profile Picture">
+                <div>
+                    <strong>Jayani Hansika</strong>
+                    <p>45 mutual friends</p>
+                </div>
+            </div>
+            <div class="friend-actions">
+                <button class="confirm-button">Confirm</button>
+                <button class="delete-button">Delete</button>
+            </div>
+        </div>
+        <div class="friend-request" data-friend-id="7">
+            <div class="friend-info">
+                <img src="default-profile.jpg" alt="Profile Picture">
+                <div>
+                    <strong>Samith Perera</strong>
+                    <p>50 mutual friends</p>
+                </div>
+            </div>
+            <div class="friend-actions">
+                <button class="confirm-button">Confirm</button>
+                <button class="delete-button">Delete</button>
+            </div>
+        </div>
+        <div class="friend-request" data-friend-id="8">
+            <div class="friend-info">
+                <img src="default-profile.jpg" alt="Profile Picture">
+                <div>
+                    <strong>Minura Nuwan</strong>
+                    <p>80 mutual friends</p>
+                </div>
+            </div>
+            <div class="friend-actions">
+                <button class="confirm-button">Confirm</button>
+                <button class="delete-button">Delete</button>
+            </div>
+        </div>
+        <div class="friend-request" data-friend-id="9">
+            <div class="friend-info">
+                <img src="default-profile.jpg" alt="Profile Picture">
+                <div>
+                    <strong>Pasindu Dilanka</strong>
+                    <p>60 mutual friends</p>
+                </div>
+            </div>
+            <div class="friend-actions">
+                <button class="confirm-button">Confirm</button>
+                <button class="delete-button">Delete</button>
+            </div>
+        </div>
+        <div class="friend-request" data-friend-id="10">
+            <div class="friend-info">
+                <img src="default-profile.jpg" alt="Profile Picture">
+                <div>
+                    <strong>Kalpa Tharaka</strong>
+                    <p>25 mutual friends</p>
+                </div>
+            </div>
+            <div class="friend-actions">
+                <button class="confirm-button">Confirm</button>
+                <button class="delete-button">Delete</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.querySelectorAll('.confirm-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const friendRequest = button.closest('.friend-request');
+                const friendInfo = friendRequest.querySelector('.friend-info');
+                const friendActions = friendRequest.querySelector('.friend-actions');
+                const friendName = friendInfo.querySelector('strong').textContent;
+
+                // Clear the friend actions
+                friendActions.innerHTML = '';
+
+                // Create the new accepted message
+                const acceptedMessage = document.createElement('div');
+                acceptedMessage.textContent = 'Request accepted';
+                acceptedMessage.style.marginTop = '4px';
+                acceptedMessage.style.marginRight = '-100px';
+                friendActions.appendChild(acceptedMessage);
+
+                // Create the send wave button
+                const sendWaveButton = document.createElement('button');
+                sendWaveButton.className = 'send-wave';
+                sendWaveButton.innerHTML = '<i class="fa fa-hand-paper"></i> Send a Wave';
+                sendWaveButton.style.marginTop = '30px';
+
+                friendActions.appendChild(sendWaveButton);
+
+                // Add event listener to send wave button
+                sendWaveButton.addEventListener('click', () => {
+                    // Clear the wave button
+                    sendWaveButton.remove();
+
+                    // Change accepted message to Sent a Wave
+                    acceptedMessage.textContent = 'Sent a Wave 👋';
+                    acceptedMessage.style.fontWeight = 'bold';
+                    acceptedMessage.style.marginRight = '-10px';
+
+
+                });
+            });
+        });
+
+        document.querySelectorAll('.delete-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const friendRequest = button.closest('.friend-request');
+                friendRequest.remove();
+            });
+        });
+    </script>
 </body>
 </html>
