@@ -226,19 +226,19 @@
             </div>
         </div>
         <div class="nav-center">
-            <a href="newsfeed.html" class="nav-icon" id="home">
+            <a href="{% url 'newsfeed' %}" class="nav-icon" id="home">
                 <i class="fa fa-home"></i>
                 <span>Home</span>
             </a>
-            <a href="friends.html" class="nav-icon" id="people">
+            <a href="{% url 'friends' %}" class="nav-icon" id="people">
                 <i class="fa fa-users"></i>
                 <span>People</span>
             </a>
-            <a href="messages.html" class="nav-icon" id="notifications">
+            <a href="{% url 'messages' %}" class="nav-icon" id="notifications">
                 <i class="fa fa-bell"></i>
                 <span>Notifications</span>
             </a>
-            <a href="menu.html" class="nav-icon" id="menu-link">
+            <a href="{% url 'menu' pid=user.id %}" class="nav-icon" id="menu-link">
                 <i class="fa fa-bars"></i>
                 <span>Menu</span>
             </a>
@@ -246,7 +246,7 @@
 
         <div class="user-profile">
             <img src="profile.jpg" alt="Profile Picture">
-            <span class="username">Jone Doe</span>
+            <span class="username">{{ user.username }}</span>
         </div>
 </header>
     <br>
