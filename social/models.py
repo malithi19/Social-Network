@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 from django.db import models
 from django.utils import timezone
-
+import uuid
 
 class UserProfile(models.Model):
     GENDER_CHOICES = [
@@ -89,15 +89,16 @@ class Friendship(models.Model):
 
 
 class Post(models.Model):
-    id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
     content = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='post_images', blank=True, null=True)
     created_at = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='posts')
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked_posts_set', blank=True)
+    tag_friends = models.ManyToManyField(User, related_name='tagged_posts', blank=True)
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False, unique=True)
 
     def __str__(self):
-        return f'Post {self.id} by {self.author.username}'
+        return f'Post {self.content} by {self.author.username}'
 
 
 class Like(models.Model):

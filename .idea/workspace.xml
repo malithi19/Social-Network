@@ -2,7 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8144e473-643b-4e00-85b5-3b5d22bc4e63" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/social/static/images/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/post_images/4bfcb70f8a372a4a6db3d9481341386d.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/post_images/preview-page0.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/social/migrations/0005_remove_userprofile_current_town_and_more.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/social/migrations/0006_alter_post_id.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/social/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/social/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
