@@ -296,7 +296,7 @@
         
         <div class="user-profile">
             <img src="profile.jpg" alt="Profile Picture">
-            <span class="username">John Doe</span>
+            <span class="username">{{ user.username }}</span>
         </div>
 </header>
     <br>
@@ -319,7 +319,7 @@
                     </div>
                     <input type="file" id="profilePictureInput" accept="image/*" onchange="changeProfilePicture(event)">
                 </div>
-                <div class="profile-name">Your Name</div>
+                <div class="profile-name">{{ user.username }}</div>
                 <div class="profile-bio">Your bio goes here...</div>
                 <div class="profile-actions">
                     <button onclick="showPopup()">Edit Profile</button>

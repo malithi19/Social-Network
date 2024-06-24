@@ -266,17 +266,17 @@
                 <span>Menu</span>
             </a>
         </div>
-    <div class="user-profile">
-        <img src="profile.jpg" alt="Profile Picture">
-        <span class="username">John Doe</span>
-    </div>
+        <div class="user-profile">
+            <img src="profile.jpg" alt="Profile Picture">
+            <span class="username">{{ user.username }}</span>
+        </div>
 </header>
 <br>
 <br>
 <br>
 <div class="main-content">
      <div class="post-form">
-        <textarea id="new-post" rows="4" placeholder="What's on your mind?"></textarea>
+        <textarea id="new-post" rows="4" placeholder="What's on your mind {{ user.username }}?"></textarea>
         <br>
         <br>
         <div class="options">
