@@ -31,8 +31,12 @@ def menu(req, pid):
 def edit_profile(req, pid):
     return render(req, "edit-profile.html",{'pid': pid})
 
-def friends(req):
-    return render(req, "friends.html")
+def friends(request):
+    users = User.objects.exclude(id=request.user.id)  
+    context = {
+        'users': users
+    }
+    return render(request, "friends.html", context)
 
 def logout(request):
     auth_logout(request)
@@ -139,12 +143,16 @@ def create_post(request):
     return JsonResponse({'success': False, 'message': 'Invalid request method.'})
 
 def user_list(request):
-    users = User.objects.all()
+    query = request.GET.get('q')
+    if query:
+        users = User.objects.filter(username__icontains=query)
+    else:
+        users = User.objects.all()
     
     context = {
-        'users': users
+        'users': users,
+        'query': query
     }
-    
     return render(request, 'user_list.html', context)
 
 def user_search(request):
