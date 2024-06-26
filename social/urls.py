@@ -19,6 +19,8 @@ urlpatterns = [
     path('', views.settings, name='settings'),
     path('sign-up/', views.sign_up, name='sign_up'),
     path('forgot-password/', views.forgot_password, name='forgot_password'),
+    path('users/', views.user_list, name='user_list'),
+    path('other_profile/<int:user_id>/', views.other_profile, name='other_profile'),
 ]
 
 # DRF viewsets
