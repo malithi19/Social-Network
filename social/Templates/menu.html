@@ -118,6 +118,8 @@
             margin: 10px;
             padding: 10px 20px;
         }
+
+        
     </style>
 </head>
 <body id="body">
@@ -250,7 +252,7 @@
         <h2>Logout</h2>
         <button id="logout-button" class="button">Logout</button>
     </div>
-
+    
     <div id="logoutModal" class="modal">
         <div class="modal-content">
             <p>Are you sure you want to logout?</p>
@@ -258,6 +260,10 @@
             <button id="cancelLogout" class="button">No</button>
         </div>
     </div>
+    
+    <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+        {% csrf_token %}
+    </form>
 
     <script>
         // Get the current URL path
@@ -285,13 +291,10 @@
         });
 
         document.getElementById('confirmLogout').addEventListener('click', function() {
-            // Perform the logout action and then redirect to sign-in page
-            // Assuming you have a logout URL defined in your URLs and views
-            window.location.href = "{% url 'sign_in' %}";
+            document.getElementById('logout-form').submit();
         });
 
         document.getElementById('cancelLogout').addEventListener('click', function() {
-            // Close the modal
             document.getElementById('logoutModal').style.display = 'none';
         });
 
@@ -328,7 +331,6 @@
             }
         });
 
-        // Moved outside the theme change event listener
         document.getElementById('saveChangesButton').addEventListener('click', function() {
             // Show the save message
             const saveMessage = document.getElementById('saveMessage');
