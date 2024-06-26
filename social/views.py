@@ -2,19 +2,24 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
-from .serializers import CommentSerializer
+
 from .forms import SignUpForm
 from .models import UserProfile, Photo, Comment, Friendship, Post, Like, Tag, Feed
 from .serializers import UserProfileSerializer, PhotoSerializer, CommentSerializer, FriendshipSerializer, \
-    PostSerializer, LikeSerializer, TagSerializer, FeedSerializer,UserSerializer
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
-from django.contrib.auth.models import User
+    PostSerializer, LikeSerializer, TagSerializer, FeedSerializer
+from django.contrib.auth import logout as auth_logout
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from .forms import PostForm
 
 # Regular view functions
-def profile(req):
-    return render(req, "profile.html")
+def profile(request):
+    # Assuming you have authenticated user available in request.user
+    context = {
+        'username': request.user.username  
+    }
+    return render(request, 'profile.html', context)
 
 
 def menu(req, pid):
@@ -27,15 +32,19 @@ def edit_profile(req, pid):
 def friends(req):
     return render(req, "friends.html")
 
-def logout(req):
-    return render(req, "logout.html")
+def logout(request):
+    auth_logout(request)
+    return redirect('sign_in')
 
 def messages(req):
     return render(req, "messages.html")
 
 def newsfeed(req):
-    return render(req, "newsfeed.html")
+    posts = Post.objects.all().order_by('-created_at')
+    return render(req, 'newsfeed.html', {'posts': posts})
 
+def post(req,pid):
+    return render(req, "newsfeed.html")
 
 def reset_password(req, pid):
     return render(req, "reset_password.html", {'pid': pid})
@@ -98,26 +107,30 @@ def forgot_password(req):
 def other_profile(req):
     return render(req, "other_profile.html")
 
-#CommentViewSet
-class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticated]
+@csrf_exempt
+def create_post(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            form.save_m2m()  # Save tags and other ManyToMany fields
 
-    def get_queryset(self):
-        post_id = self.request.query_params.get('post')
-        if post_id:
-            return self.queryset.filter(post_id=post_id)
-        return self.queryset
+            post_data = {
+                'content': post.content,
+                'image': post.image.url if post.image else None,
+                'created_at': post.created_at.isoformat(),
+                'author': {
+                    'username': post.author.username,
+                    'profile_picture': post.author.profile_picture.url
+                }
+            }
 
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def current_user(request):
-    serializer = UserSerializer(request.user)
-    return Response(serializer.data)
+            return JsonResponse({'success': True, 'post': post_data})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    return JsonResponse({'success': False, 'message': 'Invalid request method.'})
 
 # DRF viewsets
 class UserProfileViewSet(viewsets.ModelViewSet):
