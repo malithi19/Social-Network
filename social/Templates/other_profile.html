@@ -265,9 +265,12 @@
                         <div class="profile-bio">Lover of life and all things beautiful🍷✨.</div>
                     </div>
                     <div class="profile-actions">
-                        <button class="add-friend-btn" onclick="toggleFriendStatus(this)">
+                        <form method="POST" action="{% url 'add_friend' user.id %}">
+                            {% csrf_token %}
+                            <button class="add-friend-btn" onclick="toggleFriendStatus(this)">
                             <i class="fas fa-user-plus btn-icon"></i><span>Add Friend</span>
-                        </button>
+                            </button>
+                        </form>
                         <button class="message-btn">
                             <i class="fas fa-envelope btn-icon"></i>Message
                         </button>
@@ -317,7 +320,7 @@
     <script>
         function toggleFriendStatus(button) {
             if (button.innerText === "Add Friend") {
-                button.innerHTML = '<i class="fas fa-user-plus btn-icon"></i><span>Cancel Request</span>';
+                button.innerHTML = '<i class="fas fa-user- btn-icon"></i><span>Friends</span>';
                 button.style.backgroundColor = "#1877f2";
             } else {
                 button.innerHTML = '<i class="fas fa-user-plus btn-icon"></i><span>Add Friend</span>';

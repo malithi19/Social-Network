@@ -141,7 +141,10 @@
                 </div>
             </div>
             <div class="friend-actions">
-                <button class="confirm-button">Add Friend</button>
+                <form method="POST" action="{% url 'add_friend' user.id %}">
+                    {% csrf_token %}
+                    <button class="confirm-button">Add Friend</button>
+                </form>
                 <button class="delete-button">Delete</button>
             </div>
         </div>
@@ -150,52 +153,33 @@
         {% endfor %}
     </div>
     <script>
-        document.querySelectorAll('.confirm-button').forEach(button => {
-            button.addEventListener('click', () => {
-                const friendRequest = button.closest('.friend-request');
-                const friendInfo = friendRequest.querySelector('.friend-info');
-                const friendActions = friendRequest.querySelector('.friend-actions');
-                const friendName = friendInfo.querySelector('strong').textContent;
+    document.querySelectorAll('.confirm-button').forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
+            const form = button.closest('form');
+            const url = form.action;
 
-                // Clear the friend actions
-                friendActions.innerHTML = '';
-
-                // Create the new accepted message
-                const acceptedMessage = document.createElement('div');
-                acceptedMessage.textContent = 'Request accepted';
-                acceptedMessage.style.marginTop = '4px';
-                acceptedMessage.style.marginRight = '-100px';
-                friendActions.appendChild(acceptedMessage);
-
-                // Create the send wave button
-                const sendWaveButton = document.createElement('button');
-                sendWaveButton.className = 'send-wave';
-                sendWaveButton.innerHTML = '<i class="fa fa-hand-paper"></i> Send a Wave';
-                sendWaveButton.style.marginTop = '30px';
-
-                friendActions.appendChild(sendWaveButton);
-
-                // Add event listener to send wave button
-                sendWaveButton.addEventListener('click', () => {
-                    // Clear the wave button
-                    sendWaveButton.remove();
-
-                    // Change accepted message to Sent a Wave
-                    acceptedMessage.textContent = 'Sent a Wave 👋';
-                    acceptedMessage.style.fontWeight = 'bold';
-                    acceptedMessage.style.marginRight = '-10px';
-
-
-                });
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            }).then(response => {
+                if (response.ok) {
+                    const friendActions = button.closest('.friend-actions');
+                    friendActions.innerHTML = '<div>Friends</div>';
+                }
             });
         });
+    });
 
-        document.querySelectorAll('.delete-button').forEach(button => {
-            button.addEventListener('click', () => {
-                const friendRequest = button.closest('.friend-request');
-                friendRequest.remove();
-            });
+    document.querySelectorAll('.delete-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const friendRequest = button.closest('.friend-request');
+            friendRequest.remove();
         });
+    });
     </script>
+
 </body>
 </html>

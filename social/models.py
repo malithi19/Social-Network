@@ -19,6 +19,7 @@ class UserProfile(models.Model):
     profile_picture = models.ImageField(upload_to='profiles/', null=True, blank=True)
     cover_picture = models.ImageField(upload_to='covers/', null=True, blank=True)
     bio = models.TextField(blank=True)
+    friends = models.ManyToManyField(User, related_name='friends', blank=True)
     location = models.CharField(max_length=255, blank=True)
     website = models.URLField(blank=True, validators=[URLValidator()])
     birth_date = models.DateField(null=True, blank=True)

@@ -16,10 +16,10 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 
 # Regular view functions
-def profile(request):
-    # Assuming you have authenticated user available in request.user
+def profile(request, user_id):
+    user = get_object_or_404(User, id=user_id)
     context = {
-        'username': request.user.username  
+        'user': user
     }
     return render(request, 'profile.html', context)
 
@@ -32,11 +32,20 @@ def edit_profile(req, pid):
     return render(req, "edit-profile.html",{'pid': pid})
 
 def friends(request):
-    users = User.objects.exclude(id=request.user.id)  
+    users = User.objects.exclude(id=request.user.id)
+    friends = request.user.profile.friends.all()
     context = {
-        'users': users
+        'users': users,
+        'friends': friends
     }
     return render(request, "friends.html", context)
+
+
+def add_friend(request, user_id):
+    if request.method == "POST":
+        friend = User.objects.get(id=user_id)
+        request.user.profile.friends.add(friend)
+        return redirect('profile', user_id=request.user.id)
 
 def logout(request):
     auth_logout(request)
