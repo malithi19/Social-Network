@@ -140,6 +140,9 @@
                 <img src="{% if user.profile.profile_picture %}{{ user.profile.profile_picture.url }}{% else %}default-profile.jpg{% endif %}" alt="Profile Picture">
                 <div>
                     <strong><a href="{% url 'other_profile' user.id %}" style="text-decoration: none; color: black;">{{ user.username }}</a></strong>
+                    <div>
+                            {{ user.profile.bio }}
+                    </div>
                 </div>
             </div>
             <div class="friend-actions">
