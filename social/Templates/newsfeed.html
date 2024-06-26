@@ -351,16 +351,22 @@
         <div class="comments">
             <!-- Comments will be appended here dynamically -->
         </div>
-        <form id="comment-form">
-            <input type="text" placeholder="Your name">
-            <textarea placeholder="Add a comment"></textarea>
+         <form id="comment-form" data-post-id="">
+            <input type="text" id="username" readonly>
+            <textarea id="comment-text" placeholder="Add a comment"></textarea>
             <button type="button" onclick="postComment()">Post Comment</button>
         </form>
     </div>
 </div>
 
 <script>
-document.getElementById('post-image').addEventListener('change', previewImage);
+   // Get the current URL path
+var path = window.location.pathname;
+var page = path.split("/").pop().split(".")[0];
+var navItem = document.getElementById(page);
+if (navItem) {
+    navItem.classList.add("active");
+}
 
 function postStatus() {
     const textArea = document.getElementById('new-post');
@@ -372,29 +378,36 @@ function postStatus() {
 
     const imageInput = document.getElementById('post-image');
     const imageFile = imageInput.files[0];
-
-    const formData = new FormData();
-    formData.append('content', content);
+    let imageUrl = '';
     if (imageFile) {
-        formData.append('image', imageFile);
+        imageUrl = URL.createObjectURL(imageFile);
     }
 
-    fetch('/create_post/', {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRFToken': getCookie('csrftoken')
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            addPostToFeed(data.post);
-        } else {
-            alert('Error posting your status!');
-        }
-    });
+    const newsFeed = document.getElementById('news-feed');
+    const newPost = document.createElement('div');
+    newPost.className = 'post';
 
+    const currentDate = new Date().toLocaleString();
+
+    newPost.innerHTML = `
+        <div class="post-header">
+            <img src="user.jpg" alt="User Image">
+            <span class="username">Your Name</span>
+        </div>
+        <div class="post-content">
+            <p>${content}</p>
+            ${imageUrl ? `<div class="post-image"><img src="${imageUrl}" alt="Posted Image"></div>` : ''}
+            <p><small>Posted on ${currentDate}</small></p>
+        </div>
+        <div class="post-actions">
+            <button onclick="toggleLike(this)"><i class="fa fa-thumbs-up"></i> Like <span class="like-count">0</span></button>
+            <button onclick="showCommentsPopup(this)"><i class="fa fa-comment"></i> Comment</button>
+            <button onclick="showSharePopup()"><i class="fa fa-share"></i> Share</button>
+        </div>
+        <div class="comments"></div>
+    `;
+
+    newsFeed.prepend(newPost);
     textArea.value = '';
     imageInput.value = '';
     document.getElementById('preview-image').style.display = 'none';
@@ -437,8 +450,15 @@ function tagFriends() {
     }
 }
 
-function showCommentsPopup() {
+document.getElementById('post-image').addEventListener('change', previewImage);
+
+
+function showCommentsPopup(button) {
     document.getElementById('commentsPopup').style.display = 'flex';
+    const postId = button.closest('.post').dataset.postId;
+    document.getElementById('comment-form').dataset.postId = postId;
+    loadComments(postId);
+    populateUsername();
 }
 
 function hideCommentsPopup(event) {
@@ -447,55 +467,67 @@ function hideCommentsPopup(event) {
     }
 }
 
-function postComment() {
-    const nameInput = document.getElementById('comment-form').querySelector('input[type="text"]');
-    const commentInput = document.getElementById('comment-form').querySelector('textarea');
+function populateUsername() {
+    fetch('/current_user/')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('username').value = data.username;
+        });
+}
 
-    const commenterName = nameInput.value.trim();
+function postComment() {
+    const form = document.getElementById('comment-form');
+    const postId = form.dataset.postId;
+    const commentInput = document.getElementById('comment-text');
     const commentText = commentInput.value.trim();
 
-    if (commenterName === '' || commentText === '') {
-        alert('Please enter your name and comment!');
+    if (commentText === '') {
+        alert('Please enter your comment!');
         return;
     }
 
-    const commentDiv = document.createElement('div');
-    commentDiv.className = 'comment';
-    commentDiv.innerHTML = `
-        <strong>${commenterName}</strong>: ${commentText}
-    `;
-
-    const commentsSection = document.querySelector('.popup-content .comments');
-    commentsSection.appendChild(commentDiv);
-
-    nameInput.value = '';
-    commentInput.value = '';
+    fetch(`/comments/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+            content: commentText,
+            post: postId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.id) {
+            const commentDiv = document.createElement('div');
+            commentDiv.className = 'comment';
+            commentDiv.innerHTML = `
+                <strong>${data.author_username}</strong>: ${data.content}
+            `;
+            document.querySelector('.popup-content .comments').appendChild(commentDiv);
+            commentInput.value = '';
+        } else {
+            alert('Error posting comment');
+        }
+    });
 }
 
-function addPostToFeed(post) {
-    const newsFeed = document.getElementById('news-feed');
-    const newPost = document.createElement('div');
-    newPost.className = 'post';
-
-    newPost.innerHTML = `
-        <div class="post-header">
-            <img src="${post.author.profile_picture}" alt="User Image">
-            <span class="username">${post.author.username}</span>
-        </div>
-        <div class="post-content">
-            <p>${post.content}</p>
-            ${post.image ? `<div class="post-image"><img src="${post.image}" alt="Posted Image"></div>` : ''}
-            <p><small>Posted on ${new Date(post.created_at).toLocaleString()}</small></p>
-        </div>
-        <div class="post-actions">
-            <button onclick="toggleLike(this)"><i class="fa fa-thumbs-up"></i> Like <span class="like-count">0</span></button>
-            <button onclick="showCommentsPopup(this)"><i class="fa fa-comment"></i> Comment</button>
-            <button onclick="showSharePopup()"><i class="fa fa-share"></i> Share</button>
-        </div>
-        <div class="comments"></div>
-    `;
-
-    newsFeed.prepend(newPost);
+function loadComments(postId) {
+    fetch(`/comments/?post=${postId}`)
+        .then(response => response.json())
+        .then(data => {
+            const commentsSection = document.querySelector('.popup-content .comments');
+            commentsSection.innerHTML = '';
+            data.forEach(comment => {
+                const commentDiv = document.createElement('div');
+                commentDiv.className = 'comment';
+                commentDiv.innerHTML = `
+                    <strong>${comment.author_username}</strong>: ${comment.content}
+                `;
+                commentsSection.appendChild(commentDiv);
+            });
+        });
 }
 
 function getCookie(name) {
