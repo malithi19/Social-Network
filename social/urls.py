@@ -7,10 +7,11 @@ from .views import create_post
 
 urlpatterns = [
     path('', views.sign_in, name='sign_in'),
-    path('profile/', views.profile, name='profile'),
+    path('profile/<int:user_id>/', views.profile, name='profile'),
     path('menu/<int:pid>/', views.menu, name='menu'),
     path('', views.edit_profile, name='edit_profile'),
     path('friends/', views.friends, name='friends'),
+    path('add_friend/<int:user_id>/', views.add_friend, name='add_friend'),
     path('logout/', views.logout, name='logout'),
     path('messages/', views.messages, name='messages'),
     path('newsfeed/', views.newsfeed, name='newsfeed'),
