@@ -2,7 +2,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from rest_framework import viewsets
-
+from django.shortcuts import render, get_object_or_404
 from .forms import SignUpForm
 from .models import UserProfile, Photo, Comment, Friendship, Post, Like, Tag, Feed
 from .serializers import UserProfileSerializer, PhotoSerializer, CommentSerializer, FriendshipSerializer, \
@@ -12,6 +12,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from .forms import PostForm
+from django.contrib.auth.models import User
 
 # Regular view functions
 def profile(request):
@@ -104,8 +105,12 @@ def forgot_password(req):
     return render(req, "forgotten_password.html")
 
 
-def other_profile(req):
-    return render(req, "other_profile.html")
+def other_profile(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    context = {
+        'user': user
+    }
+    return render(request, 'other_profile.html', context)
 
 @csrf_exempt
 def create_post(request):
@@ -131,6 +136,15 @@ def create_post(request):
         else:
             return JsonResponse({'success': False, 'errors': form.errors})
     return JsonResponse({'success': False, 'message': 'Invalid request method.'})
+
+def user_list(request):
+    users = User.objects.all()
+    
+    context = {
+        'users': users
+    }
+    
+    return render(request, 'user_list.html', context)
 
 # DRF viewsets
 class UserProfileViewSet(viewsets.ModelViewSet):

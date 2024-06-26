@@ -245,7 +245,7 @@
 
         <div class="user-profile">
             <img src="profile.jpg" alt="Profile Picture">
-            <span class="username">{{ user.username }}</span>
+            <span class="username">{{ request.user.username }}</span>
         </div>
 </header>
     <br>
@@ -261,7 +261,7 @@
                         <img src="https://th.bing.com/th?id=OIP.U0jepfI2xnjVrBZIfQ-DaQHaFe&w=290&h=215&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2.jpg" alt="Profile Photo">
                     </div>
                     <div class="profile-details">
-                        <div class="profile-name">Shein Dodge</div>
+                        <div class="profile-name">{{ user.username }}</div>
                         <div class="profile-bio">Lover of life and all things beautiful🍷✨.</div>
                     </div>
                     <div class="profile-actions">
@@ -278,7 +278,7 @@
 
             <div class="profile-description" id="about-section">
                 <h2>About</h2>
-                <p>Hi, I'm Shein! I enjoy outdoor adventures, reading, and spending time with my friends and family!❤️</p>
+                <p>{{ UserProfile.bio }}</p>
             </div>
 
             <div class="profile-content">
