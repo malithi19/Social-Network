@@ -32,8 +32,10 @@ def edit_profile(req, pid):
     return render(req, "edit-profile.html",{'pid': pid})
 
 def friends(request):
-    users = User.objects.exclude(id=request.user.id)
-    friends = request.user.profile.friends.all()
+    user_profile = request.user.profile
+    friend_ids = user_profile.friends.values_list('id', flat=True)
+    users = User.objects.exclude(id=request.user.id).exclude(id__in=friend_ids)
+    friends = user_profile.friends.all()
     context = {
         'users': users,
         'friends': friends
