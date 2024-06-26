@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import UserProfile, Photo, Comment, Friendship, Post, Like, Tag, Feed
-from django.contrib.auth.models import User
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -41,8 +40,3 @@ class FeedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Feed
         fields = '__all__'
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'email']
