@@ -7,7 +7,7 @@ from .forms import SignUpForm
 from .models import UserProfile, Photo, Comment, Friendship, Post, Like, Tag, Feed
 from .serializers import UserProfileSerializer, PhotoSerializer, CommentSerializer, FriendshipSerializer, \
     PostSerializer, LikeSerializer, TagSerializer, FeedSerializer
-
+from django.contrib.auth import logout as auth_logout
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -32,8 +32,9 @@ def edit_profile(req, pid):
 def friends(req):
     return render(req, "friends.html")
 
-def logout(req):
-    return render(req, "logout.html")
+def logout(request):
+    auth_logout(request)
+    return redirect('sign_in')
 
 def messages(req):
     return render(req, "messages.html")
