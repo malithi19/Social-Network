@@ -271,12 +271,18 @@
                         </div>
                     </div>
                     <div class="profile-actions">
-                        <form method="POST" action="{% url 'add_friend' user.id %}">
-                            {% csrf_token %}
-                            <button class="add-friend-btn" onclick="toggleFriendStatus(this)">
-                            <i class="fas fa-user-plus btn-icon"></i><span>Add Friend</span>
+                        {% if user in request.user.profile.friends.all %}
+                            <button class="add-friend-btn" disabled>
+                                <i class="fas fa-user btn-icon"></i><span>Friends</span>
                             </button>
-                        </form>
+                        {% else %}
+                            <form method="POST" action="{% url 'add_friend' user.id %}">
+                                {% csrf_token %}
+                                <button class="add-friend-btn" onclick="toggleFriendStatus(this)">
+                                <i class="fas fa-user-plus btn-icon"></i><span>Add Friend</span>
+                                </button>
+                            </form>
+                        {% endif %}
                         <button class="message-btn">
                             <i class="fas fa-envelope btn-icon"></i>Message
                         </button>
