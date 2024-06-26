@@ -13,5 +13,24 @@
             <li>No users found.</li>
         {% endfor %}
     </ul>
+
+    <h1>User Search Results</h1>
+    
+    <div class="search-bar">
+        <form action="{% url 'user_search' %}" method="GET">
+            <input type="text" name="q" placeholder="Search..." value="{{ query }}">
+            <button type="submit"><i class="fa fa-search search-icon"></i></button>
+        </form>
+    </div>
+    
+    <div class="user-list">
+        <ul>
+            {% for user in search_results %}
+                <li><a href="{% url 'other_profile' user.id %}">{{ user.username }}</a></li>
+            {% empty %}
+                <li>No users found.</li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>
