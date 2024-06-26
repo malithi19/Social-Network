@@ -132,19 +132,22 @@
     <br>
     <div class="friend-requests">
         <h2>Friend Suggestions</h2>
-        <div class="friend-request" data-friend-id="1">
+        {% for user in users %}
+        <div class="friend-request" >
             <div class="friend-info">
-                <img src="default-profile.jpg" alt="Profile Picture">
+                <img src="{% if user.profile.profile_picture %}{{ user.profile.profile_picture.url }}{% else %}default-profile.jpg{% endif %}" alt="Profile Picture">
                 <div>
-                    <strong>Harith Sihan Manjitha Wijeeweera</strong>
-                    <p>3 mutual friends</p>
+                    <strong><a href="{% url 'other_profile' user.id %}">{{ user.username }}</a></strong>
                 </div>
             </div>
             <div class="friend-actions">
-                <button class="confirm-button">Add Friends</button>
+                <button class="confirm-button">Add Friend</button>
                 <button class="delete-button">Delete</button>
             </div>
         </div>
+        {% empty %}
+        <p>No users found.</p>
+        {% endfor %}
     </div>
     <script>
         document.querySelectorAll('.confirm-button').forEach(button => {
