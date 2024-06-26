@@ -262,7 +262,13 @@
                     </div>
                     <div class="profile-details">
                         <div class="profile-name">{{ user.username }}</div>
-                        <div class="profile-bio">Lover of life and all things beautiful🍷✨.</div>
+                        <div class="profile-bio">
+                            {% if user.profile.bio %}
+                                {{ user.profile.bio }}
+                            {% else %}
+                                No bio available.
+                            {% endif %}
+                        </div>
                     </div>
                     <div class="profile-actions">
                         <button class="add-friend-btn" onclick="toggleFriendStatus(this)">
@@ -278,7 +284,7 @@
 
             <div class="profile-description" id="about-section">
                 <h2>About</h2>
-                <p>{{ UserProfile.bio }}</p>
+                
             </div>
 
             <div class="profile-content">
