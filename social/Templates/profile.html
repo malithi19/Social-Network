@@ -320,7 +320,9 @@
                     <input type="file" id="profilePictureInput" accept="image/*" onchange="changeProfilePicture(event)">
                 </div>
                 <div class="profile-name">{{ user.username }}</div>
-                <div class="profile-bio">Your bio goes here...</div>
+                <div class="profile-bio">
+                    {{ user.profile.bio }}
+            </div>
                 <div class="profile-actions">
                     <button onclick="showPopup()">Edit Profile</button>
                 </div>
