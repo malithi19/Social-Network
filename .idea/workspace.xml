@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8144e473-643b-4e00-85b5-3b5d22bc4e63" name="Changes" comment="added comment view set into view.py">
+    <list default="true" id="8144e473-643b-4e00-85b5-3b5d22bc4e63" name="Changes" comment="added a serializer for the User model">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/social/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/social/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +103,14 @@
       <option name="project" value="LOCAL" />
       <updated>1719373267243</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="added a serializer for the User model">
+      <created>1719374530982</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1719374530982</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -142,6 +149,7 @@
     <MESSAGE value="update styles.css" />
     <MESSAGE value="post partially connected to the database" />
     <MESSAGE value="added comment view set into view.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="added comment view set into view.py" />
+    <MESSAGE value="added a serializer for the User model" />
+    <option name="LAST_COMMIT_MESSAGE" value="added a serializer for the User model" />
   </component>
 </project>
