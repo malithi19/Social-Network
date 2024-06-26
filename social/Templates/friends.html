@@ -101,8 +101,10 @@
         <div class="nav-left">
             <a href="#" class="logo">Pixly</a>
             <div class="search-bar">
-                <input type="text" placeholder="Search...">
-                <i class="fa fa-search search-icon"></i>
+                <form action="{% url 'user_search' %}" method="GET">
+                    <input type="text" name="q" placeholder="Search..." value="{{ query }}">
+                    <button type="submit"><i class="fa fa-search search-icon"></i></button>
+                </form>
             </div>
         </div>
         <div class="nav-center">
