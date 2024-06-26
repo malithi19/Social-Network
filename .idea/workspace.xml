@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8144e473-643b-4e00-85b5-3b5d22bc4e63" name="Changes" comment="added a serializer for the User model">
+    <list default="true" id="8144e473-643b-4e00-85b5-3b5d22bc4e63" name="Changes" comment="updated comment popup">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/social/Templates/newsfeed.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/newsfeed.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -109,7 +111,14 @@
       <option name="project" value="LOCAL" />
       <updated>1719374530982</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="updated comment popup">
+      <created>1719390457098</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1719390457098</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -149,6 +158,7 @@
     <MESSAGE value="post partially connected to the database" />
     <MESSAGE value="added comment view set into view.py" />
     <MESSAGE value="added a serializer for the User model" />
-    <option name="LAST_COMMIT_MESSAGE" value="added a serializer for the User model" />
+    <MESSAGE value="updated comment popup" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated comment popup" />
   </component>
 </project>
