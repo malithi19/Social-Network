@@ -21,6 +21,7 @@ urlpatterns = [
     path('forgot-password/', views.forgot_password, name='forgot_password'),
     path('users/', views.user_list, name='user_list'),
     path('other_profile/<int:user_id>/', views.other_profile, name='other_profile'),
+    path('user_search/', views.user_search, name='user_search'),
 ]
 
 # DRF viewsets

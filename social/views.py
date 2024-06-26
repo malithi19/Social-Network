@@ -13,6 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from .forms import PostForm
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 # Regular view functions
 def profile(request):
@@ -144,6 +145,23 @@ def user_list(request):
         'users': users
     }
     
+    return render(request, 'user_list.html', context)
+
+def user_search(request):
+    query = request.GET.get('q', '')
+    search_results = User.objects.none()  # Initialize with empty queryset
+    if query:
+        search_results = User.objects.filter(
+            Q(username__icontains=query) |
+            Q(first_name__icontains=query) |
+            Q(last_name__icontains=query)
+        )
+    
+    context = {
+        'users': User.objects.all(),
+        'search_results': search_results,
+        'query': query,
+    }
     return render(request, 'user_list.html', context)
 
 # DRF viewsets
