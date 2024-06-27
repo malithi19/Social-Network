@@ -276,10 +276,10 @@
                                 <i class="fas fa-user btn-icon"></i><span>Friends</span>
                             </button>
                         {% else %}
-                            <form method="POST" action="{% url 'add_friend' user.id %}">
+                            <form method="POST" action="{% url 'add_friend' user.id %}" id="add-friend-form">
                                 {% csrf_token %}
-                                <button class="add-friend-btn" onclick="toggleFriendStatus(this)">
-                                <i class="fas fa-user-plus btn-icon"></i><span>Add Friend</span>
+                                <button type="button" class="add-friend-btn" id="add-friend-btn" data-user-id="{{ user.id }}">
+                                    <i class="fas fa-user-plus btn-icon"></i><span>Add Friend</span>
                                 </button>
                             </form>
                         {% endif %}
@@ -330,15 +330,33 @@
     </div>
 
     <script>
-        function toggleFriendStatus(button) {
-            if (button.innerText === "Add Friend") {
-                button.innerHTML = '<i class="fas fa-user- btn-icon"></i><span>Friends</span>';
-                button.style.backgroundColor = "#1877f2";
+    document.getElementById('add-friend-btn').addEventListener('click', function() {
+        var button = this;
+        var userId = button.getAttribute('data-user-id');
+        var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        fetch("{% url 'add_friend' user.id %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken,
+            },
+            body: JSON.stringify({ user_id: userId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                button.innerHTML = '<i class="fas fa-user btn-icon"></i><span>Friends</span>';
+                button.disabled = true;
             } else {
-                button.innerHTML = '<i class="fas fa-user-plus btn-icon"></i><span>Add Friend</span>';
-                button.style.backgroundColor = "#1877f2";
+                console.error('Failed to add friend:', data.error);
             }
-        }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
     </script>
+
 </body>
 </html>
