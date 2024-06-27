@@ -142,3 +142,35 @@ header {
     border-radius: 20px; /* Rounded corners */
     padding: 5px 10px; /* Adjust padding for highlight effect */
 }
+.friend-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit; /* Use the default text color */
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.friend-link:hover {
+    background-color: #f0f0f0; /* Light grey background on hover */
+}
+
+.friend-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.friend-username {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333; /* Dark grey color */
+    transition: color 0.3s;
+}
+
+.friend-link:hover .friend-username {
+    color: #007bff; /* Change to blue on hover */
+}
