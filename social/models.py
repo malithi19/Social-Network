@@ -16,8 +16,8 @@ class UserProfile(models.Model):
     ]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    profile_picture = models.ImageField(upload_to='profiles/', null=True, blank=True)
-    cover_picture = models.ImageField(upload_to='covers/', null=True, blank=True)
+    picture = models.ImageField(upload_to='profile_pictures/', default='default.jpg')
+    cover_picture = models.ImageField(upload_to='cover_photos/', default='default.jpg')
     bio = models.TextField(blank=True)
     friends = models.ManyToManyField(User, related_name='friends', blank=True)
     location = models.CharField(max_length=255, blank=True)
