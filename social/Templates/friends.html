@@ -92,8 +92,9 @@
             font-size: 14px;
             margin-top: 5px;
             font-weight: bold;
-
         }
+
+
     </style>
 </head>
 <body>
@@ -101,7 +102,7 @@
         <div class="nav-left">
             <a href="#" class="logo">Pixly</a>
             <div class="search-bar">
-                <form action="{% url 'user_search' %}" method="GET">
+                <form action="{% url 'user_search' %}" method="GET" class="search-form">
                     <input type="text" name="q" placeholder="Search..." value="{{ query }}">
                     <button type="submit"><i class="fa fa-search search-icon"></i></button>
                 </form>
@@ -130,6 +131,7 @@
             <span class="username">{{ user.username }}</span>
         </div>
     </header>
+    <br>
     <br>
     <br>
     <div class="friend-requests">
