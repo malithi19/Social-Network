@@ -3,25 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <title>Search Results - Pixly</title>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        .search-bar {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 0;
+            background-color: #f1f1f1; /* Optional: change background color */
+        }
+
+        .search-bar form {
+            display: flex;
+            width: 80%; /* Adjust this width as necessary */
+            max-width: 800px; /* Optional: set a max width */
+        }
+
+        .search-bar input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .search-bar button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-left: none;
+            border-radius: 0 4px 4px 0;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+
+        .search-bar button:hover {
+            background-color: #0056b3;
+        }
+
+        .search-icon {
+            font-size: 16px;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .friend-requests {
+            margin: 20px;
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .friend-request {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+        }
+        .friend-request:last-child {
+            border-bottom: none;
+        }
+        .user-list {
+            display: flex;
+            align-items: center;
+            margin: 2px 0 0 0;
+            flex-direction: column;
+            gap: 10px; /* Space between user items */
+        }
+        .user-list img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .user-list .user-item {
+            display: flex;
+            align-items: center;
+        }
+        .search-results-title {
+            color: blue;
+        }
+
+    </style>
 </head>
+
 <body>
-    <h1>Search Results</h1>
-    
+    <h1 class = "search-results-title"> &nbsp; &nbsp;Search  Results</h1>
+
     <div class="search-bar">
         <form action="{% url 'user_search' %}" method="GET">
             <input type="text" name="q" placeholder="Search..." value="{{ query }}">
             <button type="submit"><i class="fa fa-search search-icon"></i></button>
         </form>
     </div>
-    
-    <div class="user-list">
-        <ul>
-            {% for user in search_results %}
-                <li><a href="{% url 'other_profile' user.id %}">{{ user.username }}</a></li>
-            {% empty %}
-                <li>No users found.</li>
-            {% endfor %}
-        </ul>
+
+    <div class="friend-requests">
+        <div class="friend-request" data-friend-id="1">
+                 <div class="user-list">
+                        {% for user in search_results %}
+                             <div class="user-item">
+                                 <img src="default-profile.jpg" alt="Profile Picture">
+                                 <a href="{% url 'other_profile' user.id %}">{{ user.username }}</a>
+                             </div>
+                        {% empty %}
+                            No users found.
+                        {% endfor %}
+                </div>
+
+        </div>
     </div>
+
+
 </body>
 </html>
