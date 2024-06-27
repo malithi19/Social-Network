@@ -332,6 +332,14 @@
             </div>
             <div class="profile-content">
                 <div class="profile-section">
+                    <h2>About</h2>
+                    <p><span>{{ user.first_name }} {{ user.last_name }}</span></p>
+                    {% if user.profile.location %}
+                    <p>From <span>{{ user.profile.location }}</span></p>
+                    {% endif %}
+                <p>Joined <span>{{ user.date_joined|timesince }} ago</span></p>
+                </div>
+                <div class="profile-section">
                     <h2>Friends</h2>
                     <p>No Freinds yet. </p>
                 </div>
