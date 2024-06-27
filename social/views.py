@@ -15,6 +15,7 @@ from .forms import PostForm
 from django.contrib.auth.models import User
 from django.db.models import Q
 
+
 # Regular view functions
 def profile(request):
     # Assuming you have authenticated user available in request.user
