@@ -381,8 +381,10 @@
                     <div class="friends-list">
                         {% for friend in user.profile.friends.all %}
                         <div class="friend">
-                            <img src="{% if friend.profile.profile_picture %}{{ friend.profile.profile_picture.url }}{% else %}default-profile.jpg{% endif %}" alt="Friend">
-                            <span>{{ friend.username }}</span>
+                            <a href="{% url 'profile' friend.id %}" class="friend-link">
+                                <img src="{% if friend.profile.profile_picture %}{{ friend.profile.profile_picture.url }}{% else %}{% static 'default_profile_picture.png' %}{% endif %}" alt="{{ friend.username }}'s profile picture" class="friend-picture">
+                                <span class="friend-username">{{ friend.username }}</span>
+                            </a>
                         </div>
                         {% empty %}
                         <p>No friends yet.</p>
