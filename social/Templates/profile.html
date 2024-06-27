@@ -293,153 +293,150 @@
 </head>
 <body>
 <header>
-        <div class="nav-left">
-            <a href="#" class="logo">Pixly</a>
-            <div class="search-bar">
-                <input type="text" placeholder="Search...">
-                <i class="fa fa-search search-icon"></i>
-            </div>
+    <div class="nav-left">
+        <a href="#" class="logo">Pixly</a>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+            <i class="fa fa-search search-icon"></i>
         </div>
-        <div class="nav-center">
-            <a href="{% url 'newsfeed' %}" class="nav-icon" id="home">
-                <i class="fa fa-home"></i>
-                <span>Home</span>
-            </a>
-            <a href="{% url 'friends' %}" class="nav-icon" id="people">
-                <i class="fa fa-users"></i>
-                <span>People</span>
-            </a>
-            <a href="{% url 'messages' %}" class="nav-icon" id="notifications">
-                <i class="fa fa-bell"></i>
-                <span>Notifications</span>
-            </a>
-            <a href="{% url 'menu' pid=user.id %}" class="nav-icon" id="menu-link">
-                <i class="fa fa-bars"></i>
-                <span>Menu</span>
-            </a>
-        </div>
-        
-        <div class="user-profile">
-            <img src="profile.jpg" alt="Profile Picture">
-            <span class="username">{{ user.username }}</span>
-        </div>
+    </div>
+    <div class="nav-center">
+        <a href="{% url 'newsfeed' %}" class="nav-icon" id="home">
+            <i class="fa fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="{% url 'friends' %}" class="nav-icon" id="people">
+            <i class="fa fa-users"></i>
+            <span>People</span>
+        </a>
+        <a href="{% url 'messages' %}" class="nav-icon" id="notifications">
+            <i class="fa fa-bell"></i>
+            <span>Notifications</span>
+        </a>
+        <a href="{% url 'menu' pid=user.id %}" class="nav-icon" id="menu-link">
+            <i class="fa fa-bars"></i>
+            <span>Menu</span>
+        </a>
+    </div>
+    <div class="user-profile">
+        <img id="headerProfilePicture" class="profile-picture" src="{{ user.profile.picture.url }}" alt="Profile Picture">
+        <span class="username">{{ user.username }}</span>
+    </div>
 </header>
-    <br>
-    <br>
-    <br>
-    <div class="container">
-        <div class="main-content">
-            <div class="profile-header">
-                <div class="profile-cover">
-                    <img id="coverPhoto" src="https://burst.shopifycdn.com/content/facebook_cover_photo_desktop_mobile_template.jpg" alt="Cover Photo">
-                    <div class="camera-icon" onclick="document.getElementById('coverPhotoInput').click()">
-                        <i class="fas fa-camera"></i>
-                    </div>
-                    <input type="file" id="coverPhotoInput" accept="image/*" onchange="changeCoverPhoto(event)">
+<br>
+<br>
+<br>
+<div class="container">
+    <div class="main-content">
+        <div class="profile-header">
+            <div class="profile-cover">
+                <img id="coverPhoto" class="cover-picture" src="{{ user.profile.cover_picture.url }}" alt="Cover Photo">
+                <div class="camera-icon" onclick="document.getElementById('coverPhotoInput').click()">
+                    <i class="fas fa-camera"></i>
                 </div>
-                <div class="profile-avatar">
-                    <img id="profilePicture" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT16eO5W8VPjVFrkvG8n_2FQKjByMcbLtBF4A&s" alt="Profile Picture">
-                    <div class="camera-icon" onclick="document.getElementById('profilePictureInput').click()">
-                        <i class="fas fa-camera"></i>
-                    </div>
-                    <input type="file" id="profilePictureInput" accept="image/*" onchange="changeProfilePicture(event)">
-                </div>
-                <div class="profile-name">{{ user.username }}</div>
-                <div class="profile-bio">
-                    {{ user.profile.bio }}
+                <input type="file" id="coverPhotoInput" accept="image/*" onchange="changeCoverPhoto(event)">
             </div>
-                <div class="profile-actions">
-                    <button onclick="showPopup()">Edit Profile</button>
+            <div class="profile-avatar">
+                <img id="profilePicture" class="profile-picture" src="{{ user.profile.picture.url }}" alt="Profile Picture">
+                <div class="camera-icon" onclick="document.getElementById('profilePictureInput').click()">
+                    <i class="fas fa-camera"></i>
                 </div>
+                <input type="file" id="profilePictureInput" accept="image/*" onchange="changeProfilePicture(event)">
             </div>
-            <div class="profile-description">
-                <button onclick="showEditDetailsPopup()">Edit Details</button>
+            <div class="profile-name">{{ user.username }}</div>
+            <div class="profile-bio">{{ user.profile.bio }}</div>
+            <div class="profile-actions">
+                <button onclick="showPopup()">Edit Profile</button>
             </div>
-            <div class="profile-content">
-                <div class="profile-section friends" id="friends-section">
-                    <h2>Friends</h2>
-                    <div class="friends-list">
-                        {% for friend in user.profile.friends.all %}
-                        <div class="friend">
-                            <img src="{% if friend.profile.profile_picture %}{{ friend.profile.profile_picture.url }}{% else %}default-profile.jpg{% endif %}" alt="Friend">
-                            <span>{{ friend.username }}</span>
-                        </div>
-                        {% empty %}
-                        <p>No friends yet.</p>
-                        {% endfor %}
+        </div>
+        <div class="profile-description">
+            <button onclick="showEditDetailsPopup()">Edit Details</button>
+        </div>
+        <div class="profile-content">
+            <div class="profile-section friends" id="friends-section">
+                <h2>Friends</h2>
+                <div class="friends-list">
+                    {% for friend in user.profile.friends.all %}
+                    <div class="friend">
+                        <img src="{% if friend.profile.profile_picture %}{{ friend.profile.profile_picture.url }}{% else %}default-profile.jpg{% endif %}" alt="Friend">
+                        <span>{{ friend.username }}</span>
                     </div>
+                    {% empty %}
+                    <p>No friends yet.</p>
+                    {% endfor %}
                 </div>
-                <div class="profile-section">
-                    <h2>Photos</h2>
-                    <p>No photos yet.</p>
-                </div>
-                <div class="profile-section">
-                    <h2>Posts</h2>
-                    <p>No Posts yet.</p>
-                </div>
+            </div>
+            <div class="profile-section">
+                <h2>Photos</h2>
+                <p>No photos yet.</p>
+            </div>
+            <div class="profile-section">
+                <h2>Posts</h2>
+                <p>No Posts yet.</p>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="popup-overlay" id="editProfilePopup">
-        <div class="popup-content">
-            <span class="close-btn" onclick="hidePopup()">&times;</span>
-            <h2>Edit Profile</h2>
-            <div class="form-group">
-                <label for="popupProfileName">Profile Name</label>
-                <input type="text" id="popupProfileName" name="profileName" value="{{ request.user.username }}">
-            </div>
-            <div class="form-group">
-                <label for="popupBio">Bio</label>
-                <input type="text" id="popupBio" name="bio"value="{{ user.profile.bio }}">
-            </div>
-            <div class="form-group">
-                <label for="popupProfilePicture">Profile Picture</label>
-                <label for="popupProfilePicture" class="custom-file-label" onclick="document.getElementById('popupProfilePicture').click()">
-                    <button type="button">Choose File</button>
-                </label>
-                <input type="file" id="popupProfilePicture" name="profilePicture" accept="image/*" style="display: none;">
-            </div>
-		    <br>
-            <div class="form-group">
-                <label for="popupCoverPhoto">Cover Photo</label>
-                <label for="popupCoverPhoto" class="custom-file-label" onclick="document.getElementById('popupCoverPhoto').click()">
-                    <button type="button">Choose File</button>
-                </label>
-                <input type="file" id="popupCoverPhoto" name="coverPhoto" accept="image/*" style="display: none;">
-            </div>
-            <br>
-            <br>
-            <button type="button" onclick="saveProfile()">Save Changes</button>
+<div class="popup-overlay" id="editProfilePopup">
+    <div class="popup-content">
+        <span class="close-btn" onclick="hidePopup()">&times;</span>
+        <h2>Edit Profile</h2>
+        <div class="form-group">
+            <label for="popupProfileName">Profile Name</label>
+            <input type="text" id="popupProfileName" name="profileName" value="{{ request.user.username }}">
         </div>
+        <div class="form-group">
+            <label for="popupBio">Bio</label>
+            <input type="text" id="popupBio" name="bio" value="{{ user.profile.bio }}">
+        </div>
+        <div class="form-group">
+            <label for="popupProfilePicture">Profile Picture</label>
+            <label for="popupProfilePicture" class="custom-file-label" onclick="document.getElementById('popupProfilePicture').click()">
+                <button type="button">Choose File</button>
+            </label>
+            <input type="file" id="popupProfilePicture" name="profilePicture" accept="image/*" style="display: none;">
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="popupCoverPhoto">Cover Photo</label>
+            <label for="popupCoverPhoto" class="custom-file-label" onclick="document.getElementById('popupCoverPhoto').click()">
+                <button type="button">Choose File</button>
+            </label>
+            <input type="file" id="popupCoverPhoto" name="coverPhoto" accept="image/*" style="display: none;">
+        </div>
+        <br>
+        <br>
+        <button type="button" onclick="saveProfile()">Save Changes</button>
     </div>
+</div>
 
-    <div class="popup-overlay" id="editDetailsPopup">
-        <div class="popup-content">
-            <span class="close-btn" onclick="hideEditDetailsPopup()">&times;</span>
-            <div class="form-container">
-                <h2>Edit Details</h2>
-                <div class="section">
+<div class="popup-overlay" id="editDetailsPopup">
+    <div class="popup-content">
+        <span class="close-btn" onclick="hideEditDetailsPopup()">&times;</span>
+        <div class="form-container">
+            <h2>Edit Details</h2>
+            <div class="section">
                 <h3>Work</h3>
                 <div id="workSection">
                     <div class="entry">
-			            <input type="text" name="work[]" placeholder="Job Title at Company">
+                        <input type="text" name="work[]" placeholder="Job Title at Company">
                         <button type="button" class="remove-btn" onclick="removeEntry(this)">Remove</button>
                     </div>
-		        </div>
-                <button type="button" onclick="addWork()">Add a workplace</button>
                 </div>
-		         <div class="section">
+                <button type="button" onclick="addWork()">Add a workplace</button>
+            </div>
+            <div class="section">
                 <h3>Education</h3>
                 <div id="educationSection">
                     <div class="entry">
-                         <input type="text" name="education[]" placeholder="Studied at University/School">
+                        <input type="text" name="education[]" placeholder="Studied at University/School">
                         <button type="button" class="remove-btn" onclick="removeEntry(this)">Remove</button>
                     </div>
                 </div>
                 <button type="button" onclick="addEducation()">Add education</button>
-                </div>
-                <div class="section">
+            </div>
+            <div class="section">
                 <h3>Location</h3>
                 <div class="entry">
                     <input type="text" name="currentTown" placeholder="Current Town/City">
@@ -447,23 +444,22 @@
                 <div class="entry">
                     <input type="text" name="homeTown" placeholder="Hometown">
                 </div>
-                </div>
-
-                 <button type="button" onclick="hideEditDetailsPopup()">Save</button>
             </div>
+            <button type="button" onclick="hideEditDetailsPopup()">Save</button>
         </div>
     </div>
-    <script>
-    var path = window.location.pathname;
-  
-    var page = path.split("/").pop();
+</div>
 
+<script>
+    var path = window.location.pathname;
+    var page = path.split("/").pop();
     page = page.split(".")[0];
 
     var navItem = document.getElementById(page);
     if (navItem) {
         navItem.classList.add("active");
     }
+
     function changeCoverPhoto(event) {
         var reader = new FileReader();
         reader.onload = function() {
@@ -471,6 +467,29 @@
             output.src = reader.result;
         }
         reader.readAsDataURL(event.target.files[0]);
+
+        // Upload the cover photo via AJAX
+        const file = event.target.files[0];
+        const formData = new FormData();
+        formData.append('cover_photo', file);
+
+        fetch("{% url 'update_cover_photo' %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Optionally update UI or handle success
+                console.log('Cover photo updated successfully:', data.url);
+            } else {
+                console.error('Failed to update cover photo:', data.error);
+            }
+        })
+        .catch(error => console.error('Error:', error));
     }
 
     function changeProfilePicture(event) {
@@ -478,8 +497,39 @@
         reader.onload = function() {
             var output = document.getElementById('profilePicture');
             output.src = reader.result;
+
+            // Update profile picture in all relevant places
+            const profilePictureElements = document.querySelectorAll('.profile-picture');
+            profilePictureElements.forEach(element => {
+                element.src = reader.result;
+            });
         }
         reader.readAsDataURL(event.target.files[0]);
+
+        // Upload the profile picture via AJAX
+        const file = event.target.files[0];
+        const formData = new FormData();
+        formData.append('profile_picture', file);
+
+        fetch("{% url 'update_profile_picture' %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const profilePictureElements = document.querySelectorAll('.profile-picture');
+                profilePictureElements.forEach(element => {
+                    element.src = data.url;
+                });
+            } else {
+                console.error('Failed to update profile picture:', data.error);
+            }
+        })
+        .catch(error => console.error('Error:', error));
     }
 
     function showPopup() {
@@ -543,33 +593,32 @@
         document.getElementById('editDetailsPopup').style.display = 'none';
     }
 
-  function addWork() {
-    const workSection = document.getElementById('workSection');
-    const entry = document.createElement('div');
-    entry.classList.add('entry');
-    entry.innerHTML = `
-        <input type="text" name="work[]" placeholder="Job Title at Company">
-        <button type="button" class="remove-btn" onclick="removeEntry(this)">Remove</button>
-    `;
-    workSection.appendChild(entry);
-}
+    function addWork() {
+        const workSection = document.getElementById('workSection');
+        const entry = document.createElement('div');
+        entry.classList.add('entry');
+        entry.innerHTML = `
+            <input type="text" name="work[]" placeholder="Job Title at Company">
+            <button type="button" class="remove-btn" onclick="removeEntry(this)">Remove</button>
+        `;
+        workSection.appendChild(entry);
+    }
 
-function addEducation() {
-    const educationSection = document.getElementById('educationSection');
-    const entry = document.createElement('div');
-    entry.classList.add('entry');
-    entry.innerHTML = `
-        <input type="text" name="education[]" placeholder="Studied at University/School">
-        <button type="button" class="remove-btn" onclick="removeEntry(this)">Remove</button>
-    `;
-    educationSection.appendChild(entry);
-}
+    function addEducation() {
+        const educationSection = document.getElementById('educationSection');
+        const entry = document.createElement('div');
+        entry.classList.add('entry');
+        entry.innerHTML = `
+            <input type="text" name="education[]" placeholder="Studied at University/School">
+            <button type="button" class="remove-btn" onclick="removeEntry(this)">Remove</button>
+        `;
+        educationSection.appendChild(entry);
+    }
 
-function removeEntry(button) {
-    const entry = button.parentElement;
-    entry.remove();
-}
-
-    </script>
+    function removeEntry(button) {
+        const entry = button.parentElement;
+        entry.remove();
+    }
+</script>
 </body>
 </html>
