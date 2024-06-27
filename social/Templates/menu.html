@@ -150,7 +150,7 @@
             </a>
         </div>
         <div class="user-profile">
-            <img src="profile.jpg" alt="Profile Picture">
+            <img class="profile-picture" src="{{ user.profile.picture.url }}" alt="Profile Picture">
             <span class="username">{{ user.username }}</span>
         </div>
     </header>
@@ -159,7 +159,7 @@
     <br>
     <a href="{% url 'profile' user.id %}">
     <div class="profile-container container">
-        <img src="images.jpeg" alt="Profile Picture">
+        <img class="profile-picture" src="{{ user.profile.picture.url }}" alt="Profile Picture">
         <div>
             <h2>{{ user.username }}</h2>
         </div>

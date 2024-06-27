@@ -1,10 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8144e473-643b-4e00-85b5-3b5d22bc4e63" name="Changes" comment="">
+    <list default="true" id="8144e473-643b-4e00-85b5-3b5d22bc4e63" name="Changes" comment="update profile photo">
+      <change afterPath="$PROJECT_DIR$/media/cover_photos/4bfcb70f8a372a4a6db3d9481341386d.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/cover_photos/Annotation_2024-05-07_203156.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/cover_photos/image_81c3211235.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/cover_photos/image_81c3211235_Cwwies4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/cover_photos/image_81c3211235_VOPciWw.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/cover_photos/image_81c3211235_WgjNSqi.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/cover_photos/images.jfif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/cover_photos/preview-page0.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/cover_photos/preview-page0_LqDxmYv.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/cover_photos/preview-page0_pf3Q6Po.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/covers/preview-page0.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/profile_pictures/17232663.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/profile_pictures/17232663_B2uBtA4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/profile_pictures/4bfcb70f8a372a4a6db3d9481341386d.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/profile_pictures/Annotation_2024-05-07_211946.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/profile_pictures/wallpaper_for_a_laptop__on_We_Heart_It.jfif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/social/migrations/0012_remove_userprofile_profile_picture_and_more.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/social/migrations/0013_alter_userprofile_cover_picture.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/Templates/friends.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/friends.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/Templates/menu.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/menu.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/Templates/newsfeed.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/newsfeed.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/social/Templates/other_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/other_profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/Templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/social/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/social/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/social/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,7 +47,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="branch-27" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -104,7 +129,49 @@
       <option name="project" value="LOCAL" />
       <updated>1719432282324</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="update other profile.html add friend">
+      <created>1719473329441</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1719473329441</updated>
+    </task>
+    <task id="LOCAL-00009" summary="profile.html profile photo update">
+      <created>1719474804569</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1719474804569</updated>
+    </task>
+    <task id="LOCAL-00010" summary="update profile photo">
+      <created>1719477617446</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1719477617446</updated>
+    </task>
+    <task id="LOCAL-00011" summary="update profile photo">
+      <created>1719477911207</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1719477911207</updated>
+    </task>
+    <task id="LOCAL-00012" summary="update profile photo &amp; cover photo">
+      <created>1719483327167</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1719483327167</updated>
+    </task>
+    <task id="LOCAL-00013" summary="update profile photo &amp; cover photo">
+      <created>1719483846330</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1719483846330</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -123,7 +190,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="branch-14" />
+                        <option value="branch-27-1" />
                       </list>
                     </value>
                   </entry>
@@ -143,6 +210,10 @@
     <MESSAGE value="update styles.css" />
     <MESSAGE value="post partially connected to the database" />
     <MESSAGE value="Show the add friends in the profile friend list" />
-    <option name="LAST_COMMIT_MESSAGE" value="Show the add friends in the profile friend list" />
+    <MESSAGE value="update other profile.html add friend" />
+    <MESSAGE value="profile.html profile photo update" />
+    <MESSAGE value="update profile photo" />
+    <MESSAGE value="update profile photo &amp; cover photo" />
+    <option name="LAST_COMMIT_MESSAGE" value="update profile photo &amp; cover photo" />
   </component>
 </project>
