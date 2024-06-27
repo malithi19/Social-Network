@@ -15,6 +15,7 @@ from .forms import PostForm
 from django.contrib.auth.models import User
 from django.db.models import Q
 
+
 # Regular view functions
 def profile(request, user_id):
     user = get_object_or_404(User, id=user_id)
@@ -24,12 +25,35 @@ def profile(request, user_id):
     return render(request, 'profile.html', context)
 
 
+@csrf_exempt
+def update_profile_picture(request):
+    if request.method == 'POST' and request.FILES.get('profile_picture'):
+        profile_picture = request.FILES['profile_picture']
+        profile = request.user.profile
+        profile.picture.save(profile_picture.name, profile_picture)
+        profile.save()
+        return JsonResponse({'success': True, 'url': profile.picture.url})
+    return JsonResponse({'success': False, 'error': 'Invalid request'})
+
+
+@csrf_exempt
+def update_cover_photo(request):
+    if request.method == 'POST' and request.FILES.get('cover_photo'):
+        cover_photo = request.FILES['cover_photo']
+        profile = request.user.profile
+        profile.cover_picture.save(cover_photo.name, cover_photo)
+        profile.save()
+        return JsonResponse({'success': True, 'url': profile.cover_picture.url})
+    return JsonResponse({'success': False, 'error': 'Invalid request'})
+
+
 def menu(req, pid):
     return render(req, "menu.html", {'pid': pid})
 
 
 def edit_profile(req, pid):
-    return render(req, "edit-profile.html",{'pid': pid})
+    return render(req, "edit-profile.html", {'pid': pid})
+
 
 def friends(request):
     user_profile = request.user.profile
@@ -54,19 +78,24 @@ def add_friend(request, user_id):
             return JsonResponse({'success': False, 'error': 'User does not exist'})
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
+
 def logout(request):
     auth_logout(request)
     return redirect('sign_in')
 
+
 def messages(req):
     return render(req, "messages.html")
+
 
 def newsfeed(req):
     posts = Post.objects.all().order_by('-created_at')
     return render(req, 'newsfeed.html', {'posts': posts})
 
-def post(req,pid):
+
+def post(req, pid):
     return render(req, "newsfeed.html")
+
 
 def reset_password(req, pid):
     return render(req, "reset_password.html", {'pid': pid})
@@ -98,7 +127,6 @@ def sign_up(request):
 
 """def sign_in(req):
     return render(req, "sign_in.html")"""
-
 
 
 def sign_in(request):
@@ -133,6 +161,7 @@ def other_profile(request, user_id):
     }
     return render(request, 'other_profile.html', context)
 
+
 @csrf_exempt
 def create_post(request):
     if request.method == 'POST':
@@ -158,18 +187,20 @@ def create_post(request):
             return JsonResponse({'success': False, 'errors': form.errors})
     return JsonResponse({'success': False, 'message': 'Invalid request method.'})
 
+
 def user_list(request):
     query = request.GET.get('q')
     if query:
         users = User.objects.filter(username__icontains=query)
     else:
         users = User.objects.all()
-    
+
     context = {
         'users': users,
         'query': query
     }
     return render(request, 'user_list.html', context)
+
 
 def user_search(request):
     query = request.GET.get('q', '')
@@ -180,7 +211,7 @@ def user_search(request):
             Q(first_name__icontains=query) |
             Q(last_name__icontains=query)
         )
-    
+
     context = {
         'users': User.objects.all(),
         'search_results': search_results,
@@ -188,34 +219,42 @@ def user_search(request):
     }
     return render(request, 'user_list.html', context)
 
+
 # DRF viewsets
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
 
+
 class PhotoViewSet(viewsets.ModelViewSet):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
+
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
+
 class FriendshipViewSet(viewsets.ModelViewSet):
     queryset = Friendship.objects.all()
     serializer_class = FriendshipSerializer
+
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
+
 class LikeViewSet(viewsets.ModelViewSet):
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
 
+
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+
 
 class FeedViewSet(viewsets.ModelViewSet):
     queryset = Feed.objects.all()
