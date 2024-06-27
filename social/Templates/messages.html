@@ -7,39 +7,125 @@
     {% load static %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .notifications-container {
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .notifications {
+            padding: 20px;
+        }
+
+        .notification-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .notification-item img {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-time {
+            color: #888;
+            font-size: 0.8em;
+        }
+
+        .follow-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .main-content {
+            padding: 20px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
     <header>
-            <div class="nav-left">
-                <a href="#" class="logo">Pixly</a>
-                <div class="search-bar">
-                    <input type="text" placeholder="Search...">
-                    <i class="fa fa-search search-icon"></i>
-                </div>
+        <div class="nav-left">
+            <a href="#" class="logo">Pixly</a>
+            <div class="search-bar">
+                <form action="{% url 'user_search' %}" method="GET">
+                    <input type="text" name="q" placeholder="Search..." value="{{ query }}">
+                    <button type="submit"><i class="fa fa-search search-icon"></i></button>
+                </form>
             </div>
-            <div class="nav-center">
-                <a href="{% url 'newsfeed' %}" class="nav-icon" id="home">
-                    <i class="fa fa-home"></i>
-                    <span>Home</span>
-                </a>
-                <a href="{% url 'friends' %}" class="nav-icon" id="people">
-                    <i class="fa fa-users"></i>
-                    <span>People</span>
-                </a>
-                <a href="{% url 'messages' %}" class="nav-icon" id="notifications">
-                    <i class="fa fa-bell"></i>
-                    <span>Notifications</span>
-                </a>
-                <a href="{% url 'menu' pid=user.id %}" class="nav-icon" id="menu-link">
-                    <i class="fa fa-bars"></i>
-                    <span>Menu</span>
-                </a>
-            </div>
-            
-            <div class="user-profile">
-                <img src="profile.jpg" alt="Profile Picture">
-                <span class="username">{{ user.username }}</span>
-            </div>
+        </div>
+        <div class="nav-center">
+            <a href="{% url 'newsfeed' %}" class="nav-icon" id="home">
+                <i class="fa fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="{% url 'friends' %}" class="nav-icon" id="people">
+                <i class="fa fa-users"></i>
+                <span>People</span>
+            </a>
+            <a href="{% url 'notifications' %}" class="nav-icon" id="notifications">
+                <i class="fa fa-bell"></i>
+                <span>Notifications</span>
+            </a>
+            <a href="{% url 'menu' pid=user.id %}" class="nav-icon" id="menu-link">
+                <i class="fa fa-bars"></i>
+                <span>Menu</span>
+            </a>
+        </div>
+        <div class="user-profile">
+            <img src="{% if user.profile.profile_picture %}{{ user.profile.profile_picture.url }}{% else %}default-profile.jpg{% endif %}" alt="Profile Picture">
+            <span class="username">{{ user.username }}</span>
+        </div>
     </header>
+    <br>
+    <br>
+    <div class="main-content">
+        <div class="notifications-container">
+            <h2>Notifications</h2>
+            <div class="notifications">
+                {% for notification in notifications %}
+                <div class="notification-item">
+                    <img src="{% if notification.sender.profile.profile_picture %}{{ notification.sender.profile.profile_picture.url }}{% else %}default-profile.jpg{% endif %}" alt="Profile Picture">
+                    <div class="notification-content">
+                        <span><strong>{{ notification.sender.username }}</strong> {{ notification.message }}</span>
+                        <div class="notification-time">{{ notification.timestamp|timesince }} ago</div>
+                        {% if notification.action %}
+                        <button class="follow-button">{{ notification.action }}</button>
+                        {% endif %}
+                    </div>
+                </div>
+                {% empty %}
+                <p>No notifications found.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 </body>
 </html>

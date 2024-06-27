@@ -4,10 +4,14 @@ from . import views
 
 # Regular views
 from .views import create_post
+from .views import update_profile_picture
+from .views import update_cover_photo
 
 urlpatterns = [
     path('', views.sign_in, name='sign_in'),
     path('profile/<int:user_id>/', views.profile, name='profile'),
+    path('update_profile_picture/', update_profile_picture, name='update_profile_picture'),
+    path('update_cover_photo/', update_cover_photo, name='update_cover_photo'),
     path('menu/<int:pid>/', views.menu, name='menu'),
     path('', views.edit_profile, name='edit_profile'),
     path('friends/', views.friends, name='friends'),
