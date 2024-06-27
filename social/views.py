@@ -43,11 +43,16 @@ def friends(request):
     return render(request, "friends.html", context)
 
 
+@csrf_exempt
 def add_friend(request, user_id):
     if request.method == "POST":
-        friend = User.objects.get(id=user_id)
-        request.user.profile.friends.add(friend)
-        return redirect('profile', user_id=request.user.id)
+        try:
+            friend = User.objects.get(id=user_id)
+            request.user.profile.friends.add(friend)
+            return JsonResponse({'success': True})
+        except User.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'User does not exist'})
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
 def logout(request):
     auth_logout(request)
