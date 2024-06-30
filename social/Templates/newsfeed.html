@@ -315,7 +315,7 @@
 </div>
     <div id="news-feed">
         {% for post in posts %}
-        <div class="post">
+        <div class="post" id="post-{{ post.id }}">
             <div class="post-header">
                 {% if post.author == request.user %}
                     <a href="{% url 'profile' post.author.id %}">
@@ -340,7 +340,7 @@
             </div>
             <br>
             <div class="post-actions">
-                <button onclick="toggleLike(this)"><i class="fa fa-thumbs-up"></i> Like <span class="like-count">0</span></button>
+                <button onclick="likePost({{ post.id }})"><i class="fa fa-thumbs-up"></i> Like <span class="like-count">{{ post.likes.count }}</span></button>
                 <button onclick="showCommentsPopup(this)"><i class="fa fa-comment"></i> Comment</button>
                 <button onclick="showSharePopup()"><i class="fa fa-share"></i> Share</button>
             </div>
@@ -365,8 +365,6 @@
         </form>
     </div>
 </div>
-
-
 
 <script>
 document.getElementById('post-image').addEventListener('change', previewImage);
@@ -425,12 +423,6 @@ function previewImage() {
         preview.src = '';
         document.getElementById('preview-image').style.display = 'none';
     }
-}
-
-function toggleLike(button) {
-    const likeCountSpan = button.querySelector('.like-count');
-    let likeCount = parseInt(likeCountSpan.textContent);
-    likeCountSpan.textContent = ++likeCount;
 }
 
 function addFeeling(feeling) {
@@ -498,7 +490,7 @@ function addPostToFeed(post) {
         </div>
         <br>
         <div class="post-actions">
-            <button onclick="toggleLike(this)"><i class="fa fa-thumbs-up"></i> Like <span class="like-count">0</span></button>
+            <button onclick="likePost(${post.id})"><i class="fa fa-thumbs-up"></i> Like <span class="like-count">${post.likes.count}</span></button>
             <button onclick="showCommentsPopup(this)"><i class="fa fa-comment"></i> Comment</button>
             <button onclick="showSharePopup()"><i class="fa fa-share"></i> Share</button>
         </div>
@@ -506,6 +498,37 @@ function addPostToFeed(post) {
     `;
 
     newsFeed.prepend(newPost);
+}
+
+function likePost(postId) {
+    fetch(`/like/${postId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        credentials: 'same-origin'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Update the like count in the UI
+        const likeCountSpan = document.querySelector(`.like-count[data-post-id="${postId}"]`);
+        if (likeCountSpan) {
+            likeCountSpan.textContent = parseInt(likeCountSpan.textContent) + 1;
+        }
+        // Optionally, display a success message or handle UI updates
+        console.log(data.message);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Handle errors, such as displaying an error message
+    });
 }
 
 function getCookie(name) {

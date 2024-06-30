@@ -14,6 +14,7 @@ from django.utils.decorators import method_decorator
 from .forms import PostForm
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 
 # Regular view functions
@@ -193,6 +194,22 @@ def create_post(request):
         else:
             return JsonResponse({'success': False, 'errors': form.errors})
     return JsonResponse({'success': False, 'message': 'Invalid request method.'})
+
+@login_required
+def like_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    user = request.user
+
+    # Check if the user has already liked the post
+    if Like.objects.filter(user=user, post=post).exists():
+        # User has already liked the post
+        return JsonResponse({'message': 'You have already liked this post.'}, status=400)
+
+    # Create a new like for the post
+    Like.objects.create(user=user, post=post)
+
+    # Optionally, you can return a success message or redirect back to the post
+    return JsonResponse({'message': 'Post liked successfully.'})
 
 
 def user_list(request):

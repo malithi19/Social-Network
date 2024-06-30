@@ -27,6 +27,7 @@ urlpatterns = [
     path('users/', views.user_list, name='user_list'),
     path('other_profile/<int:user_id>/', views.other_profile, name='other_profile'),
     path('user_search/', views.user_search, name='user_search'),
+    path('like/<int:post_id>/', views.like_post, name='like_post'),
 ]
 
 # DRF viewsets
