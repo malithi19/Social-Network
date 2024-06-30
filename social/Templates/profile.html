@@ -289,6 +289,222 @@
             align-items: center;
             margin: 10px;
         }
+
+                .post-form {
+            margin-bottom: 20px;
+        }
+
+        .post-form textarea {
+            width: 98%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            outline: none;
+            resize: none;
+            margin-bottom: 10px;
+        }
+
+        .post-form .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .post-form .options input[type="file"] {
+            display: none;
+        }
+
+        .post-form .options label {
+             padding: 7px 100px;
+             background-color: #1877f2;
+             color: #fff;
+             border-radius: 5px;
+             cursor: pointer;
+             margin-right: 10px;
+             font-size: 12px;
+        }
+
+        .post-form .options .tag-friends {
+            padding: 7px 100px;
+            background-color: #1877f2;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .post-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #1877f2;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .post-form button:hover {
+            background-color: #166fe5;
+        }
+
+        .post {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            width: 97%;
+        }
+
+        .post .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .post .post-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .post .post-header .username {
+            font-weight: bold;
+        }
+
+        .post .post-content {
+            margin-bottom: 10px;
+        }
+
+        .post .post-actions {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .post .post-actions button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            color: #1877f2;
+        }
+
+        .post .post-actions button:hover {
+            text-decoration: underline;
+        }
+
+        .post .post-actions button .fa {
+            margin-right: 5px;
+        }
+
+        .post .post-image {
+            margin-bottom: 10px;
+        }
+
+        .post .post-image img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .feeling {
+            margin-right:30%;
+        }
+
+	.feeling-phrase {
+            cursor: pointer;
+            color: #1877f2;
+            margin-right: 10px;
+        }
+
+        .tag-friends {
+            cursor: pointer;
+            color: #1877f2;
+        }
+
+	 table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+	 .center-cell {
+            text-align: center;
+        }
+
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            z-index: 999; /* Ensure popup stays on top */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            color: #888;
+		z-index: 1000;
+        }
+
+        .comments {
+            margin-top: 20px;
+        }
+
+        .comment {
+            background-color: #f2f2f2;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+       <!-- #comment-form {
+            margin-top: 20px;
+        }
+
+        #comment-form input,
+        #comment-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        #comment-form button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        #comment-form button:hover {
+            background-color: #0056b3;
+        } -->
     </style>
 </head>
 <body>
@@ -360,8 +576,8 @@
                     <div class="friend">
                         <a href="{% url 'other_profile' friend.id %}" class="friend-link">
                             <img src="{% if friend.profile.profile_picture %}{{ friend.profile.profile_picture.url }}{% else %}{% static 'default_profile_picture.png' %}{% endif %}" alt="{{ friend.username }}'s profile picture" class="friend-picture">
-                            <span class="friend-username">{{ friend.username }}</span>
                         </a>
+                        <span class="friend-username">{{ friend.username }}</span>
                     </div>
                     {% empty %}
                     <p>No friends yet.</p>
@@ -398,8 +614,38 @@
             </div>
             <div class="profile-section">
                 <h2>Posts</h2>
-                <p>No Posts yet.</p>
-            </div>
+                {% if posts %}
+                {% for post in posts %}
+                <div class="post">
+                    <div class="post-header">
+                        <img src="{% if post.author.profile.picture %}{{ post.author.profile.picture.url }}{% else %}default_user_image.jpg{% endif %}" alt="User Image">
+                        <span class="username">{{ post.author.username }}</span>
+                    </div>
+                    <br>
+                    <div class="post-content">
+                        <p>{{ post.content }}</p>
+                        {% if post.image %}
+                        <div class="post-image">
+                            <img src="{{ post.image.url }}" alt="Post Image">
+                        </div>
+                        {% endif %}
+                        <p><small>Posted on {{ post.created_at }}</small></p>
+                    </div>
+                    <br>
+                    <div class="post-actions">
+                        <button onclick="toggleLike(this)"><i class="fa fa-thumbs-up"></i> Like <span class="like-count">0</span></button>
+                        <button onclick="showCommentsPopup(this)"><i class="fa fa-comment"></i> Comment</button>
+                        <button onclick="showSharePopup()"><i class="fa fa-share"></i> Share</button>
+                    </div>
+                    <div class="comments">
+                        <!-- Comments will be appended here dynamically -->
+                    </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p>No Posts yet.</p>
+                    {% endif %}
+                </div>
         </div>
     </div>
 </div>

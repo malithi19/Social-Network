@@ -19,8 +19,10 @@ from django.db.models import Q
 # Regular view functions
 def profile(request, user_id):
     user = get_object_or_404(User, id=user_id)
+    posts = user.posts.all()
     context = {
-        'user': user
+        'user': user,
+        'posts': posts,
     }
     return render(request, 'profile.html', context)
 
@@ -90,7 +92,10 @@ def messages(req):
 
 def newsfeed(req):
     posts = Post.objects.all().order_by('-created_at')
-    return render(req, 'newsfeed.html', {'posts': posts})
+    context = {
+        'posts': posts,
+    }
+    return render(req, 'newsfeed.html', context)
 
 
 def post(req, pid):
