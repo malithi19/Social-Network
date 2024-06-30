@@ -254,11 +254,11 @@
         <div class="main-content">
             <div class="profile-header">
                 <div class="profile-cover">
-                    <img src="https://th.bing.com/th/id/OIP.os5c1cwSC6ZfyNeLJqqKMwHaEK?w=360&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7.jpg" alt="Cover Photo">
+                    <img src="{% if user.profile.cover_picture %}{{ user.profile.cover_picture.url }}{% else %}{% static 'default_cover_photo.jpg' %}{% endif %}" alt="Cover Photo">
                 </div>
                 <div class="profile-info">
                     <div class="profile-avatar">
-                        <img src="https://th.bing.com/th?id=OIP.U0jepfI2xnjVrBZIfQ-DaQHaFe&w=290&h=215&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2.jpg" alt="Profile Photo">
+                         <img src="{% if user.profile.picture %}{{ user.profile.picture.url }}{% else %}{% static 'default_profile_picture.jpg' %}{% endif %}" alt="Profile Photo">
                     </div>
                     <div class="profile-details">
                         <div class="profile-name">{{ user.username }}</div>

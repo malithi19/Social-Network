@@ -161,8 +161,10 @@ def forgot_password(req):
 
 def other_profile(request, user_id):
     user = get_object_or_404(User, id=user_id)
+    posts = user.posts.all()
     context = {
-        'user': user
+        'user': user,
+        'posts': posts,
     }
     return render(request, 'other_profile.html', context)
 
