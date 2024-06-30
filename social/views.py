@@ -16,6 +16,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+import json
 
 # Regular view functions
 def profile(request, user_id):
@@ -88,9 +89,13 @@ def messages(req):
     return render(req, "messages.html")
 
 
-def newsfeed(req):
+def newsfeed(request):
     posts = Post.objects.all().order_by('-created_at')
-    return render(req, 'newsfeed.html', {'posts': posts})
+    selected_friend_username = request.session.pop('selected_friend_username', None)
+    return render(request, 'newsfeed.html', {
+        'posts': posts,
+        'selected_friend_username': selected_friend_username
+    })
 
 
 def post(req, pid):
@@ -207,11 +212,30 @@ def tagable_list(request):
     }
     return render(request, 'tagablelist.html', context)
 
-def select_friend(request, friend_id):
-    # Logic to handle selecting a friend
-    friend = get_object_or_404(User, id=friend_id)
-    # Additional logic as needed
-    return JsonResponse({'success': True, 'friend_id': friend_id})
+@csrf_exempt
+
+def select_friend(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            friend_id = data.get('friend_id')
+            friend_name = data.get('friend_name')
+
+            # Check if friend_id and friend_name exist and are valid
+            if friend_id is not None and friend_name:
+                # Perform any server-side logic here if needed
+                # Example: Save friend_id and friend_name to database
+                # friend = Friend.objects.create(id=friend_id, name=friend_name)
+                return JsonResponse({'success': True})
+            else:
+                return JsonResponse({'success': False, 'error': 'Invalid friend_id or friend_name'})
+
+        except json.JSONDecodeError:
+            return JsonResponse({'success': False, 'error': 'Invalid JSON'})
+        except KeyError as e:
+            return JsonResponse({'success': False, 'error': f'Missing key in JSON: {e}'})
+    else:
+        return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
 def user_list(request):
     query = request.GET.get('q')

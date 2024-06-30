@@ -1,34 +1,117 @@
-<!-- tagablelist.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tag Friends</title>
+    <title>Select Friend</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            max-width: 400px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .friend-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .friend-list li {
+            margin-bottom: 10px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .friend-list li:hover {
+            background-color: #f0f2f5;
+        }
+
+        .friend-list li img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .friend-list li .username {
+            font-weight: bold;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            color: #888;
+        }
+    </style>
 </head>
 <body>
-    <h1>Tag Friends</h1>
 
-    <form method="GET" action="{% url 'tagable_list' %}">
-        <input type="text" name="q" placeholder="Search friends..." value="{{ query }}">
-        <button type="submit">Search</button>
-    </form>
+<div class="popup-content">
+    <span class="close-btn" onclick="window.close()">&times;</span>
+    <h2>Select Friend</h2>
+    <ul class="friend-list">
+        {% for friend in friends %}
+        <li onclick="selectFriendAndClosePopup('{{ friend.id }}', '{{ friend.username }}', '{{ friend.profile_picture.url }}')">
+            <img src="{% if friend.profile_picture %}{{ friend.profile_picture.url }}{% else %}{% static 'default_user_image.jpg' %}{% endif %}" alt="Profile Picture">
+            <span class="username">{{ friend.username }}</span>
+        </li>
+        {% empty %}
+        <li>No friends found.</li>
+        {% endfor %}
+    </ul>
+</div>
 
-    <div class="friends-list">
-        <form method="POST" action="{% url 'select_friend' %}">
-            {% csrf_token %}
-            {% for friend in friends %}
-            <div class="friend">
-                <input type="radio" id="friend_{{ friend.id }}" name="selected_friend" value="{{ friend.id }}">
-                <label for="friend_{{ friend.id }}">{{ friend.username }}</label>
-            </div>
-            {% empty %}
-            <p>No friends found.</p>
-            {% endfor %}
-            <button type="submit">Select Friend</button>
-        </form>
-    </div>
+<script>
+function selectFriendAndClosePopup(friendId, friendUsername, friendProfilePicture) {
+    // Make AJAX request to select friend
+    fetch('{% url 'select_friend' %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+            selected_friend_id: friendId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Close the popup window
+            window.close();
+            // Communicate with the opener window
+            if (window.opener) {
+                window.opener.handleFriendSelection(friendUsername, friendProfilePicture);
+            }
+        } else {
+            alert('Failed to select friend. Please try again.');
+        }
+    })
+    .catch(error => {
+        console.error('Error selecting friend:', error);
+        alert('Failed to select friend. Please try again.');
+    });
+}
+</script>
+
 </body>
 </html>

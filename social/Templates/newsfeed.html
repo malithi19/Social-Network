@@ -322,6 +322,9 @@
             <br>
             <div class="post-content">
                 <p>{{ post.content }}</p>
+                {% if selected_friend_username %}
+                <p>With {{ selected_friend_username }}</p>
+                {% endif %}
                 {% if post.image %}
                 <div class="post-image">
                     <img src="{{ post.image.url }}" alt="Post Image">
@@ -359,6 +362,13 @@
 
 <script>
 document.getElementById('post-image').addEventListener('change', previewImage);
+
+document.addEventListener('DOMContentLoaded', function() {
+    const selectedFriendName = localStorage.getItem('selectedFriendName');
+    if (selectedFriendName) {
+        document.getElementById('selected-friend-message').textContent = `You selected: ${selectedFriendName}`;
+    }
+});
 
 function postStatus() {
     const textArea = document.getElementById('new-post');
@@ -438,41 +448,43 @@ function addFeeling(feeling) {
     const textArea = document.getElementById('new-post');
     textArea.value += ` ${feeling}`;
 }
-function tagFriend(friendName) {
+function tagFriends() {
+    const existingFriends = [
+    {% for friend in friends %}
+    { name: '{{ friend.username }}' },
+    {% endfor %}];
+
+    const searchTerm = prompt('Enter friend\'s name to tag (leave empty to see all):');
+    
+    let filteredFriends = existingFriends;
+    if (searchTerm) {
+        filteredFriends = existingFriends.filter(friend =>
+            friend.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }
+
+    let selectedFriend = null;
+    if (filteredFriends.length > 0) {
+        const friendList = filteredFriends.map(friend => friend.name).join('\n');
+        selectedFriend = prompt(`Select friend to tag:\n${friendList}`);
+    } else {
+        alert('No friends found matching the search criteria.');
+        return;
+    }
+
+    if (selectedFriend) {
         const textArea = document.getElementById('new-post');
-        textArea.value += ` with ${friendName}`;
+        textArea.value += ` with ${selectedFriend}`;
+
+        // Close the popup after selecting a friend
+        document.getElementById('popupOverlay').style.display = 'none';
+
+        // Save selected friend name to localStorage (optional)
+        localStorage.setItem('selectedFriendName', selectedFriend);
+    } else {
+        alert('Failed to select friend. Please try again.');
     }
-
-    function tagFriends() {
-        const existingFriends = [
-        {% for friend in friends %}
-        { name: '{{ friend.username }}' },
-        {% endfor %}];
-
-        const searchTerm = prompt('Enter friend\'s name to tag (leave empty to see all):');
-        
-        let filteredFriends = existingFriends;
-        if (searchTerm) {
-            filteredFriends = existingFriends.filter(friend =>
-                friend.name.toLowerCase().includes(searchTerm.toLowerCase())
-            );
-        }
-
-        let selectedFriend = null;
-        if (filteredFriends.length > 0) {
-            const friendList = filteredFriends.map(friend => friend.name).join('\n');
-            selectedFriend = prompt(`Select friend to tag:\n${friendList}`);
-        } else {
-            alert('No friends found matching the search criteria.');
-            return;
-        }
-
-        if (selectedFriend) {
-            const textArea = document.getElementById('new-post');
-            textArea.value += ` with ${selectedFriend}`;
-        }
-    }
-
+}
 
 
 function showCommentsPopup() {
