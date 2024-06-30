@@ -315,14 +315,14 @@
         {% for post in posts %}
         <div class="post">
             <div class="post-header">
-                    {% if post.author == request.user %}
-                        <a href="{% url 'profile' post.author.id %}">
-                    {% else %}
-                        <a href="{% url 'other_profile' post.author.id %}">
-                    {% endif %}
+                {% if post.author == request.user %}
+                    <a href="{% url 'profile' post.author.id %}">
+                {% else %}
+                    <a href="{% url 'other_profile' post.author.id %}">
+                {% endif %}
                     <img src="{% if post.author.profile.picture %}{{ post.author.profile.picture.url }}{% else %}default_user_image.jpg{% endif %}" alt="User Image">
-                </a>
-                <span class="username">{{ post.author.username }}</span>
+                 </a>
+                 <span class="username">{{ post.author.username }}</span>
             </div>
             <br>
             <div class="post-content">
