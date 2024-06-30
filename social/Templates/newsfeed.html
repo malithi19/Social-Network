@@ -355,12 +355,14 @@
             <!-- Comments will be appended here dynamically -->
         </div>
         <form id="comment-form">
-            <input type="text" placeholder="Your name">
+            <input type="text" placeholder="Your name" value="{{ user.username }}" readonly>
             <textarea placeholder="Add a comment"></textarea>
             <button type="button" onclick="postComment()">Post Comment</button>
         </form>
     </div>
 </div>
+
+
 
 <script>
 document.getElementById('post-image').addEventListener('change', previewImage);
@@ -457,21 +459,20 @@ function postComment() {
     const commenterName = nameInput.value.trim();
     const commentText = commentInput.value.trim();
 
-    if (commenterName === '' || commentText === '') {
-        alert('Please enter your name and comment!');
+    if (commentText === '') {
+        alert('Please enter a comment!');
         return;
     }
 
     const commentDiv = document.createElement('div');
     commentDiv.className = 'comment';
-    commentDiv.innerHTML = `
-        <strong>${commenterName}</strong>: ${commentText}
-    `;
+    commentDiv.innerHTML = `<strong>${commenterName}</strong>: ${commentText}`;
+
 
     const commentsSection = document.querySelector('.popup-content .comments');
     commentsSection.appendChild(commentDiv);
 
-    nameInput.value = '';
+
     commentInput.value = '';
 }
 
