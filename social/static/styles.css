@@ -181,3 +181,44 @@ header {
 .friend-link:hover .friend-username {
     color: #007bff; /* Change to blue on hover */
 }
+.user-info {
+    margin-top: 20px;
+}
+
+.user-name {
+    font-size: 20px;
+    color: #333;
+}
+
+.user-location,
+.user-joined {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.user-location .location-icon,
+.user-joined .joined-icon {
+    margin-right: 8px;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+.user-location .location-icon {
+    fill: red;
+}
+
+.user-joined .joined-icon {
+    fill: #333;
+}
+
+.user-location span,
+.user-joined span {
+    margin-left: 8px;
+}
