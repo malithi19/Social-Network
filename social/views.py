@@ -14,6 +14,7 @@ from django.utils.decorators import method_decorator
 from .forms import PostForm
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 
 # Regular view functions
@@ -194,6 +195,19 @@ def create_post(request):
             return JsonResponse({'success': False, 'errors': form.errors})
     return JsonResponse({'success': False, 'message': 'Invalid request method.'})
 
+@login_required
+def toggle_like(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    user = request.user
+    liked = False
+
+    like, created = Like.objects.get_or_create(user=user, post=post)
+    if not created:
+        like.delete()
+    else:
+        liked = True
+
+    return JsonResponse({'liked': liked, 'like_count': post.post_likes.count()})
 
 def user_list(request):
     query = request.GET.get('q')

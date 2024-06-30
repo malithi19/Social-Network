@@ -6,6 +6,7 @@ from . import views
 from .views import create_post
 from .views import update_profile_picture
 from .views import update_cover_photo
+from .views import toggle_like
 
 urlpatterns = [
     path('', views.sign_in, name='sign_in'),
@@ -27,6 +28,7 @@ urlpatterns = [
     path('users/', views.user_list, name='user_list'),
     path('other_profile/<int:user_id>/', views.other_profile, name='other_profile'),
     path('user_search/', views.user_search, name='user_search'),
+    path('toggle_like/<uuid:post_id>/', toggle_like, name='toggle_like'),
 ]
 
 # DRF viewsets

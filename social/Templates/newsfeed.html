@@ -346,7 +346,9 @@
             </div>
             <br>
             <div class="post-actions">
-                <button onclick="toggleLike(this)"><i class="fa fa-thumbs-up"></i> Like <span class="like-count">0</span></button>
+                <button onclick="toggleLike(this, '{{ post.id }}')">
+                    <i class="fa fa-thumbs-up"></i> Like <span class="like-count">{{ post.post_likes.count }}</span>
+                </button>
                 <button onclick="showCommentsPopup(this)"><i class="fa fa-comment"></i> Comment</button>
                 <button onclick="showSharePopup()"><i class="fa fa-share"></i> Share</button>
             </div>
@@ -433,10 +435,42 @@ function previewImage() {
     }
 }
 
-function toggleLike(button) {
-    const likeCountSpan = button.querySelector('.like-count');
-    let likeCount = parseInt(likeCountSpan.textContent);
-    likeCountSpan.textContent = ++likeCount;
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function toggleLike(button, postId) {
+    fetch(`/toggle_like/${postId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.liked) {
+            button.querySelector('.like-count').textContent = data.like_count;
+            button.querySelector('i').classList.add('liked');
+        } else {
+            button.querySelector('.like-count').textContent = data.like_count;
+            button.querySelector('i').classList.remove('liked');
+        }
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
 }
 
 function addFeeling(feeling) {
@@ -504,7 +538,9 @@ function addPostToFeed(post) {
         </div>
         <br>
         <div class="post-actions">
-            <button onclick="toggleLike(this)"><i class="fa fa-thumbs-up"></i> Like <span class="like-count">0</span></button>
+            <button onclick="toggleLike(this, '${post.id}')">
+                <i class="fa fa-thumbs-up"></i> Like <span class="like-count">${post.post_likes.length}</span>
+            </button>
             <button onclick="showCommentsPopup(this)"><i class="fa fa-comment"></i> Comment</button>
             <button onclick="showSharePopup()"><i class="fa fa-share"></i> Share</button>
         </div>
@@ -512,21 +548,6 @@ function addPostToFeed(post) {
     `;
 
     newsFeed.prepend(newPost);
-}
-
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
 }
 
 </script>
