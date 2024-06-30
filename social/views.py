@@ -14,7 +14,8 @@ from django.utils.decorators import method_decorator
 from .forms import PostForm
 from django.contrib.auth.models import User
 from django.db.models import Q
-
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 
 # Regular view functions
 def profile(request, user_id):
@@ -45,8 +46,7 @@ def update_cover_photo(request):
         profile.save()
         return JsonResponse({'success': True, 'url': profile.cover_picture.url})
     return JsonResponse({'success': False, 'error': 'Invalid request'})
-
-
+    
 def menu(req, pid):
     return render(req, "menu.html", {'pid': pid})
 
@@ -187,6 +187,31 @@ def create_post(request):
             return JsonResponse({'success': False, 'errors': form.errors})
     return JsonResponse({'success': False, 'message': 'Invalid request method.'})
 
+
+@login_required
+def tagable_list(request):
+    query = request.GET.get('q', '')
+    user_profile = request.user.profile
+    friends = user_profile.friends.all()
+
+    if query:
+        friends = friends.filter(
+            Q(username__icontains=query) |
+            Q(first_name__icontains=query) |
+            Q(last_name__icontains=query)
+        )
+
+    context = {
+        'friends': friends,
+        'query': query
+    }
+    return render(request, 'tagablelist.html', context)
+
+def select_friend(request, friend_id):
+    # Logic to handle selecting a friend
+    friend = get_object_or_404(User, id=friend_id)
+    # Additional logic as needed
+    return JsonResponse({'success': True, 'friend_id': friend_id})
 
 def user_list(request):
     query = request.GET.get('q')

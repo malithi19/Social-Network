@@ -285,7 +285,7 @@
                             <input type="file" id="post-image" accept="image/*">
                         </td>
                         <td class="center-cell">
-                            <span class="tag-friends" onclick="tagFriends()">Tag Friends</span>
+                            <span class="tag-friends" onclick="openTaggableListPopup()">Tag Friends</span>
                         </td>
                     </tr>
                 </table>
@@ -397,7 +397,19 @@ function postStatus() {
     imageInput.value = '';
     document.getElementById('preview-image').style.display = 'none';
 }
-
+    function openTaggableListPopup() {
+        // Define the URL and dimensions of the popup window
+        const url = "{% url 'tagable_list' %}"; 
+        const width = 600;
+        const height = 400;
+        
+        // Calculate the position of the popup window
+        const left = (window.innerWidth - width) / 2;
+        const top = (window.innerHeight - height) / 2;
+        
+        // Open the popup window
+        window.open(url, '_blank', `width=${width}, height=${height}, left=${left}, top=${top}`);
+    }
 function previewImage() {
     const preview = document.getElementById('preview-img');
     const file = document.getElementById('post-image').files[0];
@@ -426,14 +438,42 @@ function addFeeling(feeling) {
     const textArea = document.getElementById('new-post');
     textArea.value += ` ${feeling}`;
 }
-
-function tagFriends() {
-    const friendName = prompt('Enter friend\'s name to tag:');
-    if (friendName) {
+function tagFriend(friendName) {
         const textArea = document.getElementById('new-post');
         textArea.value += ` with ${friendName}`;
     }
-}
+
+    function tagFriends() {
+        const existingFriends = [
+        {% for friend in friends %}
+        { name: '{{ friend.username }}' },
+        {% endfor %}];
+
+        const searchTerm = prompt('Enter friend\'s name to tag (leave empty to see all):');
+        
+        let filteredFriends = existingFriends;
+        if (searchTerm) {
+            filteredFriends = existingFriends.filter(friend =>
+                friend.name.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+        }
+
+        let selectedFriend = null;
+        if (filteredFriends.length > 0) {
+            const friendList = filteredFriends.map(friend => friend.name).join('\n');
+            selectedFriend = prompt(`Select friend to tag:\n${friendList}`);
+        } else {
+            alert('No friends found matching the search criteria.');
+            return;
+        }
+
+        if (selectedFriend) {
+            const textArea = document.getElementById('new-post');
+            textArea.value += ` with ${selectedFriend}`;
+        }
+    }
+
+
 
 function showCommentsPopup() {
     document.getElementById('commentsPopup').style.display = 'flex';

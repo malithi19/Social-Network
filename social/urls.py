@@ -27,6 +27,8 @@ urlpatterns = [
     path('users/', views.user_list, name='user_list'),
     path('other_profile/<int:user_id>/', views.other_profile, name='other_profile'),
     path('user_search/', views.user_search, name='user_search'),
+    path('tagablelist/', views.tagable_list, name='tagable_list'),
+    path('select_friend/', views.select_friend, name='select_friend'),
 ]
 
 # DRF viewsets

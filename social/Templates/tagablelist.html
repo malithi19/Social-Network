@@ -1,0 +1,34 @@
+<!-- tagablelist.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tag Friends</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>Tag Friends</h1>
+
+    <form method="GET" action="{% url 'tagable_list' %}">
+        <input type="text" name="q" placeholder="Search friends..." value="{{ query }}">
+        <button type="submit">Search</button>
+    </form>
+
+    <div class="friends-list">
+        <form method="POST" action="{% url 'select_friend' %}">
+            {% csrf_token %}
+            {% for friend in friends %}
+            <div class="friend">
+                <input type="radio" id="friend_{{ friend.id }}" name="selected_friend" value="{{ friend.id }}">
+                <label for="friend_{{ friend.id }}">{{ friend.username }}</label>
+            </div>
+            {% empty %}
+            <p>No friends found.</p>
+            {% endfor %}
+            <button type="submit">Select Friend</button>
+        </form>
+    </div>
+</body>
+</html>
