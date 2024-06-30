@@ -10,6 +10,7 @@
     <style>
 	    body {
             font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
         }
 
         .main-content {
@@ -88,7 +89,8 @@
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
-            width: 97%;
+            max-width: 95%;
+            margin: 20px auto;
         }
 
         .post .post-header {
@@ -307,8 +309,10 @@
         <button onclick="postStatus()">Post</button>
         <br>
         <div id="preview-image" class="post-image" style="display: none;">
+            <br>
             <img id="preview-img" src="#" alt="Preview Image">
         </div>
+    </div>
     </div>
 
     <div id="news-feed">
@@ -316,7 +320,7 @@
         <!-- Example post -->
         <div class="post">
             <div class="post-header">
-                <img src="{% if post.author.profile_picture %}{{ post.author.profile_picture.url }}{% else %}default_user_image.jpg{% endif %}" alt="User Image">
+                <img src="{% if post.author.profile.picture %}{{ post.author.profile.picture.url }}{% else %}default_user_image.jpg{% endif %}" alt="User Image">
                 <span class="username">{{ post.author.username }}</span>
             </div>
             <br>
@@ -324,9 +328,11 @@
                 <p>{{ post.content }}</p>
                 {% if post.image %}
                 <div class="post-image">
+                    <br>
                     <img src="{{ post.image.url }}" alt="Post Image">
                 </div>
                 {% endif %}
+                <br>
                 <p><small>Posted on {{ post.created_at }}</small></p>
             </div>
             <br>
@@ -341,7 +347,7 @@
         </div>
         {% endfor %}
     </div>
-</div>
+
 
 <!-- Popup overlay for comments -->
 <div class="popup-overlay" id="commentsPopup" onclick="hideCommentsPopup(event)">
