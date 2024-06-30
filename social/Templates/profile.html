@@ -358,12 +358,38 @@
                 <div class="friends-list">
                     {% for friend in user.profile.friends.all %}
                     <div class="friend">
-                        <img src="{% if friend.profile.profile_picture %}{{ friend.profile.profile_picture.url }}{% else %}default-profile.jpg{% endif %}" alt="Friend">
-                        <span>{{ friend.username }}</span>
+                        <a href="{% url 'other_profile' friend.id %}" class="friend-link">
+                            <img src="{% if friend.profile.profile_picture %}{{ friend.profile.profile_picture.url }}{% else %}{% static 'default_profile_picture.png' %}{% endif %}" alt="{{ friend.username }}'s profile picture" class="friend-picture">
+                            <span class="friend-username">{{ friend.username }}</span>
+                        </a>
                     </div>
                     {% empty %}
                     <p>No friends yet.</p>
                     {% endfor %}
+                </div>
+            </div>
+            <div class="profile-section">
+                <h2>About</h2>
+                <div class="user-info">
+                    <p>
+                        <span class="user-name"><b>{{ user.first_name }} {{ user.last_name }}</b></span>
+                    </p>
+                    {% if user.profile.location %}
+                    <p class="user-location">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="icon location-icon">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                            <path d="M0 0h24v24H0z" fill="none"/>
+                        </svg>
+                        <span>{{ user.profile.location }}</span>
+                    </p>
+                    {% endif %}
+                    <p class="user-joined">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="icon joined-icon">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                            <path d="M0 0h24v24H0z" fill="none"/>
+                        </svg>
+                        <span>Joined {{ user.date_joined|timesince }} ago</span>
+                    </p>
                 </div>
             </div>
             <div class="profile-section">
