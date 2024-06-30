@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8144e473-643b-4e00-85b5-3b5d22bc4e63" name="Changes" comment="display the uploaded post in the user profile">
+    <list default="true" id="8144e473-643b-4e00-85b5-3b5d22bc4e63" name="Changes" comment="linked profile photo">
+      <change afterPath="$PROJECT_DIR$/media/profile_pictures/preview-page0.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/social/Templates/newsfeed.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/newsfeed.html" afterDir="false" />
@@ -111,7 +112,14 @@
       <option name="project" value="LOCAL" />
       <updated>1719729306283</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="linked profile photo">
+      <created>1719729961495</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1719729961495</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -150,6 +158,7 @@
     <MESSAGE value="update styles.css" />
     <MESSAGE value="post partially connected to the database" />
     <MESSAGE value="display the uploaded post in the user profile" />
-    <option name="LAST_COMMIT_MESSAGE" value="display the uploaded post in the user profile" />
+    <MESSAGE value="linked profile photo" />
+    <option name="LAST_COMMIT_MESSAGE" value="linked profile photo" />
   </component>
 </project>
