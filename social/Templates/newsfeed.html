@@ -316,16 +316,22 @@
     <div id="news-feed">
         {% for post in posts %}
         <div class="post">
-            <div class="post-header">
+        <div class="post-header">
+            {% if post.author == request.user %}
+                <a href="{% url 'profile' post.author.id %}">
+            {% else %}
+                <a href="{% url 'other_profile' post.author.id %}">
+            {% endif %}
+                <img src="{% if post.author.profile.picture %}{{ post.author.profile.picture.url }}{% else %}default_user_image.jpg{% endif %}" alt="User Image">
+            </a>
+            <strong>
                 {% if post.author == request.user %}
-                    <a href="{% url 'profile' post.author.id %}">
+                    <a href="{% url 'profile' post.author.id %}" style="text-decoration: none; color: black;">{{ post.author.username }}</a>
                 {% else %}
-                    <a href="{% url 'other_profile' post.author.id %}">
+                    <a href="{% url 'other_profile' post.author.id %}" style="text-decoration: none; color: black;">{{ post.author.username }}</a>
                 {% endif %}
-                    <img src="{% if post.author.profile.picture %}{{ post.author.profile.picture.url }}{% else %}default_user_image.jpg{% endif %}" alt="User Image">
-                 </a>
-                 <span class="username">{{ post.author.username }}</span>
-            </div>
+            </strong>
+        </div>
             <br>
             <div class="post-content">
                 <p>{{ post.content }}</p>
