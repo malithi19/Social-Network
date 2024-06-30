@@ -316,7 +316,9 @@
         <!-- Example post -->
         <div class="post">
             <div class="post-header">
-                <img src="{% if post.author.profile.picture %}{{ post.author.profile.picture.url }}{% else %}default_user_image.jpg{% endif %}" alt="User Image">
+                <a href="{% url 'profile' user.id %}">
+                    <img src="{% if post.author.profile.picture %}{{ post.author.profile.picture.url }}{% else %}default_user_image.jpg{% endif %}" alt="User Image">
+                </a>
                 <span class="username">{{ post.author.username }}</span>
             </div>
             <br>
