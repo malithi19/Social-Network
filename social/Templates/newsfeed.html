@@ -364,12 +364,12 @@
 <!-- Popup overlay for comments -->
 <div class="popup-overlay" id="commentsPopup" onclick="hideCommentsPopup(event)">
     <div class="popup-content" onclick="event.stopPropagation()">
-        <div class="comments">
+        <div class="comments" id="popup-comments">
             <!-- Comments will be appended here dynamically -->
         </div>
         <form id="comment-form">
-            <input type="text" placeholder="Your name" value="{{ user.username }}" readonly>
-            <textarea placeholder="Add a comment"></textarea>
+            <input type="text" id="comment-author" value="{{ user.username }}" readonly>
+            <textarea id="comment-content" placeholder="Add a comment"></textarea>
             <button type="button" onclick="postComment()">Post Comment</button>
         </form>
     </div>
