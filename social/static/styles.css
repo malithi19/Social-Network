@@ -190,6 +190,7 @@ header {
     font-weight: bold;
     color: #333; /* Dark grey color */
     transition: color 0.3s;
+    text-decoration: none;
 }
 
 .friend-link:hover .friend-username {

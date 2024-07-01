@@ -117,7 +117,9 @@
                  <div class="user-list">
                         {% for user in search_results %}
                              <div class="user-item">
-                                 <img src="default-profile.jpg" alt="Profile Picture">
+                                <a href="{% url 'other_profile' user.id %}">
+                                    <img src="{{ user.profile.picture.url }}" alt="Profile Picture">
+                                </a>
                                  <a href="{% url 'other_profile' user.id %}">{{ user.username }}</a>
                              </div>
                         {% empty %}
