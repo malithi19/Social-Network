@@ -14,6 +14,7 @@ from django.utils.decorators import method_decorator
 from .forms import PostForm
 from django.contrib.auth.models import User
 from django.db.models import Q
+import json
 
 
 # Regular view functions
