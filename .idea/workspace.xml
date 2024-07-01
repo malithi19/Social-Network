@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8144e473-643b-4e00-85b5-3b5d22bc4e63" name="Changes" comment="Set other profile's profile photo and">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social/Templates/forgotten_password.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/forgotten_password.html" afterDir="false" />
+    <list default="true" id="8144e473-643b-4e00-85b5-3b5d22bc4e63" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/social/Templates/messages.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/messages.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/Templates/newsfeed.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/newsfeed.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +131,28 @@
       <option name="project" value="LOCAL" />
       <updated>1719735704065</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Common CSS transfer">
+      <created>1719845776170</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1719845776170</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Common CSS transfer">
+      <created>1719845803728</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1719845803728</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Common CSS transfer">
+      <created>1719845827117</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1719845827117</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -173,6 +194,7 @@
     <MESSAGE value="linked profile photo" />
     <MESSAGE value="linked user and other profile" />
     <MESSAGE value="Set other profile's profile photo and cover photo" />
-    <option name="LAST_COMMIT_MESSAGE" value="Set other profile's profile photo and cover photo" />
+    <MESSAGE value="Common CSS transfer" />
+    <option name="LAST_COMMIT_MESSAGE" value="Common CSS transfer" />
   </component>
 </project>
