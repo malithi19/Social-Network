@@ -145,3 +145,22 @@ class Mention(models.Model):
 
     def __str__(self):
         return f'Mention by {self.user.username} on Post {self.post.id if self.post else "N/A"} or Comment {self.comment.id if self.comment else "N/A"}'
+
+
+class Notification(models.Model):
+    TYPE_CHOICES = (
+        ('like', 'Liked your post'),
+        ('comment', 'Commented on your post'),
+        ('tag', 'Tagged you in a post'),
+    )
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_notifications')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_notifications')
+    notification_type = models.CharField(max_length=10, choices=TYPE_CHOICES)
+    post = models.ForeignKey('Post', on_delete=models.CASCADE, null=True, blank=True)
+    comment = models.ForeignKey('Comment', on_delete=models.CASCADE, null=True, blank=True)
+    timestamp = models.DateTimeField(default=timezone.now)
+    viewed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.sender} to {self.user}: {self.get_notification_type_display()}'
+

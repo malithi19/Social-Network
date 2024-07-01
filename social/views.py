@@ -14,6 +14,7 @@ from django.utils.decorators import method_decorator
 from .forms import PostForm
 from django.contrib.auth.models import User
 from django.db.models import Q
+from .models import Notification
 
 
 # Regular view functions
@@ -87,7 +88,9 @@ def logout(request):
 
 
 def messages(req):
-    return render(req, "messages.html")
+    user = request.user
+    notifications = Notification.objects.filter(recipient=user, viewd=False).order_by('-timestamp')
+    return render(request, 'messages.html', {'notifications': notifications})
 
 
 def newsfeed(req):
