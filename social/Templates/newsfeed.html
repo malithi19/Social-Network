@@ -148,23 +148,23 @@
             margin-right:30%;
         }
 
-	.feeling-phrase {
-            cursor: pointer;
-            color: #1877f2;
-            margin-right: 10px;
-        }
+        .feeling-phrase {
+                cursor: pointer;
+                color: #1877f2;
+                margin-right: 10px;
+            }
 
         .tag-friends {
             cursor: pointer;
             color: #1877f2;
         }
 
-	 table {
+        table {
             width: 100%;
             border-collapse: collapse;
         }
 
-	 .center-cell {
+         .center-cell {
             text-align: center;
         }
 
@@ -238,6 +238,7 @@
         #comment-form button:hover {
             background-color: #0056b3;
         } -->
+
     </style>
 </head>
 <body>
@@ -246,9 +247,11 @@
     <div class="nav-left">
         <a href="#" class="logo">Pixly</a>
         <div class="search-bar">
-            <input type="text" placeholder="Search...">
-            <i class="fa fa-search search-icon"></i>
-        </div>
+                <form action="{% url 'user_search' %}" method="GET" class="search-form">
+                    <input type="text" name="q" placeholder="Search..." value="{{ query }}">
+                    <button type="submit"><i class="fa fa-search search-icon"></i></button>
+                </form>
+            </div>
     </div>
     <div class="nav-center">
         <a href="{% url 'newsfeed' %}" class="nav-icon" id="home">

@@ -14,6 +14,7 @@
             padding: 0;
             transition: background-color 0.3s, color 0.3s;
         }
+
         .container {
             margin: 20px;
             padding: 20px;
@@ -21,12 +22,14 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             transition: background-color 0.3s, color 0.3s;
         }
+
         .profile-container {
             display: flex;
             align-items: center;
             margin-bottom: 20px;
             height: 100px;
         }
+
         .profile-container img {
             width: 100px;
             height: 100px;
@@ -34,21 +37,27 @@
             margin-right: 120px;
             margin-top: 30px;
         }
+
         .select {
             width: 100%;
         }
+
         .input {
             width: 98%;
         }
+
         .settings-container, .logout-container {
             margin-bottom: 20px;
         }
+
         .settings-container h2, .logout-container h2 {
             margin-bottom: 10px;
         }
+
         .settings-sub-section {
             margin-bottom: 10px;
         }
+
         .settings-sub-section h3 {
             cursor: pointer;
             background-color: #f1f1f1;
@@ -56,6 +65,7 @@
             border-radius: 4px;
             margin: 0;
         }
+
         .settings-content {
             display: none;
             padding: 10px;
@@ -63,20 +73,24 @@
             border-radius: 4px;
             margin-top: 5px;
         }
+
         .settings-content label {
             display: block;
             margin-top: 10px;
         }
+
         .settings-content label span {
             display: block;
             margin-bottom: 5px;
         }
+
         .settings-content label input,
         .settings-content label select {
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
         }
+
         .button {
             margin-top: 20px;
             padding: 10px 20px;
@@ -88,9 +102,11 @@
             text-align: center;
             width :100%;
         }
+
         .button:hover {
             background-color: #145dbf;
         }
+
         .modal {
             display: none;
             position: fixed;
@@ -104,6 +120,7 @@
             background-color: rgba(0,0,0,0.4);
             padding-top: 60px;
         }
+
         .modal-content {
             background-color: #fefefe;
             margin: 5% auto;
@@ -114,12 +131,12 @@
             text-align: center;
             border-radius: 8px;
         }
+
         .modal-content button {
             margin: 10px;
             padding: 10px 20px;
         }
 
-        
     </style>
 </head>
 <body id="body">
@@ -127,8 +144,10 @@
         <div class="nav-left">
             <a href="#" class="logo">Pixly</a>
             <div class="search-bar">
-                <input type="text" placeholder="Search...">
-                <i class="fa fa-search search-icon"></i>
+                <form action="{% url 'user_search' %}" method="GET" class="search-form">
+                    <input type="text" name="q" placeholder="Search..." value="{{ query }}">
+                    <button type="submit"><i class="fa fa-search search-icon"></i></button>
+                </form>
             </div>
         </div>
         <div class="nav-center">
