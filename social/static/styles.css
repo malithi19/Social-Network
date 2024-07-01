@@ -54,7 +54,7 @@ header {
     padding: 5px;
     background-color:  #4267B2; /* Optional: change background color */
     border-radius: 8px;
-     /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); Add subtle shadow */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  /*Add subtle shadow */
 }
 
 .search-bar form {
