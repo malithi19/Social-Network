@@ -455,8 +455,9 @@ function tagFriends() {
     }
 }
 
-function showCommentsPopup() {
+function showCommentsPopup(postId) {
     document.getElementById('commentsPopup').style.display = 'flex';
+    document.getElementById('commentsPopup').dataset.postId = postId;
 }
 
 function hideCommentsPopup(event) {
@@ -466,55 +467,42 @@ function hideCommentsPopup(event) {
 }
 
 function postComment() {
-    const nameInput = document.getElementById('comment-form').querySelector('input[type="text"]');
-    const commentInput = document.getElementById('comment-form').querySelector('textarea');
+    const postId = document.getElementById('commentsPopup').dataset.postId;
+    const commentContent = document.getElementById('comment-content').value.trim();
 
-    const commenterName = nameInput.value.trim();
-    const commentText = commentInput.value.trim();
-
-    if (commentText === '') {
+    if (commentContent === '') {
         alert('Please enter a comment!');
         return;
     }
 
-    const commentDiv = document.createElement('div');
-    commentDiv.className = 'comment';
-    commentDiv.innerHTML = `<strong>${commenterName}</strong>: ${commentText}`;
+    fetch(`/post_comment/${postId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content: commentContent }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const commentDiv = document.createElement('div');
+            commentDiv.className = 'comment';
+            commentDiv.innerHTML = `
+                <img src="${data.author.profile_picture}" alt="User Image" class="comment-author-image">
+                <strong>${data.author.username}</strong>: ${data.content}
+            `;
+            const commentsSection = document.querySelector(`#post-${postId} .comments`);
+            commentsSection.appendChild(commentDiv);
 
-
-    const commentsSection = document.querySelector('.popup-content .comments');
-    commentsSection.appendChild(commentDiv);
-
-
-    commentInput.value = '';
-}
-
-function addPostToFeed(post) {
-    const newsFeed = document.getElementById('news-feed');
-    const newPost = document.createElement('div');
-    newPost.className = 'post';
-
-    newPost.innerHTML = `
-        <div class="post-header">
-            <img src="${post.author.profile_picture}" alt="User Image">
-            <span class="username">${post.author.username}</span>
-        </div>
-        <br>
-        <div class="post-content">
-            <p>${post.content}</p>
-            ${post.image ? `<div class="post-image"><img src="${post.image}" alt="Posted Image"></div>` : ''}
-            <p><small>Posted on ${new Date(post.created_at).toLocaleString()}</small></p>
-        </div>
-        <br>
-        <div class="post-actions">
-            <button onclick="toggleLike(this)"><i class="fa fa-thumbs-up"></i> Like <span class="like-count">0</span></button>
-            <button onclick="showCommentsPopup(this)"><i class="fa fa-comment"></i> Comment</button>
-            <button onclick="showSharePopup()"><i class="fa fa-share"></i> Share</button>
-        </div>
-        <div class="comments"></div>
-    `;
-
-    newsFeed.prepend(newPost);
+            // Clear the comment input
+            document.getElementById('comment-content').value = '';
+            // Optionally, hide the popup
+            hideCommentsPopup({ target: document.getElementById('commentsPopup') });
+        } else {
+            alert('Error posting your comment!');
+        }
+    });
 }
 
 function getCookie(name) {
