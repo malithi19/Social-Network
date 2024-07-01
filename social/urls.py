@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views
-
+from .views import get_friends_list, create_post, update_profile_picture, update_cover_photo, tag_friend
 # Regular views
 from .views import create_post
 from .views import update_profile_picture
@@ -27,6 +27,8 @@ urlpatterns = [
     path('users/', views.user_list, name='user_list'),
     path('other_profile/<int:user_id>/', views.other_profile, name='other_profile'),
     path('user_search/', views.user_search, name='user_search'),
+    path('get_friends_list/', get_friends_list, name='get_friends_list'),
+    path('tag_friend/', tag_friend, name='tag_friend'),
 ]
 
 # DRF viewsets

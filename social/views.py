@@ -1,4 +1,5 @@
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from rest_framework import viewsets
@@ -14,6 +15,7 @@ from django.utils.decorators import method_decorator
 from .forms import PostForm
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.http import JsonResponse
 
 
 # Regular view functions
@@ -76,6 +78,18 @@ def add_friend(request, user_id):
             friend = User.objects.get(id=user_id)
             request.user.profile.friends.add(friend)
             return JsonResponse({'success': True})
+        except User.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'User does not exist'})
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+@login_required
+@csrf_exempt
+def tag_friend(request):
+    if request.method == 'POST':
+        friend_id = request.POST.get('friend_id')
+        try:
+            friend = User.objects.get(id=friend_id)
+            return JsonResponse({'success': True, 'friend_name': friend.username})
         except User.DoesNotExist:
             return JsonResponse({'success': False, 'error': 'User does not exist'})
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
@@ -179,14 +193,17 @@ def create_post(request):
             post.save()
             form.save_m2m()  # Save tags and other ManyToMany fields
 
+            tagged_friends = list(post.tag_friends.values('username', 'profile__picture'))
+
             post_data = {
                 'content': post.content,
                 'image': post.image.url if post.image else None,
                 'created_at': post.created_at.isoformat(),
                 'author': {
                     'username': post.author.username,
-                    'profile_picture': post.author.profile_picture.url
-                }
+                    'profile_picture': post.author.profile.picture.url  # Ensure this is correct
+                },
+                'tagged_friends': tagged_friends
             }
 
             return JsonResponse({'success': True, 'post': post_data})
@@ -225,6 +242,12 @@ def user_search(request):
         'query': query,
     }
     return render(request, 'user_list.html', context)
+
+@login_required
+def get_friends_list(request):
+    friends = request.user.friends.all()
+    friends_data = [{'id': friend.id, 'username': friend.username} for friend in friends]
+    return JsonResponse({'friends': friends_data})
 
 
 # DRF viewsets

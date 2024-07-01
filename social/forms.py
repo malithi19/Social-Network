@@ -44,6 +44,12 @@ class SignInForm(AuthenticationForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
 
 class PostForm(forms.ModelForm):
+    tag_friends = forms.ModelMultipleChoiceField(
+        queryset=User.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
+
     class Meta:
         model = Post
-        fields = ['content', 'image']
+        fields = ['content', 'image', 'tag_friends']
