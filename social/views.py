@@ -194,6 +194,26 @@ def create_post(request):
             return JsonResponse({'success': False, 'errors': form.errors})
     return JsonResponse({'success': False, 'message': 'Invalid request method.'})
 
+@csrf_exempt
+def post_comment(request, post_id):
+    if request.method == 'POST':
+        post = get_object_or_404(Post, id=post_id)
+        content = json.loads(request.body).get('content')
+        comment = Comment.objects.create(
+            content=content,
+            author=request.user,
+            post=post
+        )
+        data = {
+            'success': True,
+            'content': comment.content,
+            'author': {
+                'username': comment.author.username,
+                'profile_picture': comment.author.profile_picture.url,
+            }
+        }
+        return JsonResponse(data)
+    return JsonResponse({'success': False})
 
 def user_list(request):
     query = request.GET.get('q')
