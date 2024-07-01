@@ -42,45 +42,59 @@ header {
     margin-right: 10px;
 }
 
+/* Styling the Search bar */
+
 .search-bar {
-    width: 100%; /* Occupy full width of nav-left */
+    width: 90%; /* Occupy full width of nav-left */
     max-width: 400px; /* Limit maximum width */
-    padding: 5px;
-    border-radius: 20px; /* Rounded corners */
-    background-color: #fff;
     display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 10px;
     margin-left: 20px;
+    padding: 5px;
+    background-color:  #4267B2; /* Optional: change background color */
+    border-radius: 8px;
+     /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); Add subtle shadow */
+}
+
+.search-bar form {
+    display: flex;
+    width: 100%;
 }
 
 .search-bar input[type="text"] {
-    width: calc(100% - 30px); /* Adjust for search icon width */
-    padding: 8px;
-    border: none;
-    border-radius: 20px; /* Rounded corners */
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    outline: none;
     box-sizing: border-box;
-    font-size: 14px;
-    outline: none; /* Remove default input focus outline */
+    font-size: 12px; /* Increase font size */
+}
+
+.search-bar button {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Add transition for hover effect */
 }
 
 .search-bar input[type="text"]::placeholder {
     color: #bbb; /* Placeholder text color */
 }
 
-.search-bar .search-icon {
-    color: #4267B2; /* Search icon color */
-    font-size: 18px;
-    cursor: pointer;
-    outline: none;
+.search-bar button:hover {
+    background-color: #0056b3;
 }
 
- .search-form {
-            display: flex;
-            width: 100%;
-        }
-
+.search-icon {
+    font-size: 16px;
+}
 
 /* Styling the navigation icons (2nd and 3rd parts) */
 .nav-center {
