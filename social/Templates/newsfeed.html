@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{% static 'styles.css' %}">
     <style>
 	    body {
-	        background-color: #f0f2f5;
+	    background-color: #f0f2f5;
         }
 
         .main-content {
@@ -19,6 +19,13 @@
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
         }
 
         .post-form {
@@ -271,8 +278,10 @@
         </a>
     </div>
     <div class="user-profile">
-        <img id="headerProfilePicture" class="profile-picture" src="{{ user.profile.picture.url }}" alt="Profile Picture">
-        <span class="username">{{ user.username }}</span>
+        <a href="{% url 'profile' user.id %}">
+            <img id="headerProfilePicture" class="profile-picture" src="{{ user.profile.picture.url }}" alt="Profile Picture">
+        </a>
+            <span class="username">{{ user.username }}</span>
     </div>
 </header>
 <br><br><br>

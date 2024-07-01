@@ -147,8 +147,8 @@ header {
 }
 
 .user-profile img {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%; /* Round profile picture */
     margin-right: 10px;
 }
