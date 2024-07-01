@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8144e473-643b-4e00-85b5-3b5d22bc4e63" name="Changes" comment="Set other profile's profile photo and">
+    <list default="true" id="8144e473-643b-4e00-85b5-3b5d22bc4e63" name="Changes" comment="Common CSS transfer">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/social/Templates/friends.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/friends.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social/Templates/other_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/other_profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/Templates/menu.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/menu.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/Templates/newsfeed.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/newsfeed.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/social/Templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/Templates/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/static/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/social/static/styles.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,7 +137,105 @@
       <option name="project" value="LOCAL" />
       <updated>1719735704065</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Common CSS transfer">
+      <created>1719845776170</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1719845776170</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Common CSS transfer">
+      <created>1719845803728</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1719845803728</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Common CSS transfer">
+      <created>1719845827117</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1719845827117</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Common CSS transfer">
+      <created>1719846041857</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1719846041857</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Common CSS transfer">
+      <created>1719846064355</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1719846064355</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Common CSS transfer">
+      <created>1719846085014</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1719846085014</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Common CSS transfer">
+      <created>1719846149515</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1719846149515</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Common CSS transfer">
+      <created>1719846190481</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1719846190481</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Common CSS transfer">
+      <created>1719846357455</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1719846357455</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Common CSS transfer">
+      <created>1719846378491</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1719846378491</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Common CSS transfer">
+      <created>1719846457940</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1719846457940</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Common CSS transfer">
+      <created>1719846806520</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1719846806520</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Common CSS transfer">
+      <created>1719846847141</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1719846847141</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Common CSS transfer">
+      <created>1719846908293</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1719846908293</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -175,6 +277,7 @@
     <MESSAGE value="linked profile photo" />
     <MESSAGE value="linked user and other profile" />
     <MESSAGE value="Set other profile's profile photo and cover photo" />
-    <option name="LAST_COMMIT_MESSAGE" value="Set other profile's profile photo and cover photo" />
+    <MESSAGE value="Common CSS transfer" />
+    <option name="LAST_COMMIT_MESSAGE" value="Common CSS transfer" />
   </component>
 </project>

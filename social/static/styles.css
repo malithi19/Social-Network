@@ -7,6 +7,9 @@ body, h1, h2, h3, p, ul, li {
 /* Setting up basic font styles */
 body {
     font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5;
 }
 
 /* Styling the header */
@@ -144,8 +147,8 @@ header {
 }
 
 .user-profile img {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%; /* Round profile picture */
     margin-right: 10px;
 }
