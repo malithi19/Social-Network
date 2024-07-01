@@ -90,12 +90,12 @@ def messages(req):
     return render(req, "messages.html")
 
 
-def newsfeed(req):
-    posts = Post.objects.all().order_by('-created_at')
+def newsfeed(request):
+    posts = Post.objects.all().select_related('author')
     context = {
         'posts': posts,
     }
-    return render(req, 'newsfeed.html', context)
+    return render(request, 'newsfeed.html', context)
 
 
 def post(req, pid):
