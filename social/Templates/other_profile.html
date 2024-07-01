@@ -330,7 +330,7 @@
                         <a href="{% url 'other_profile' friend.id %}" class="friend-link">
                             <img src="{% if friend.profile.picture %}{{ friend.profile.picture.url }}{% else %}{% static 'default_profile_picture.png' %}{% endif %}" alt="{{ friend.username }}'s profile picture" class="friend-picture">
                         </a>
-                        <span class="friend-username">{{ friend.username }}</span>
+                        <a href="{% url 'other_profile' friend.id %}" class="friend-username">{{ friend.username }}</a>
                     </div>
                     {% empty %}
                     <p>No friends yet.</p>
