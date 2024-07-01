@@ -98,6 +98,10 @@
             margin-bottom: 10px;
         }
 
+        .profile-description button {
+            width: 100%;
+        }
+
         .profile-content .profile-section {
             background-color: #fff;
             padding: 20px;
@@ -141,6 +145,7 @@
 
         input[type="file"] {
             display: none;
+            width: auto;
         }
 
         .popup-overlay {
@@ -249,14 +254,14 @@
             color: white;
             border-radius: 4px;
             cursor: pointer;
-            width: 100%;
+            width: auto;
         }
 
         button:hover {
             background-color: #145dbf;
         }
 
-        .remove-btn {
+        .popup-overlay .remove-btn {
             background-color: #f44336;
             width: 20%;
         }
@@ -290,7 +295,7 @@
             margin: 10px;
         }
 
-                .post-form {
+        .post-form {
             margin-bottom: 20px;
         }
 
@@ -415,7 +420,7 @@
             margin-right:30%;
         }
 
-	.feeling-phrase {
+	    .feeling-phrase {
             cursor: pointer;
             color: #1877f2;
             margin-right: 10px;
@@ -426,12 +431,12 @@
             color: #1877f2;
         }
 
-	 table {
+	    table {
             width: 100%;
             border-collapse: collapse;
         }
 
-	 .center-cell {
+	    .center-cell {
             text-align: center;
         }
 
@@ -446,6 +451,10 @@
             z-index: 999; /* Ensure popup stays on top */
             justify-content: center;
             align-items: center;
+        }
+
+        .popup-overlay button{
+            width:100%;
         }
 
         .popup-content {
@@ -505,16 +514,19 @@
         #comment-form button:hover {
             background-color: #0056b3;
         } -->
+
     </style>
 </head>
 <body>
 <header>
     <div class="nav-left">
         <a href="#" class="logo">Pixly</a>
-        <div class="search-bar">
-            <input type="text" placeholder="Search...">
-            <i class="fa fa-search search-icon"></i>
-        </div>
+            <div class="search-bar">
+                <form action="{% url 'user_search' %}" method="GET" class="search-form">
+                    <input type="text" name="q" placeholder="Search..." value="{{ query }}">
+                    <button type="submit" ><i class="fa fa-search search-icon"></i></button>
+                </form>
+            </div>
     </div>
     <div class="nav-center">
         <a href="{% url 'newsfeed' %}" class="nav-icon" id="home">
