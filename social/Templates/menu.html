@@ -13,6 +13,7 @@
             margin: 0;
             padding: 0;
             transition: background-color 0.3s, color 0.3s;
+            background-color: #f0f2f5;
         }
 
         .container {
@@ -21,6 +22,7 @@
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             transition: background-color 0.3s, color 0.3s;
+            background-color: #fff;
         }
 
         .profile-container {
@@ -33,9 +35,10 @@
         .profile-container img {
             width: 100px;
             height: 100px;
+            align-items: center;
             border-radius: 50%;
             margin-right: 120px;
-            margin-top: 30px;
+            margin-top: 8px;
         }
 
         .select {
@@ -146,7 +149,7 @@
             <div class="search-bar">
                 <form action="{% url 'user_search' %}" method="GET" class="search-form">
                     <input type="text" name="q" placeholder="Search..." value="{{ query }}">
-                    <button type="submit"><i class="fa fa-search search-icon"></i></button>
+                    <button type="submit" class = "ed"><i class="fa fa-search search-icon"></i></button>
                 </form>
             </div>
         </div>
