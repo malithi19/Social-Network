@@ -24,10 +24,8 @@ class UserProfile(models.Model):
     website = models.URLField(blank=True, validators=[URLValidator()])
     birth_date = models.DateField(null=True, blank=True)
     gender = models.CharField(max_length=6, choices=GENDER_CHOICES, blank=True)
-    #work = models.CharField(max_length=255, blank=True, null=True)
-    #education = models.TextField(blank=True)
-    #current_town = models.CharField(max_length=255, blank=True)
-    #hometown = models.CharField(max_length=255, blank=True)
+    work = models.CharField(max_length=255, blank=True, null=True)
+    education = models.TextField(blank=True)
 
     def __str__(self):
         return self.user.username

@@ -57,3 +57,11 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['bio', 'location', 'picture', 'cover_picture']
+
+class EditDetailsForm(forms.ModelForm):
+    work = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Job Title at Company'}), required=False)
+    education = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Studied at University/School'}), required=False)
+
+    class Meta:
+        model = UserProfile
+        fields = ['work', 'education']

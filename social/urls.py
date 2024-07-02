@@ -6,6 +6,8 @@ from . import views
 from .views import create_post
 from .views import update_profile_picture
 from .views import update_cover_photo
+from .views import edit_details
+
 
 urlpatterns = [
     path('', views.sign_in, name='sign_in'),
@@ -14,6 +16,7 @@ urlpatterns = [
     path('update_cover_photo/', update_cover_photo, name='update_cover_photo'),
     path('menu/<int:pid>/', views.menu, name='menu'),
     path('edit_profile/', views.edit_profile, name='edit_profile'),
+    path('edit-details/', edit_details, name='edit_details'),
     path('friends/', views.friends, name='friends'),
     path('add_friend/<int:user_id>/', views.add_friend, name='add_friend'),
     path('logout/', views.logout, name='logout'),

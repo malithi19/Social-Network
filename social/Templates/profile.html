@@ -605,41 +605,32 @@
     </div>
 </div>
 
+<button onclick="showPopup()">Edit Details</button>
 <div class="popup-overlay" id="editDetailsPopup">
     <div class="popup-content">
         <span class="close-btn" onclick="hideEditDetailsPopup()">&times;</span>
         <div class="form-container">
             <h2>Edit Details</h2>
-            <div class="section">
-                <h3>Work</h3>
-                <div id="workSection">
-                    <div class="entry">
-                        <input type="text" name="work[]" placeholder="Job Title at Company">
-                        <button type="button" class="remove-btn" onclick="removeEntry(this)">Remove</button>
+            <form method="post" enctype="multipart/form-data" action="{% url 'edit_details' %}">
+                {% csrf_token %}
+                <div class="section">
+                    <h3>Work</h3>
+                    <div id="workSection">
+                        <div class="entry">
+                            <input type="text" name="work" placeholder="Job Title at Company" value="{{ request.user.profile.work }}">
+                        </div>
                     </div>
                 </div>
-                <button type="button" onclick="addWork()">Add a workplace</button>
-            </div>
-            <div class="section">
-                <h3>Education</h3>
-                <div id="educationSection">
-                    <div class="entry">
-                        <input type="text" name="education[]" placeholder="Studied at University/School">
-                        <button type="button" class="remove-btn" onclick="removeEntry(this)">Remove</button>
+                <div class="section">
+                    <h3>Education</h3>
+                    <div id="educationSection">
+                        <div class="entry">
+                            <input type="text" name="education" placeholder="Studied at University/School" value="{{ request.user.profile.education }}">
+                        </div>
                     </div>
                 </div>
-                <button type="button" onclick="addEducation()">Add education</button>
-            </div>
-            <div class="section">
-                <h3>Location</h3>
-                <div class="entry">
-                    <input type="text" name="currentTown" placeholder="Current Town/City">
-                </div>
-                <div class="entry">
-                    <input type="text" name="homeTown" placeholder="Hometown">
-                </div>
-            </div>
-            <button type="button" onclick="hideEditDetailsPopup()">Save</button>
+                <button type="submit" id="saveChangesBtn">Save Changes</button>
+            </form>
         </div>
     </div>
 </div>
@@ -787,31 +778,28 @@
         document.getElementById('editDetailsPopup').style.display = 'none';
     }
 
-    function addWork() {
-        const workSection = document.getElementById('workSection');
-        const entry = document.createElement('div');
-        entry.classList.add('entry');
-        entry.innerHTML = `
-            <input type="text" name="work[]" placeholder="Job Title at Company">
-            <button type="button" class="remove-btn" onclick="removeEntry(this)">Remove</button>
-        `;
-        workSection.appendChild(entry);
-    }
-
-    function addEducation() {
-        const educationSection = document.getElementById('educationSection');
-        const entry = document.createElement('div');
-        entry.classList.add('entry');
-        entry.innerHTML = `
-            <input type="text" name="education[]" placeholder="Studied at University/School">
-            <button type="button" class="remove-btn" onclick="removeEntry(this)">Remove</button>
-        `;
-        educationSection.appendChild(entry);
-    }
-
-    function removeEntry(button) {
-        const entry = button.parentElement;
-        entry.remove();
+    function submitEditDetailsForm() {
+    var form = $('#editDetailsForm');
+    $.ajax({
+        type: 'POST',
+        url: '{% url "edit_details" %}',
+        data: form.serialize(),
+        beforeSend: function(xhr, settings) {
+            xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+        },
+        success: function(response) {
+            if (response.success) {
+                hideEditDetailsPopup();
+                location.reload();  // Optionally reload the page to reflect the changes
+            } else {
+                alert('Failed to save details. Please try again.');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('An error occurred:', error);
+            alert('An error occurred. Please try again.');
+        }
+    });
     }
 
     function toggleLike(button) {
