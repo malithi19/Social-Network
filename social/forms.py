@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
+from .models import Comment
 
 from .models import UserProfile
 from .models import Post
@@ -65,3 +66,9 @@ class EditDetailsForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['work', 'education']
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']

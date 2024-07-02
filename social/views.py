@@ -17,6 +17,7 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from .forms import UserForm, UserProfileForm
 from .forms import EditDetailsForm
+from .forms import CommentForm
 
 # Regular view functions
 def profile(request, user_id):
@@ -196,6 +197,21 @@ def create_post(request):
             return JsonResponse({'success': False, 'errors': form.errors})
     return JsonResponse({'success': False, 'message': 'Invalid request method.'})
 
+
+@login_required
+def post_comment(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = request.user
+            comment.post = post
+            comment.save()
+            return redirect('newsfeed')  # Replace 'newsfeed' with your actual view name
+    else:
+        form = CommentForm()
+    return render(request, 'newsfeed.html', {'form': form})
 
 def user_list(request):
     query = request.GET.get('q')
