@@ -10,6 +10,7 @@
     <style>
 	    body {
             font-family: Arial, sans-serif;
+	    background-color: #f0f2f5;
         }
 
         .main-content {
@@ -88,7 +89,8 @@
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
-            width: 97%;
+            max-width: 95%;
+            margin: 20px auto;
         }
 
         .post .post-header {
@@ -146,23 +148,23 @@
             margin-right:30%;
         }
 
-	.feeling-phrase {
-            cursor: pointer;
-            color: #1877f2;
-            margin-right: 10px;
-        }
+        .feeling-phrase {
+                cursor: pointer;
+                color: #1877f2;
+                margin-right: 10px;
+            }
 
         .tag-friends {
             cursor: pointer;
             color: #1877f2;
         }
 
-	 table {
+        table {
             width: 100%;
             border-collapse: collapse;
         }
 
-	 .center-cell {
+         .center-cell {
             text-align: center;
         }
 
@@ -236,6 +238,15 @@
         #comment-form button:hover {
             background-color: #0056b3;
         } -->
+
+        .popup {
+            display: none;
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            z-index: 1000;
+        }
     </style>
 </head>
 <body>
@@ -243,10 +254,12 @@
 <header>
     <div class="nav-left">
         <a href="#" class="logo">Pixly</a>
-        <div class="search-bar">
-            <input type="text" placeholder="Search...">
-            <i class="fa fa-search search-icon"></i>
-        </div>
+            <div class="search-bar">
+                <form action="{% url 'user_search' %}" method="GET" class="search-form">
+                    <input type="text" name="q" placeholder="Search..." value="{{ query }}">
+                    <button type="submit" class = "ed"><i class="fa fa-search search-icon"></i></button>
+                </form>
+            </div>
     </div>
     <div class="nav-center">
         <a href="{% url 'newsfeed' %}" class="nav-icon" id="home">
@@ -285,8 +298,23 @@
                             <input type="file" id="post-image" accept="image/*">
                         </td>
                         <td class="center-cell">
-                            <span class="tag-friends" onclick="tagFriends()">Tag Friends</span>
-                        </td>
+
+                            <span class="tag-friends" onclick="tagFriendsPopup()">Tag Friends</span>
+
+<div class="popup-overlay" id="tagPopup" onclick="hidetagPopup(event)" style="display: none;">
+    <div class="popup-content" onclick="event.stopPropagation()">
+
+           <div class="search-bar">
+            <h2>Select Friend</h2>
+            <form id="searchForm" class="search-form">
+                <input type="text" id="searchInput" name="q" placeholder="Search..." value="{{ query }}">
+                <button type="button" class="ed1" onclick="addFriend()">ADD</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+              </td>
                     </tr>
                 </table>
                 <br>
@@ -310,7 +338,7 @@
             <img id="preview-img" src="#" alt="Preview Image">
         </div>
     </div>
-
+</div>
     <div id="news-feed">
         {% for post in posts %}
         <div class="post">
@@ -327,11 +355,13 @@
             <br>
             <div class="post-content">
                 <p>{{ post.content }}</p>
+		<br>
                 {% if post.image %}
                 <div class="post-image">
                     <img src="{{ post.image.url }}" alt="Post Image">
                 </div>
                 {% endif %}
+		<br>
                 <p><small>Posted on {{ post.created_at }}</small></p>
             </div>
             <br>
@@ -346,7 +376,7 @@
         </div>
         {% endfor %}
     </div>
-</div>
+
 
 <!-- Popup overlay for comments -->
 <div class="popup-overlay" id="commentsPopup" onclick="hideCommentsPopup(event)">
@@ -365,6 +395,28 @@
 
 
 <script>
+
+function tagFriendsPopup() {
+    document.getElementById('tagPopup').style.display = 'flex';
+}
+
+function hidetagPopup(event) {
+    if (event.target.classList.contains('popup-overlay')) {
+        document.getElementById('tagPopup').style.display = 'none';
+    }
+}
+
+
+function addFriend() {
+    const searchInput = document.getElementById('searchInput');
+    const userName = searchInput.value;
+    const textArea = document.getElementById('new-post');
+    textArea.value += ` with ${userName}`;
+    document.getElementById('tagPopup').style.display = 'none';
+}
+
+
+
 document.getElementById('post-image').addEventListener('change', previewImage);
 
 function postStatus() {
@@ -434,13 +486,7 @@ function addFeeling(feeling) {
     textArea.value += ` ${feeling}`;
 }
 
-function tagFriends() {
-    const friendName = prompt('Enter friend\'s name to tag:');
-    if (friendName) {
-        const textArea = document.getElementById('new-post');
-        textArea.value += ` with ${friendName}`;
-    }
-}
+
 
 function showCommentsPopup() {
     document.getElementById('commentsPopup').style.display = 'flex';
