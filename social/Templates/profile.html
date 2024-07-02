@@ -490,6 +490,16 @@
                         </svg>
                         <span>Joined {{ user.date_joined|timesince }} ago</span>
                     </p>
+                    {% if user.profile.work %}
+                    <p class="user-work">
+                        <span> Workes at {{ user.profile.work }} </span>
+                    </p>
+                    {% endif %}
+                    {% if user.profile.education %}
+                    <p class="user-education">
+                        <span>Studied at {{ user.profile.education }} </span>
+                    </p>
+                    {% endif %}
                 </div>
             </div>
             <div class="profile-section friends" id="friends-section">
