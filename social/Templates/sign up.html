@@ -4,24 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - Pixly</title>
+    {% load static%}
     <style>
-        body {
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
             font-family: 'Roboto', sans-serif;
-            background: #fafafa;
+        }
+
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            width: 100vw;
         }
 
-        .container {
-            width: 100%;
-            max-width: 350px;
+        .background {
+            background-image: url('{% static 'images/B1.jpg'%}');
+            background-size: cover; /* Ensures the image covers the entire area */
+            background-repeat: no-repeat; /* Prevents the image from repeating */
+            background-position: center center; /* Centers the image */
+            height: 100%; /* Makes the div take up the entire height of the viewport */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /*color: white;*/
+            text-align: center;
             padding: 20px;
+            width :100%;
+        }
+
+         .container {
+            display: flex;
+            max-width: 1000px;
+            width: 100%;
             background-color: #fff;
-            border: 1px solid #dbdbdb;
-            border-radius: 5px;
+            border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+         .left-side {
+            flex: 0.4;
+            flex-direction: column;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            padding: 10px;
+        }
+
+        .left-side h1{
+            color: #1877f2;
+        }
+
+        .left-side h3 {
+            font-family: 'Georgia', serif;
+        }
+
+
+
+        .left-side img {
+            max-width: 80%;
+            border-radius: 10px;
+        }
+
+        .right-side {
+            flex: 0.6;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             text-align: center;
         }
 
@@ -178,9 +235,16 @@
     </script>
 </head>
 <body>
-{% load static%}
+<div class="background">
     <div class="container">
-        <img src="{% static 'images/logo.png'%}" alt="pixly"/>
+        <div class="left-side">
+            <h1> Pixly</h1>
+            <h3><em>Join Pixly today <br><br>  and <br>  <br> start sharing your moments <br> <br> with friends!</em></h3>
+            <br>
+            <br>
+            <img src="{% static 'images/logo.png'%}" alt="Pixly"/>
+        </div>
+        <div class="right-side">
         <div class="signup-text">Sign Up</div>
         <div class="signup-form">
             <form enctype="multipart/form-data" method="post">
@@ -227,6 +291,9 @@
                 <p>Already have an account? <a href="{% url 'sign_in' %}">Sign In</a></p>
             </div>
         </div>
+         </div>
     </div>
+
+</div>
 </body>
 </html>

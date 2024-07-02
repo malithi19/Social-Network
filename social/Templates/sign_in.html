@@ -49,12 +49,17 @@
         }
 
         .left-side {
-            flex: 0.4; 
-            background: #fff; 
+            flex: 0.4;
+            flex-direction: column;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 30px;
+            background-color: #f0f0f0;
+            padding: 10px;
+        }
+
+        .left-side h1{
+            color: #1877f2;
         }
 
         .left-side img {
@@ -168,6 +173,9 @@
   <div class="background">
     <div class="container">
         <div class="left-side">
+            <h1> Pixly </h1>
+            <br>
+            <br>
             <img src="{% static 'images/logo.png'%}" alt="Pixly"/>
         </div>
         <div class="right-side">
