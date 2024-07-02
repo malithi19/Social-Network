@@ -300,7 +300,24 @@
                             <input type="file" id="post-image" accept="image/*">
                         </td>
                         <td class="center-cell">
-                            <span class="tag-friends" onclick="tagFriends()">Tag Friends</span>
+ <span class="tag-friends" onclick="tagFriendsPopup()">Tag Friends</span>
+
+<div class="popup-overlay" id="tagPopup" onclick="hidetagPopup(event)" style="display: none;">
+    <div class="popup-content" onclick="event.stopPropagation()">
+
+           <h1>Your Friends</h1>
+    <ul>
+        {% for friend in friends %}
+        <li>
+            <a href="{% url 'profile' friend.id %}">{{ friend.username }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+                <button type="button" class="ed1" onclick="addFriend()">ADD</button>
+
+
+    </div>
+</div>
                         </td>
                     </tr>
                 </table>
@@ -388,6 +405,26 @@
 
 
 <script>
+
+function tagFriendsPopup() {
+    document.getElementById('tagPopup').style.display = 'flex';
+}
+
+function hidetagPopup(event) {
+    if (event.target.classList.contains('popup-overlay')) {
+        document.getElementById('tagPopup').style.display = 'none';
+    }
+}
+
+function addFriend() {
+    const searchInput = document.getElementById('searchInput');
+    const userName = searchInput.value;
+    const textArea = document.getElementById('new-post');
+    textArea.value += ` with ${userName}`;
+    document.getElementById('tagPopup').style.display = 'none';
+}
+
+
 document.getElementById('post-image').addEventListener('change', previewImage);
 
 function postStatus() {
@@ -457,13 +494,7 @@ function addFeeling(feeling) {
     textArea.value += ` ${feeling}`;
 }
 
-function tagFriends() {
-    const friendName = prompt('Enter friend\'s name to tag:');
-    if (friendName) {
-        const textArea = document.getElementById('new-post');
-        textArea.value += ` with ${friendName}`;
-    }
-}
+
 
 function showCommentsPopup() {
     document.getElementById('commentsPopup').style.display = 'flex';
