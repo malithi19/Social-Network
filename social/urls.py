@@ -31,6 +31,7 @@ urlpatterns = [
     path('other_profile/<int:user_id>/', views.other_profile, name='other_profile'),
     path('user_search/', views.user_search, name='user_search'),
     path('tagable/', views.tagable_view, name='tagable'),
+    path('tag_friends/', views.tag_friends, name='tag_friends'),
 ]
 
 # DRF viewsets

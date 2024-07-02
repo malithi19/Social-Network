@@ -300,22 +300,20 @@
                             <input type="file" id="post-image" accept="image/*">
                         </td>
                         <td class="center-cell">
- <span class="tag-friends" onclick="tagFriendsPopup()">Tag Friends</span>
+                        <span class="tag-friends" onclick="tagFriendsPopup()">Tag Friends</span>
 
 <div class="popup-overlay" id="tagPopup" onclick="hidetagPopup(event)" style="display: none;">
     <div class="popup-content" onclick="event.stopPropagation()">
-
-           <h1>Your Friends</h1>
-    <ul>
-        {% for friend in friends %}
-        <li>
-            <a href="{% url 'profile' friend.id %}">{{ friend.username }}</a>
-        </li>
-        {% endfor %}
-    </ul>
-                <button type="button" class="ed1" onclick="addFriend()">ADD</button>
-
-
+        <h1>Tag Friends</h1>
+        <ul>
+            {% for friend in friends %}
+            <li>
+                <input type="checkbox" id="friend-{{ friend.id }}" name="tag-friend" value="{{ friend.id }}">
+                <label for="friend-{{ friend.id }}">{{ friend.username }}</label>
+            </li>
+            {% endfor %}
+        </ul>
+        <button type="button" class="ed1" onclick="addTaggedFriends()">ADD</button>
     </div>
 </div>
                         </td>
@@ -406,14 +404,31 @@
 
 <script>
 
+// Function to show the Tag Friends popup
 function tagFriendsPopup() {
-    document.getElementById('tagPopup').style.display = 'flex';
+    document.getElementById('tagPopup').style.display = 'block';
 }
 
+// Function to hide the Tag Friends popup
 function hidetagPopup(event) {
-    if (event.target.classList.contains('popup-overlay')) {
-        document.getElementById('tagPopup').style.display = 'none';
-    }
+    document.getElementById('tagPopup').style.display = 'none';
+}
+
+// Function to add tagged friends
+function addTaggedFriends() {
+    const checkboxes = document.querySelectorAll('input[name="tag-friend"]:checked');
+    const taggedFriends = [];
+
+    checkboxes.forEach((checkbox) => {
+        taggedFriends.push(checkbox.value);
+    });
+
+    // Here you can make an AJAX call to update the backend with the tagged friends
+    // For demonstration, we'll log the tagged friends to the console
+    console.log('Tagged Friends:', taggedFriends);
+
+    // Close the popup after adding friends
+    hidetagPopup();
 }
 
 function addFriend() {

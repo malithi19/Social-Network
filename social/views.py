@@ -17,6 +17,8 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from .forms import UserForm, UserProfileForm
 from .forms import EditDetailsForm
+from django.views.decorators.http import require_POST
+from .models import Post
 
 # Regular view functions
 def profile(request, user_id):
@@ -92,12 +94,19 @@ def messages(req):
     return render(req, "messages.html")
 
 
-def newsfeed(req):
-    posts = Post.objects.all().order_by('-created_at')
-    context = {
-        'posts': posts,
-    }
-    return render(req, 'newsfeed.html', context)
+def newsfeed(request):
+    if request.user.is_authenticated:
+        user = request.user
+        posts = Post.objects.all().order_by('-created_at')
+        # Access the friends of the specific user's profile
+        friends = user.profile.friends.all()
+        context = {
+            'posts': posts,
+            'friends': friends
+        }
+        return render(request, 'newsfeed.html', context)
+    else:
+        return redirect('sign_in')
 
 
 def post(req, pid):
@@ -265,6 +274,23 @@ def edit_details(request):
     else:
         # Handle GET requests or other methods if necessary
         return JsonResponse({'success': False, 'errors': 'Method not allowed'})
+    
+@require_POST
+def tag_friends(request):
+    post_id = request.POST.get('post_id')
+    friend_ids = request.POST.getlist('friend_ids[]')  # Get the list of friend IDs
+
+    try:
+        post = Post.objects.get(id=post_id)
+        for friend_id in friend_ids:
+            friend = User.objects.get(id=friend_id)
+            post.tag_friends.add(friend)
+
+        return JsonResponse({'status': 'success'})
+    except Post.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Post not found.'})
+    except User.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'User not found.'})
 
 # DRF viewsets
 class UserProfileViewSet(viewsets.ModelViewSet):
