@@ -774,6 +774,46 @@
         const entry = button.parentElement;
         entry.remove();
     }
+
+    function toggleLike(button) {
+        const likeCountSpan = button.querySelector('.like-count');
+        let likeCount = parseInt(likeCountSpan.textContent);
+        likeCountSpan.textContent = ++likeCount;
+    }
+
+    function showCommentsPopup() {
+    document.getElementById('commentsPopup').style.display = 'flex';
+    }
+
+    function hideCommentsPopup(event) {
+        if (event.target.classList.contains('popup-overlay')) {
+            document.getElementById('commentsPopup').style.display = 'none';
+        }
+    }
+
+    function postComment() {
+        const nameInput = document.getElementById('comment-form').querySelector('input[type="text"]');
+        const commentInput = document.getElementById('comment-form').querySelector('textarea');
+
+        const commenterName = nameInput.value.trim();
+        const commentText = commentInput.value.trim();
+
+        if (commentText === '') {
+            alert('Please enter a comment!');
+            return;
+        }
+
+        const commentDiv = document.createElement('div');
+        commentDiv.className = 'comment';
+        commentDiv.innerHTML = `<strong>${commenterName}</strong>: ${commentText}`;
+
+
+        const commentsSection = document.querySelector('.popup-content .comments');
+        commentsSection.appendChild(commentDiv);
+
+
+        commentInput.value = '';
+    }
 </script>
 </body>
 </html>
