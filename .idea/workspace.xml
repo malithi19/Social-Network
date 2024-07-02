@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8144e473-643b-4e00-85b5-3b5d22bc4e63" name="Changes" comment="Common CSS transfer">
       <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social/Templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social/Templates/forgotten_password.html" beforeDir="false" afterPath="$PROJECT_DIR$/social/Templates/forgotten_password.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -255,7 +255,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="branch-14" />
+                        <option value="branch-48" />
                       </list>
                     </value>
                   </entry>
