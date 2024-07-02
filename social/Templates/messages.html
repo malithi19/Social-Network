@@ -108,11 +108,10 @@
                             <div class="notification-time">{{ notification.timestamp|timesince }} ago</div>
                         </div>
                     </div>
-                    {% endfor %}
-                {% else %}
-                    <p><strong>No new notifications.</strong></p>
-                {% endif %}
             </div>
+            {% empty %}
+            <p><strong> No new notifications.</strong></p>
+            {% endfor %}
         </div>
     </div>
 </body>
