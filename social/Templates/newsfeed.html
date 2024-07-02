@@ -305,15 +305,18 @@
 <div class="popup-overlay" id="tagPopup" onclick="hidetagPopup(event)" style="display: none;">
     <div class="popup-content" onclick="event.stopPropagation()">
         <h1>Tag Friends</h1>
-        <ul>
-            {% for friend in friends %}
-            <li>
-                <input type="checkbox" id="friend-{{ friend.id }}" name="tag-friend" value="{{ friend.id }}">
-                <label for="friend-{{ friend.id }}">{{ friend.username }}</label>
-            </li>
-            {% endfor %}
-        </ul>
-        <button type="button" class="ed1" onclick="addTaggedFriends()">ADD</button>
+        <form id="tagForm" method="post" action="{% url 'create_post' %}">
+            {% csrf_token %}
+            <ul>
+                {% for friend in friends %}
+                <li>
+                    <input type="checkbox" id="friend-{{ friend.id }}" name="tag_friends" value="{{ friend.id }}">
+                    <label for="friend-{{ friend.id }}">{{ friend.username }}</label>
+                </li>
+                {% endfor %}
+            </ul>
+            <button type="button" onclick="submitTagForm()">Add</button>
+        </form>
     </div>
 </div>
                         </td>
@@ -412,6 +415,13 @@ function tagFriendsPopup() {
 // Function to hide the Tag Friends popup
 function hidetagPopup(event) {
     document.getElementById('tagPopup').style.display = 'none';
+}
+
+    function showTagPopup() {
+    document.getElementById('tagPopup').style.display = 'block';
+}
+    function submitTagForm() {
+    document.getElementById('tagForm').submit();
 }
 
 // Function to add tagged friends

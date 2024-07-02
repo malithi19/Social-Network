@@ -65,3 +65,10 @@ class EditDetailsForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['work', 'education']
+
+class PostForm(forms.ModelForm):
+    tag_friends = forms.ModelMultipleChoiceField(queryset=User.objects.all(), required=False, widget=forms.CheckboxSelectMultiple)
+
+    class Meta:
+        model = Post
+        fields = ['content', 'image', 'tag_friends']
