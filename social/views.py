@@ -14,6 +14,7 @@ from django.utils.decorators import method_decorator
 from .forms import PostForm
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 
 # Regular view functions
@@ -225,6 +226,12 @@ def user_search(request):
         'query': query,
     }
     return render(request, 'user_list.html', context)
+
+@login_required
+def tagable_view(request):
+    user_profile = request.user.profile
+    friends = user_profile.friends.all()
+    return render(request, 'tagable.html', {'friends': friends})
 
 
 # DRF viewsets
