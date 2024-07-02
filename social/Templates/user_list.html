@@ -5,91 +5,116 @@
     <title>Search Results - Pixly</title>
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
      <style>
-        search-bar {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px 0;
-            background-color: #f1f1f1; /* Optional: change background color */
-        }
 
-        .search-bar form {
-            display: flex;
-            width: 80%; /* Adjust this width as necessary */
-            max-width: 800px; /* Optional: set a max width */
-        }
+     body {
+        background-color: #f0f2f5;
+    }
 
-        .search-bar input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-right: none;
-            border-radius: 4px 0 0 4px;
-            outline: none;
-            box-sizing: border-box;
-        }
+    .search-bar {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 0;
+        background-color: #f1f1f1; /* Optional: change background color */
+    }
 
-        .search-bar button {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-left: none;
-            border-radius: 0 4px 4px 0;
-            background-color: #007BFF;
-            color: white;
-            cursor: pointer;
-        }
+    .search-bar form {
+        display: flex;
+        width: 80%; /* Adjust this width as necessary */
+        max-width: 800px; /* Optional: set a max width */
 
-        .search-bar button:hover {
-            background-color: #0056b3;
-        }
+    }
 
-        .search-icon {
-            font-size: 16px;
-        }
+    .search-bar input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-right: none;
+        border-radius: 4px 0 0 4px;
+        outline: none;
+        box-sizing: border-box;
+    }
 
-        .user-profile img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        .friend-requests {
-            margin: 20px;
-            background: white;
-            border-radius: 8px;
-            padding: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        .friend-request {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px;
-        }
-        .friend-request:last-child {
-            border-bottom: none;
-        }
-        .user-list {
-            display: flex;
-            align-items: center;
-            margin: 2px 0 0 0;
-            flex-direction: column;
-            gap: 10px; /* Space between user items */
-        }
-        .user-list img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        .user-list .user-item {
-            display: flex;
-            align-items: center;
-        }
-        .search-results-title {
-            color: blue;
-        }
+    .search-bar button {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-left: none;
+        border-radius: 0 4px 4px 0;
+        background-color: #007BFF;
+        color: white;
+        cursor: pointer;
+    }
+
+    .search-bar button:hover {
+        background-color: #0056b3;
+    }
+
+    .search-icon {
+        font-size: 16px;
+    }
+
+    .user-profile img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .friend-request:last-child {
+        border-bottom: none;
+    }
+
+    .user-list {
+        display: flex;
+        margin: 2px 0 0 0;
+        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 10px; /* Space between user items */
+        width: 98%;
+        margin: 10px;
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-results-title {
+        color: black;
+        margin-left: 20px;
+    }
+
+    .user-item-box {
+        background: white;
+        display: flex; /* Use Flexbox to align items */
+        align-items: center; /* Center items vertically */
+        border: 1px solid #ccc; /* Border for the box */
+        padding: 10px; /* Padding inside the box */
+        border-radius: 5px; /* Rounded corners */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for effect */
+    }
+
+    .user-item-box img {
+        width: 50px; /* Set width for the image */
+        height: 50px; /* Set height for the image */
+        border-radius: 50%; /* Circular image */
+        margin-right: 20px; /* Space between the image and the username */
+    }
+
+    .user-item-box a {
+    text-decoration: none;
+    color: inherit; /* Inherit the color from the parent element */
+    font-size: 18px; /* Increase the font size */
+    font-weight: bold; /* Make the text bold */
+
+}
+
+    .no-users-found {
+        margin-top: 20px;
+        color: #888;
+        text-align: center;
+    }
+
+
 
     </style>
 </head>
@@ -105,23 +130,21 @@
     </div>
 
     <div class="friend-requests">
-        <div class="friend-request" data-friend-id="1">
-                 <div class="user-list">
-                        {% for user in search_results %}
-                             <div class="user-item">
-                                <a href="{% url 'other_profile' user.id %}">
-                                    <img src="{{ user.profile.picture.url }}" alt="Profile Picture">
-                                </a>
-                                 <a href="{% url 'other_profile' user.id %}">{{ user.username }}</a>
-                             </div>
-                        {% empty %}
-                            No users found.
-                        {% endfor %}
+    <div class="friend-request" data-friend-id="1">
+        <div class="user-list">
+            {% for user in search_results %}
+                <div class="user-item-box">
+                    <a href="{% url 'other_profile' user.id %}">
+                        <img src="{{ user.profile.picture.url }}" alt="Profile Picture">
+                    </a>
+                    <a href="{% url 'other_profile' user.id %}">{{ user.username }}</a>
                 </div>
-
+            {% empty %}
+                <div class="no-users-found">No users found.</div>
+            {% endfor %}
         </div>
     </div>
-
+</div>
 
 </body>
 </html>
