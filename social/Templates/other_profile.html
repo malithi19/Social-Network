@@ -247,7 +247,9 @@
         </div>
 
         <div class="user-profile">
-            <img class="profile-picture" src="{{ request.user.profile.picture.url }}" alt="Profile Picture">
+            <a href="{% url 'profile' user.id %}">
+                <img id="headerProfilePicture" class="profile-picture" src="{{ request.user.profile.picture.url }}" alt="Profile Picture">
+            </a>
             <span class="username">{{ request.user.username }}</span>
         </div>
 </header>
@@ -392,7 +394,7 @@
             <!-- Comments will be appended here dynamically -->
         </div>
         <form id="comment-form">
-            <input type="text" placeholder="Your name" value="{{ user.username }}" readonly>
+            <input type="text" placeholder="Your name" value="{{ request.user.username }}" readonly>
             <textarea placeholder="Add a comment"></textarea>
             <button type="button" onclick="postComment()">Post Comment</button>
         </form>
