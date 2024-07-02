@@ -214,6 +214,10 @@
         #comment-form button:hover {
             background-color: #0056b3;
         } -->
+
+         .icon {
+            margin-right: 8px; /* Adds space between the icon and the text */
+        }
     </style>
 </head>
 <body>
@@ -298,38 +302,35 @@
 
             <div class="profile-description" id="about-section">
                 <h2>About</h2>
-                <div class="user-info">
+                 <div class="user-info">
                     <p>
                         <span class="user-name"><b>{{ user.first_name }} {{ user.last_name }}</b></span>
                     </p>
                     {% if user.profile.location %}
                     <p class="user-location">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="icon location-icon">
-                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                            <path d="M0 0h24v24H0z" fill="none"/>
-                        </svg>
-                        <span>{{ user.profile.location }}</span>
+
+                        <span><i class="fas fa-map-marker-alt icon" style="color: red;"></i> &nbsp; &nbsp;{{ user.profile.location }}</span>
                     </p>
                     {% endif %}
+                    <br>
                     <p class="user-joined">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="icon joined-icon">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-                            <path d="M0 0h24v24H0z" fill="none"/>
-                        </svg>
-                        <span>Joined {{ user.date_joined|timesince }} ago</span>
+
+                        <span><i class="fas fa-calendar-alt icon"></i> &nbsp; &nbsp;Joined {{ user.date_joined|timesince }} ago</span>
                     </p>
+                    <br>
                     {% if user.profile.work %}
                     <p class="user-work">
-                        <span> Workes at {{ user.profile.work }} </span>
+                        <span> <i class="fas fa-home icon"></i> &nbsp; &nbsp;Workes at {{ user.profile.work }} </span>
                     </p>
                     {% endif %}
+                    <br>
                     {% if user.profile.education %}
+
                     <p class="user-education">
-                        <span>Studied at {{ user.profile.education }} </span>
+                        <span><i class="fas fa-university icon"></i> &nbsp; &nbsp;Studied at {{ user.profile.education }} </span>
                     </p>
                     {% endif %}
                 </div>
-
             </div>
 
             <div class="profile-content">
