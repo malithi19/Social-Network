@@ -45,17 +45,21 @@
             font-size: 0.8em;
         }
 
+        .follow-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
         .main-content {
             padding: 20px;
         }
 
         h2 {
             margin-bottom: 20px;
-        }
-        /* Adjusted style for the bold message */
-        .notifications p strong {
-            font-size: 1.4em;
-
         }
     </style>
 </head>
@@ -99,18 +103,20 @@
         <div class="notifications-container">
             <h2>Notifications</h2>
             <div class="notifications">
-                {% if notifications %}
-                    {% for notification in notifications %}
-                    <div class="notification-item">
-                        <img src="{% if notification.sender.profile.profile_picture %}{{ notification.sender.profile.profile_picture.url }}{% else %}default-profile.jpg{% endif %}" alt="Profile Picture">
-                        <div class="notification-content">
-                            <span><strong>{{ notification.sender.username }}</strong> {{ notification.message }}</span>
-                            <div class="notification-time">{{ notification.timestamp|timesince }} ago</div>
-                        </div>
+                {% for notification in notifications %}
+                <div class="notification-item">
+                    <img src="{% if notification.sender.profile.profile_picture %}{{ notification.sender.profile.profile_picture.url }}{% else %}default-profile.jpg{% endif %}" alt="Profile Picture">
+                    <div class="notification-content">
+                        <span><strong>{{ notification.sender.username }}</strong> {{ notification.message }}</span>
+                        <div class="notification-time">{{ notification.timestamp|timesince }} ago</div>
+                        {% if notification.action %}
+                        <button class="follow-button">{{ notification.action }}</button>
+                        {% endif %}
                     </div>
+                </div>
             </div>
             {% empty %}
-            <p><strong> No new notifications.</strong></p>
+            <p><strong> No new notifications</strong></p>
             {% endfor %}
         </div>
     </div>
