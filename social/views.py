@@ -16,7 +16,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from .forms import UserForm, UserProfileForm
-
+from .forms import EditDetailsForm
 
 # Regular view functions
 def profile(request, user_id):
@@ -253,6 +253,18 @@ def edit_profile(request):
         'profile_form': profile_form
     })
 
+def edit_details(request):
+    if request.method == 'POST':
+        form = EditDetailsForm(request.POST, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile', user_id=request.user.id)
+        else:
+            # If form is not valid, return JSON response with errors
+            return JsonResponse({'success': False, 'errors': form.errors})
+    else:
+        # Handle GET requests or other methods if necessary
+        return JsonResponse({'success': False, 'errors': 'Method not allowed'})
 
 # DRF viewsets
 class UserProfileViewSet(viewsets.ModelViewSet):
