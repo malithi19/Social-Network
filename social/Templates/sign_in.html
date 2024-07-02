@@ -4,14 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In - Your Social Network</title>
+    {% load static%}
     <style>
-        body {
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
             font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #f0f2f5, #c0c8d6);
+        }
+
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            width: 100vw;
+        }
+
+        .background {
+            background-image: url('{% static 'images/B1.jpg'%}');
+            background-size: cover; /* Ensures the image covers the entire area */
+            background-repeat: no-repeat; /* Prevents the image from repeating */
+            background-position: center center; /* Centers the image */
+            height: 100%; /* Makes the div take up the entire height of the viewport */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /*color: white;*/
+            text-align: center;
+            padding: 20px;
+            width :100%;
         }
 
         .container {
@@ -141,7 +165,7 @@
     </style>
 </head>
 <body>
-{% load static%}
+  <div class="background">
     <div class="container">
         <div class="left-side">
             <img src="{% static 'images/logo.png'%}" alt="Pixly"/>
@@ -169,10 +193,11 @@
                     <a href="{% url 'forgot_password' %}">Forgot password?</a>
                 </div>
                 <div class="signup-link">
-                    <p>Don't have an account? <a href="{% url 'sign_up' %}">Sign Up</a></p>
+                    <p> Don't have an account? <a href="{% url 'sign_up' %}">Sign Up</a></p>
                 </div>
             </div>
         </div>
     </div>
+  </div>
 </body>
 </html>
