@@ -18,6 +18,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import UserForm, UserProfileForm
 from .forms import EditDetailsForm
 from .forms import CommentForm
+from django.http import HttpResponse
 
 # Regular view functions
 def profile(request, user_id):
@@ -208,10 +209,10 @@ def post_comment(request, post_id):
             comment.author = request.user
             comment.post = post
             comment.save()
-            return redirect('newsfeed')  # Replace 'newsfeed' with your actual view name
+            return redirect('newsfeed')
     else:
         form = CommentForm()
-    return render(request, 'newsfeed.html', {'form': form})
+    return HttpResponse(status=405)
 
 def user_list(request):
     query = request.GET.get('q')

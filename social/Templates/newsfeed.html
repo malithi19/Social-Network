@@ -343,9 +343,9 @@
         </div>
     </div>
 </div>
-    <div id="news-feed">
-        {% for post in posts %}
-        <div class="post">
+<div id="news-feed">
+    {% for post in posts %}
+    <div class="post">
         <div class="post-header">
             {% if post.author == request.user %}
                 <a href="{% url 'profile' post.author.id %}">
@@ -362,46 +362,54 @@
                 {% endif %}
             </strong>
         </div>
+        <br>
+        <div class="post-content">
+            <p>{{ post.content }}</p>
             <br>
-            <div class="post-content">
-                <p>{{ post.content }}</p>
-		<br>
-                {% if post.image %}
-                <div class="post-image">
-                    <img src="{{ post.image.url }}" alt="Post Image">
-                </div>
-                {% endif %}
-		<br>
-                <p><small>Posted on {{ post.created_at }}</small></p>
+            {% if post.image %}
+            <div class="post-image">
+                <img src="{{ post.image.url }}" alt="Post Image">
             </div>
+            {% endif %}
             <br>
-            <div class="post-actions">
-                <button onclick="toggleLike(this)"><i class="fa fa-thumbs-up"></i> Like <span class="like-count">0</span></button>
-                <button onclick="showCommentsPopup(this)"><i class="fa fa-comment"></i> Comment</button>
-                <button onclick="showSharePopup()"><i class="fa fa-share"></i> Share</button>
-            </div>
-            <div class="comments">
-                <!-- Comments will be appended here dynamically -->
-            </div>
+            <p><small>Posted on {{ post.created_at }}</small></p>
         </div>
-        {% endfor %}
-    </div>
-
-
-<!-- Popup overlay for comments -->
-<div class="popup-overlay" id="commentsPopup" onclick="hideCommentsPopup(event)">
-    <div class="popup-content" onclick="event.stopPropagation()">
+        <br>
+        <div class="post-actions">
+            <button onclick="toggleLike(this)"><i class="fa fa-thumbs-up"></i> Like <span class="like-count">0</span></button>
+            <button onclick="showCommentsPopup(this, '{{ post.id }}')"><i class="fa fa-comment"></i> Comment</button>
+            <button onclick="showSharePopup()"><i class="fa fa-share"></i> Share</button>
+        </div>
         <div class="comments">
-            <!-- Comments will be appended here dynamically -->
+            {% for comment in post.comments.all %}
+            <div class="comment">
+                <strong>{{ comment.author.username }}</strong>: {{ comment.content }}
+                <p><small>Commented on {{ comment.created_at }}</small></p>
+            </div>
+            {% endfor %}
         </div>
-        <form id="comment-form">
-            <input type="text" placeholder="Your name" value="{{ user.username }}" readonly>
-            <textarea placeholder="Add a comment"></textarea>
-            <button type="button" onclick="postComment()">Post Comment</button>
-        </form>
-    </div>
-</div>
 
+        <!-- Popup overlay for comments -->
+        <div class="popup-overlay" id="commentsPopup{{ post.id }}" onclick="hideCommentsPopup(event)">
+            <div class="popup-content" onclick="event.stopPropagation()">
+                <div class="comments">
+                    {% for comment in post.comments.all %}
+                    <div class="comment">
+                        <strong>{{ comment.author.username }}</strong>: {{ comment.content }}
+                        <p><small>Commented on {{ comment.created_at }}</small></p>
+                    </div>
+                    {% endfor %}
+                </div>
+                <form id="comment-form" action="{% url 'post_comment' post.id %}" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Post Comment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 
 
 <script>
@@ -496,13 +504,19 @@ function addFeeling(feeling) {
 
 
 
-function showCommentsPopup() {
-    document.getElementById('commentsPopup').style.display = 'flex';
+function showCommentsPopup(button, postId) {
+    console.log('showCommentsPopup called for post:', postId);
+    var popup = document.getElementById('commentsPopup' + postId);
+    if (popup) {
+        popup.style.display = 'flex';
+    } else {
+        console.log('Popup not found for post:', postId);
+    }
 }
 
 function hideCommentsPopup(event) {
     if (event.target.classList.contains('popup-overlay')) {
-        document.getElementById('commentsPopup').style.display = 'none';
+        event.target.style.display = 'none';
     }
 }
 
