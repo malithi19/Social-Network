@@ -559,36 +559,49 @@
     </div>
 </div>
 
-<div class="popup-overlay" id="editProfilePopup">
-    <div class="popup-content">
-        <span class="close-btn" onclick="hidePopup()">&times;</span>
-        <h2>Edit Profile</h2>
-        <div class="form-group">
-            <label for="popupProfileName">Profile Name</label>
-            <input type="text" id="popupProfileName" name="profileName" value="{{ request.user.username }}">
+    <button onclick="showPopup()">Edit Profile</button>
+    <div class="popup-overlay" id="editProfilePopup">
+        <div class="popup-content">
+            <span class="close-btn" onclick="hidePopup()">&times;</span>
+            <h2>Edit Profile</h2>
+            <form method="post" enctype="multipart/form-data" action="{% url 'edit_profile' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="popupProfileName">First Name</label>
+                    <input type="text" id="popupProfileName" name="first_name" value="{{ user_form.first_name.value }}">
+                </div>
+                <div class="form-group">
+                    <label for="popupProfileName">Last Name</label>
+                    <input type="text" id="popupProfileName" name="last_name" value="{{ user_form.last_name.value }}">
+                </div>
+                <div class="form-group">
+                    <label for="popupBio">Bio</label>
+                    <input type="text" id="popupBio" name="bio" value="{{ profile_form.bio.value }}">
+                </div>
+                <div class="form-group">
+                    <label for="popupProfileName">Location</label>
+                    <input type="text" id="popupProfileName" name="location" value="{{ profile_form.location.value }}">
+                </div>
+                <div class="form-group">
+                    <label for="popupProfilePicture">Profile Picture</label>
+                    <label for="popupProfilePicture" class="custom-file-label" onclick="document.getElementById('popupProfilePicture').click()">
+                        <button type="button">Choose File</button>
+                    </label>
+                    <input type="file" id="popupProfilePicture" name="picture" accept="image/*" style="display: none;">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="popupCoverPhoto">Cover Photo</label>
+                    <label for="popupCoverPhoto" class="custom-file-label" onclick="document.getElementById('popupCoverPhoto').click()">
+                        <button type="button">Choose File</button>
+                    </label>
+                    <input type="file" id="popupCoverPhoto" name="cover_picture" accept="image/*" style="display: none;">
+                </div>
+                <br>
+                <br>
+                <button type="submit">Save Changes</button>
+            </form>
         </div>
-        <div class="form-group">
-            <label for="popupBio">Bio</label>
-            <input type="text" id="popupBio" name="bio" value="{{ user.profile.bio }}">
-        </div>
-        <div class="form-group">
-            <label for="popupProfilePicture">Profile Picture</label>
-            <label for="popupProfilePicture" class="custom-file-label" onclick="document.getElementById('popupProfilePicture').click()">
-                <button type="button">Choose File</button>
-            </label>
-            <input type="file" id="popupProfilePicture" name="profilePicture" accept="image/*" style="display: none;">
-        </div>
-        <br>
-        <div class="form-group">
-            <label for="popupCoverPhoto">Cover Photo</label>
-            <label for="popupCoverPhoto" class="custom-file-label" onclick="document.getElementById('popupCoverPhoto').click()">
-                <button type="button">Choose File</button>
-            </label>
-            <input type="file" id="popupCoverPhoto" name="coverPhoto" accept="image/*" style="display: none;">
-        </div>
-        <br>
-        <br>
-        <button type="button" onclick="saveProfile()">Save Changes</button>
     </div>
 </div>
 
