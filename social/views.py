@@ -188,7 +188,16 @@ def create_post(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            form.save_m2m()  # Save tags and other ManyToMany fields
+            form.save_m2m()  # Save ManyToMany fields
+
+            # Handle tagged friends
+            tagged_friends_ids = request.POST.get('tagged_friends', '').split(',')
+            tagged_friends_ids = [id for id in tagged_friends_ids if id]  # Filter out empty strings
+            tagged_friends = User.objects.filter(id__in=tagged_friends_ids)
+            post.tag_friends.set(tagged_friends)
+            post.save()
+
+            tagged_friends_usernames = [friend.username for friend in tagged_friends]
 
             post_data = {
                 'content': post.content,
@@ -196,15 +205,15 @@ def create_post(request):
                 'created_at': post.created_at.isoformat(),
                 'author': {
                     'username': post.author.username,
-                    'profile_picture': post.author.profile_picture.url
-                }
+                    'profile_picture': post.author.profile.picture.url
+                },
+                'tagged_friends': tagged_friends_usernames
             }
 
-            return JsonResponse({'success': True, 'post': post_data})
+            return redirect('newsfeed')
         else:
             return JsonResponse({'success': False, 'errors': form.errors})
     return JsonResponse({'success': False, 'message': 'Invalid request method.'})
-
 
 def user_list(request):
     query = request.GET.get('q')

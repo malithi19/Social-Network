@@ -289,7 +289,11 @@
 <br><br><br>
 <div class="main-content">
     <div class="post-form">
-        <textarea id="new-post" rows="4" placeholder="What's on your mind, {{ user.username }}?"></textarea>
+        <textarea id="new-post" rows="4" placeholder="What's on your mind, {{ user.username }}?">
+            {% if post.tag_friends.exists %}
+            <span>with {% for friend in post.tag_friends.all %}{{ friend.username }}{% if not forloop.last %}, {% endif %}{% endfor %}</span>
+        {% endif %}
+        </textarea>
         <br><br>
         <div class="options">
             <div>
@@ -300,7 +304,11 @@
                             <input type="file" id="post-image" accept="image/*">
                         </td>
                         <td class="center-cell">
-                        <span class="tag-friends" onclick="tagFriendsPopup()">Tag Friends</span>
+<form id="postForm" action="{% url 'create_post' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <span class="tag-friends" onclick="tagFriendsPopup()">Tag Friends</span>
+</form>
+
 
 <div class="popup-overlay" id="tagPopup" onclick="hidetagPopup(event)" style="display: none;">
     <div class="popup-content" onclick="event.stopPropagation()">
@@ -597,7 +605,49 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-
+document.getElementById('postForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+    
+    const formData = new FormData(this);
+    const taggedFriends = Array.from(document.querySelectorAll('input[name="tag-friend"]:checked'))
+                               .map(input => input.value);
+    
+    formData.append('tagged_friends', taggedFriends.join(','));
+    
+    fetch(this.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Post created:', data.post);
+            // Handle success response, e.g., update the newsfeed without page reload
+            const taggedFriendsText = data.post.tagged_friends.length > 0 ? `with ${data.post.tagged_friends.join(', ')}` : '';
+            const newPostHtml = `
+                <div class="post">
+                    <div class="post-author">
+                        <img src="${data.post.author.profile_picture}" alt="${data.post.author.username}" />
+                        <span>${data.post.author.username} ${taggedFriendsText}</span>
+                    </div>
+                    <div class="post-content">
+                        <p>${data.post.content}</p>
+                        ${data.post.image ? `<img src="${data.post.image}" alt="Post image" />` : ''}
+                    </div>
+                </div>
+            `;
+            document.getElementById('postsContainer').insertAdjacentHTML('afterbegin', newPostHtml);
+        } else {
+            console.error('Error creating post:', data.errors);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
 </script>
 </body>
 </html>
