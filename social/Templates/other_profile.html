@@ -248,7 +248,7 @@
 
         <div class="user-profile">
             <a href="{% url 'profile' user.id %}">
-                <img id="headerProfilePicture" class="profile-picture" src="{{ request.user.profile.picture.url }}" alt="Profile Picture">
+                <img id="headerProfilePicture" class="profile-picture" src="{{ request.user.profile.picture.url }}" >
             </a>
             <span class="username">{{ request.user.username }}</span>
         </div>
