@@ -300,24 +300,22 @@
                             <input type="file" id="post-image" accept="image/*">
                         </td>
                         <td class="center-cell">
- <span class="tag-friends" onclick="tagFriendsPopup()">Tag Friends</span>
+                                                <span class="tag-friends" onclick="tagFriendsPopup()">Tag Friends</span>
 
 <div class="popup-overlay" id="tagPopup" onclick="hidetagPopup(event)" style="display: none;">
     <div class="popup-content" onclick="event.stopPropagation()">
 
-           <h1>Your Friends</h1>
-    <ul>
-        {% for friend in friends %}
-        <li>
-            <a href="{% url 'profile' friend.id %}">{{ friend.username }}</a>
-        </li>
-        {% endfor %}
-    </ul>
+           <div class="search-bar">
+            <h2>Select Friend</h2>
+            <form id="searchForm" class="search-form">
+                <input type="text" id="searchInput" name="q" placeholder="Search..." value="{{ query }}">
                 <button type="button" class="ed1" onclick="addFriend()">ADD</button>
-
-
+            </form>
+        </div>
     </div>
 </div>
+
+
                         </td>
                     </tr>
                 </table>
@@ -415,6 +413,7 @@ function hidetagPopup(event) {
         document.getElementById('tagPopup').style.display = 'none';
     }
 }
+
 
 function addFriend() {
     const searchInput = document.getElementById('searchInput');
